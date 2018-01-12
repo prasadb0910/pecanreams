@@ -1,0 +1,186 @@
+/*************************************
+
+Template Name: Lite - Ditital Agency HTML Template
+Author: lu_theme
+Version: 1.0
+Design and Developed by: lu_theme
+
+NOTE: This is responsive css of the template.
+
+****************************************/
+
+/* Medium Layout: 1280px. */
+@media only screen and (min-width: 992px) and (max-width: 1200px) { 
+  
+    
+}
+/* Tablet Layout: 768px. */
+@media only screen and (min-width: 768px) and (max-width: 991px) { 
+.single-service {
+  margin-bottom: 30px;
+}
+
+ .project-details {
+  margin-top: 30px;
+}
+.pagination {
+  margin-bottom: 50px;
+  margin-top: 0;
+}
+.comment-form-wrap {
+  margin-bottom: 50px;
+}
+.row.replay-area {
+  margin-left: 70px;
+  margin-top: 30px;
+}
+}
+/* Mobile Layout lower than: 320px. */
+@media only screen and (max-width: 767px) { 
+.slide-content h2 {
+  font-size: 32px;
+  line-height: 36px;
+}
+.member-image:hover .member-overlay {
+     
+    left: 82px !important;
+}
+.slide-content p {
+  font-size: 16px;
+  line-height: 28px;
+}
+.section-title{
+    margin-bottom: 50px;
+}
+.section-title h2 {
+  font-size: 28px;
+}
+.custom-navbar{
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+    background: #fff;
+}
+.custom-navbar .navbar-toggle{
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+.custom-navbar .navbar-toggle .icon-bar{
+    background: #212121;
+}
+.main-menu ul li a, .navbar-fixed-top.top-nav-collapse .main-menu ul li a{
+    color: #424242;
+    padding: 10px 5px;
+    font-size: 13px;
+}
+.main-menu ul li:hover > a, .navbar-fixed-top.top-nav-collapse .main-menu ul li:hover > a{
+    color: #3b99d5 ;
+}
+.main-menu li ul, .navbar-fixed-top.top-nav-collapse .main-menu li ul {
+  background-color: #f7f7f7;
+  border: 0px solid;
+  left: 0;
+  opacity: 1;
+  padding: 10px 15px;
+  position: inherit;
+  top: 0;
+  visibility: visible;
+  width: 100%;
+  z-index: 1;
+}
+.main-menu li:hover ul, .navbar-fixed-top.top-nav-collapse .main-menu li:hover ul {
+    top: 0;
+    z-index: 1;
+}
+.mobile-menu-activated ul.nav.navbar-nav li{display: block;text-align: left;}
+.main-menu ul.navbar-nav{
+    text-align: left !important;
+    display: block;
+}
+.single-service {
+  margin-bottom: 30px;
+}
+.single-service > h3 {
+  margin-bottom: 15px;
+}
+.item-hover {
+  padding: 15px;
+}
+.hover-content h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.hover-content p {
+  font-size: 13px;
+  line-height: 22px;
+}
+.lite-cta-area {
+  text-align: center;
+}
+.lite-cta-area h3 {
+  margin: 0 0 30px;
+} 
+.cta-btn {
+  text-align: center;
+}
+.single-stat {
+  margin-bottom: 40px;
+}
+.single-stat h2 {
+  margin-top: 15px;
+}
+.single-member {
+	text-align:center;
+  margin-bottom: 30px;
+}
+.lite-blog-area .single-blog {
+  margin-bottom: 30px;
+}
+.contact-info {
+  margin-bottom: 30px;
+}
+.lite-footer-area {
+  text-align: center;
+}
+.footer-text{
+    margin-bottom: 20px;
+}
+.social-links{
+    text-align: center;
+ }
+.lite-breadcroumb-area h1 {
+  font-size: 32px;
+}
+.breadcroumb {
+  font-size: 14px;
+}
+.project-details{
+    margin-top: 30px;
+}
+.pagination {
+  margin-bottom: 50px;
+  margin-top: 0;
+}
+.row.replay-area {
+  margin-left: 40px;
+  margin-top: 20px;
+}
+.comment-form-wrap {
+  margin-bottom: 50px;
+}
+.subscription-area .section-title h2 {
+	color: #fff;
+	font-size: 25px;
+	font-weight: 400;
+}
+    
+}
+
+
+/* Wide Mobile Layout: 480px. */
+@media only screen and (min-width: 480px) and (max-width: 767px) { 
+    
+    
+
+}
+

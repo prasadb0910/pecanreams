@@ -1,0 +1,376 @@
+/* 
+	jQuery Logo Slider Ticker 
+	by http://webdesignandsuch.com
+	build with code from http://bxslider.com
+*/
+
+
+#slider {
+	list-style:none;
+	padding:0px
+}
+
+.slider-container { 
+	background:#fff; 
+	min-width:100%; 
+	min-height:100%; 
+
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px; 
+}
+
+#slider img { 
+	width:240px; 
+	height:125px; 
+	padding-right:100px; 
+	
+}
+
+#slider li {
+	width:210px
+}
+
+
+.rcorners1 {
+    border-radius: 25px;
+    background: #73AD21;
+    color: #fff;
+    padding: 20px; 
+    width: 100%;
+    height: 100%;    
+}
+
+.rcorners2 {
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 20px; 
+    width: 100%;
+    height: 100%;    
+}
+#assure
+{
+	 background: #fbfbfb;
+}
+
+.arrow
+{
+	 font-size: 70px!important;
+}
+.arrow1 {
+  border-right:3px solid #696f6f;
+  height: 20px;
+  position: absolute;
+  left: 46.5%;
+  top: 230px;
+}
+
+.arrow1:after {
+  content: "";
+  width: 0; 
+	height: 0; 
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid #696f6f;
+  position: absolute;
+  top: -8px;
+  left: -9px;
+}
+
+.para {
+
+   
+	padding-left: 50px;
+
+	}
+/* .img-responsive */
+/* { */
+	/* display:block; */
+/* } */
+/* .image-box img */
+/* { */
+	/* width:100%!important; */
+/* } */
+/* .image-box { */
+    /* height: 100%; */
+    /* position: absolute; */
+    /* right: 0; */
+	/* top:12%; */
+    /* width: 27%; */
+    /* z-index: 0; */
+/* } */
+hr
+{
+	    border: 1px dashed #ddd;1px dashed #ddd;
+}
+
+i.fa {
+    color: #195492!important;
+}
+.logo-img
+{
+	width:100%!important;
+}
+
+
+.feature-box-icon {
+    /* background-color: #8bc1da75; */
+    display: block;
+    /* width: 60px; */
+    /* height: 60px; */
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    border-radius: 30px;
+    color: #FFF;
+
+    text-align: center;
+    font-size: 24px;
+}
+.feature-box-content {
+       padding-left: 65px;
+	  
+}
+.feature-box-content p 
+{
+		line-height:2.5em;
+}
+
+.feature-box-icon {
+    /* background-color: #8bc1da75; */
+    /* display: block; */
+    /* width: 60px; */
+    /* height: 60px; */
+    position: absolute;
+    left: 12px;
+
+    border-radius: 10px;
+   
+    color: #FFF;
+    float: middle;
+    text-align: center;
+    font-size: 36px;
+    padding: 8px;
+}
+
+/* #about_1:before { */
+    /* content: '\f00c'; */
+   /* font-family: FontAwesome; */
+    /* font-style: normal; */
+    /* font-weight: normal; */
+    /* display: inline-block; */
+    /* text-decoration: inherit; */
+    /* margin-right: 0.2em; */
+    /* text-align: center; */
+    /* font-variant: normal; */
+    /* text-transform: none; */
+    /* line-height: 1.6em; */
+    /* margin-left: 0.2em; */
+    /* color: #f49454; */
+    /* position: absolute; */
+    /* font-size: 0.85714rem; */
+/* } */
+
+
+
+
+
+
+
+
+
+.feature
+{
+	list-style-type:none;
+	    font-size: 15px;
+}
+.feature h4
+{
+	text-align:left;
+	margin-bottom:0px;
+}
+.feature p
+{
+	margin-top:0px;
+}
+.navbar-brand img
+{
+	width:100%;
+}
+ /* #benefits h2 */
+ /* { */
+	 /* text-align:center; */
+	 /* margin-left:105px!important; */
+ /* } */
+
+
+
+
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+/* Caption of Modal Image */
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+/* Add Animation */
+.modal-content, #caption {    
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {-webkit-transform:scale(0)} 
+    to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+    from {transform:scale(0)} 
+    to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+    }
+}
+.assure_logo img {
+    position: absolute;
+    width: 250px;
+    padding: 5px 10px;
+}
+.about-details
+{
+	background:#fff!important;
+}
+
+.notice_type
+{
+	border-radius:0px!important;
+	  white-space: initial !important;
+	  
+}
+
+
+.about-box-icon {
+    /* background-color: #8bc1da75; */
+    display: block;
+    /* width: 60px; */
+    /* height: 60px; */
+    position: absolute;
+    left: 0px;
+    /* top: 10px; */
+    /* border-radius: 30px; */
+    color: #FFF;
+    /* line-height: 60px; */
+    text-align: center;
+    font-size: 26px;
+}
+.about-box-content {
+    padding-left: 0px;
+}
+
+.about li
+{
+	font-size:15px!important;
+	line-height:2.4em;
+}
+.clients
+{
+	margin-right:10px !important;
+}
+#company
+
+{
+	padding: 0 0 40px !important;
+}
+#company p
+{
+	margin-bottom:0px;
+
+}
+
+#company h2
+{
+	margin-bottom:0px;
+	margin-top:10px;
+}
+
+
+
+#company {
+    -webkit-animation-timing-function: linear;
+}
+
+.feature-box
+{
+
+	 margin-bottom:10px;
+}
+.image-box {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 13.5%;
+    width: 42%;
+    z-index: 0;
+}
+.team_head
+{
+	background-color:#fff!important;
+}
+
+.feature_11
+{
+	line-height:4em;
+}

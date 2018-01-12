@@ -1,0 +1,103 @@
+.post-slide{
+    background: #fff;
+    margin: 0 15px;
+}
+.post-slide .post-img{
+    position:relative;
+    float: left;
+    width:40%;
+    height: auto;
+}
+.post-slide .over-layer{
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity:0;
+    cursor: pointer;
+    transition: opacity 0.30s ease 0s;
+}
+.post-slide .over-layer:after{
+    color: #fff;
+    content: "+";
+    font-size: 52px;
+    position: absolute;
+    top: 31%;
+    left:42%;
+}
+.post-slide .post-img:hover .over-layer{
+    opacity:1;
+}
+.post-slide .post-img img{
+    width:100%;
+    height: auto;
+}
+.post-slide .post-review{
+    float: left;
+    padding: 1px 20px;
+    width: 60%;
+}
+.post-slide .post-title{
+    margin:0 0 5px 0;
+}
+.post-slide .post-title a{
+    color: #3498db;
+    font-size: 20px;
+    font-weight: 700;
+    display: block;
+    text-transform: capitalize;
+    transition:color 0.30s ease;
+}
+.post-title > a:hover{
+    text-decoration: none;
+    color:#333;
+}
+.post-slide .post-date{
+    display:block;
+    font-size:15px;
+    font-weight:700;
+    margin-bottom:17px;
+}
+.post-description{
+    color: #333;
+    font-size: 15px;
+    font-weight:400;
+    text-align:left;
+}
+.owl-pagination{
+    margin-top: 40px;
+}
+.owl-theme .owl-controls .owl-page.active span, .owl-theme .owl-controls.clickable .owl-page:hover span{
+    background: #3498db;
+}
+@media only screen and (max-width: 990px){
+    .post-slide .over-layer:after{
+        top:39%;
+        left: 45%;
+    }
+}
+@media only screen and (max-width: 640px){
+    .post-slide .post-img{
+        width:100%;
+    }
+    .post-slide .post-review{
+        width:100%;
+        padding:10px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

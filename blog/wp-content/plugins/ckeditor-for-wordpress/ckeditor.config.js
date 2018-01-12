@@ -1,0 +1,2 @@
+config.autoParagraph = false;
+     

@@ -1,0 +1,61 @@
+.serviceBox1{ margin-top: 10px; }
+.serviceBox1 .title{
+    font-size: 20px;
+    color: #5054a2;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0 0 20px 0;
+}
+.serviceBox1 .service-content1{
+    padding: 25px 20px 25px 50px;
+    border-top: 2px solid #eee;
+    border-right: 2px solid #eee;
+    position: relative;
+    transition: all 0.3s ease 0s;
+}
+.serviceBox1:hover .service-content1{
+    border-top-color: #4aba8d;
+    border-right-color: #4aba8d;
+}
+.serviceBox1 .service-content1:before{
+    content: "";
+    width: 0;
+    height: 2px;
+    background: #eee;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transition: all 0.3s ease 0s;
+}
+.serviceBox1:hover .service-content1:before{
+    width: 50%;
+    background: #4aba8d;
+}
+.serviceBox1 .description{
+    font-size: 14px;
+    color: #8b8a8a;
+    line-height: 25px;
+    margin: 0;
+}
+.serviceBox1 .service-icon{
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 50%;
+    background: #fff;
+    text-align: center;
+    font-size: 25px;
+    color: #a6a6a6;
+    border: 1px solid #eee;
+    position: absolute;
+    top: -25px;
+    left: 0;
+    transition: all 0.3s ease 0s;
+}
+.serviceBox1:hover .service-icon{
+    border-color: #4aba8d;
+    color: #4aba8d;
+}
+@media only screen and (max-width:990px){
+    .serviceBox1{ margin-bottom: 30px; }
+}

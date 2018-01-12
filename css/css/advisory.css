@@ -1,0 +1,611 @@
+/*************************************
+
+Template Name: Lite - Ditital Agency HTML Template
+Author: lu_theme
+Version: 1.0
+Design and Developed by: lu_theme
+
+NOTE: This is main stylesheet of the template.
+
+****************************************/
+
+
+/*================================================
+            Table of contents  
+==================================================
+ 
+00. BASE CSS
+01. PRELOADER
+02. SECTION TITLE AND SECTION PADDING
+03. HEADER AREA
+04. HOME AREA
+05. LOGO CAROUSEL AREA
+06. SERVICE AREA
+07. WORK AREA
+08. FEATURE AREA
+09. CTA AREA
+10. TESTIMONIAL AREA
+11. STAT AREA 
+12. TEAM AREA 
+13. BLOG AREA 
+14. CONTACT AREA
+15. FOOTER AREA
+16. PROJECT AND SINGLE PROJECT PAGE
+17. BLOG AND SINGLE BLOG PAGE
+18. SUBSCRIPTION AREA
+
+====================================================
+            End table content 
+===================================================*/
+
+/*================================================
+    00. BASE CSS  
+==================================================*/
+
+/*================================================
+    05. SLIDER AREA
+==================================================*/
+.lite-slides-area, .lite-slides-area div  {
+	height: 100%;
+}
+.lite-parallax-image-area{
+    height: 100%;
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+.slide-item-table, .slide-item-tablecell, .slide-item-tablecell div{
+    height: auto;
+} 
+.single-slide-item {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+}
+.slide-item-table {
+    display: table;
+    height: 100%;
+    text-align: center;
+    width: 100%;
+}
+.slide-item-tablecell {
+    display: table-cell;
+    vertical-align: middle;
+}
+.slide-content {
+    color: #fff;
+}
+.slide-content h2{
+    font-size: 36px;
+    color: #fff;
+    line-height: 60px;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+.slide-content p{
+    font-size: 18px;
+    margin-bottom: 0px;
+    line-height: 32px;
+}
+.single-slide-item::before, .lite-breadcroumb-area:before, .lite-parallax-image-area:before {
+    background-color: #000;
+    content: "";
+    height: 100%;
+    left: 0;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+}
+.slide-btn{
+    margin-top: 25px;
+}
+.slide-btn a{
+    margin: 10px;
+}
+.filled-btn {
+    background: #3b99d5 none repeat scroll 0 0;
+    color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 26px;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+.bordered-btn {
+    color: #fff;
+    display: inline-block;
+    border: 2px solid #fff;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 24px;
+    text-transform: uppercase;
+    transition: 0.3s;
+    background: transparent;
+}
+.filled-btn:hover{
+    background-color: #212121;
+    color: #fff;
+}
+.bordered-btn:hover {
+    background-color: #fff;
+    color: #424242;
+}
+.lite-slides-area .owl-nav div{
+    background-color: #fff;
+    color: #212121;
+    border-radius: 50%;
+    font-size: 28px;
+    height: 50px;
+    left: 35px;
+    line-height: 48px;
+    margin-top: -25px;
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    visibility: hidden;
+    width: 50px;
+    transition: 0.3s;
+}
+.lite-slides-area .owl-nav div:hover{
+    background-color: #3b99d5;
+    color: #fff;
+}
+.lite-slides-area .owl-nav div.owl-next {
+    left: auto;
+    right: 35px;
+}
+.single-slide-item.owl-nav:hover {
+    opacity: 0.6;
+    visibility: visible;
+}
+.lite-slides-area:hover .owl-nav div{
+    opacity: 1;
+    visibility: visible;
+}
+
+
+
+/*================================================
+    03. SECTION TITLE AND SECTION PADDING 
+==================================================*/
+.section-title{
+    margin-bottom: 22px;
+}
+.section-title h2 {
+  font-size: 38px;
+
+  text-transform: capitalize;
+    margin: 0;
+}
+.section-title p{
+    font-size: 16px;
+    margin: 0;
+}
+.border-center {
+    background: #ddd none repeat scroll 0 0;
+    display: block;
+    height: 1px;
+    margin: 15px auto;
+    position: relative;
+    width: 200px;
+}
+.border-center:hover {
+}
+.border-center::before {
+    background: #3b99d5 none repeat scroll 0 0;
+    bottom: 0;
+    content: "";
+    height: 1px;
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100px;
+}
+.section-padding{
+   
+    padding-bottom: 30px ;
+}
+
+/*================================================
+    07. SERVICE AREA
+==================================================*/
+.single-service {
+    text-align: center;
+}
+.single-service img {
+    margin-bottom: 25px;
+    max-width: 75%;
+}
+.single-service > h3 {
+
+  
+  
+}
+.single-service > p {
+    font-size: 14px;
+    margin: 0;
+}
+
+/*================================================
+    08. WORK AREA
+==================================================*/
+.lite-work-area{
+    background-color: #f7f7f7;
+    text-align: center;
+}
+/*
+.row.no-gutter > [class*="col-"]{
+    margin: 0;
+    padding: 0;
+}
+*/
+.single-work{
+    margin-bottom: 30px;
+}
+.single-work img{
+    transition: 0.3s;
+     -webkit-transform: scale(1.15);
+    transform: scale(1.15);
+    width: 100%;
+    height: auto;
+}
+.single-work:hover img {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+.single-work {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease 0s;
+}
+.item-hover {
+    background-color: rgba(59, 153,213, 0.9);
+     padding: 30px;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+   width: 100%;
+    -webkit-transition: 0.3s;
+    transition: 0.4s;
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    visibility: hidden;
+}
+.single-work:hover .item-hover{
+    opacity: 1;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    visibility: visible;
+}
+.work-table {
+    display: table;
+    height: 100%;
+    text-align: center;
+    width: 100%;
+}
+.work-tablecell {
+    display: table-cell;
+    vertical-align: middle;
+}
+.hover-content h3, .hover-content p{
+    color: #fff;
+}
+.hover-content h3{
+    font-weight: 500;
+    font-size: 22px;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.hover-content p{
+    font-size: 14px;
+    margin-bottom: 20px;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+.hover-content a {
+  border: 1px solid #fff;
+  color: #fff;
+  display: inline-block;
+    font-weight: 500;
+  font-size: 12px;
+  padding: 6px 13px;
+  text-transform: uppercase;
+}
+.hover-content a:hover{
+    background-color: #fff;
+    color: #212121;
+    border: 1px solid transparent;
+}
+
+/*================================================
+    07. FRATURE AREA
+==================================================*/
+.single-feature {
+    border: 1px solid #ddd;
+    margin-bottom: 30px;
+    padding: 30px 20px;
+    text-align: center;
+    transition: 0.3s;
+}
+.single-feature:hover{
+     border: 1px solid #3b99d5;
+}
+.single-feature i.fa {
+    color: #3b99d5;
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+.single-feature h3 {
+    font-size: 18px;
+    text-transform: capitalize;
+    margin: 0 0 10px;
+}
+.single-feature p
+{
+	font-size: 16px;
+}
+
+/*================================================
+    08. FRATURE AREA
+==================================================*/
+.lite-cta-area h3 {
+    margin: 0;
+    margin-top: 10px;
+    color: #fff;
+}
+.lite-cta-area {
+    background-color: #0299f1;
+    color: #fff;
+    padding: 40px 0;
+}
+.cta-btn {
+  text-align: right;
+}
+
+/*================================================
+    10. TESTIMONIAL AREA
+==================================================*/
+.testimonial-area{
+    
+}
+.single-testimonial {
+    background-color: #fff;
+   
+}
+.testimonial-author {
+    display: table;
+    position: relative;
+    text-align: center;
+    margin: 0 auto -38px;
+    z-index: 1;
+}
+.testimonial-image {
+    display: table-cell;
+    height: 95px;
+    overflow: hidden;
+    width: 95px;
+    border-radius: 50%;
+    border: 3px solid #ddd;
+}
+.testimonial-image img{
+    width: 100%;
+    height: 100%;
+}
+.testimonial-autohr-info {
+    font-size: 16px;
+    margin-top: 15px;
+    margin-bottom: 0;
+    text-transform: capitalize;
+    
+}
+.testimonial-autohr-info span {
+    display: block;
+    font-size: 13px;
+    font-weight: 400;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+.testimonial-content {
+    height: auto;
+    width: 100%;
+    text-align: center;
+}
+.testimonial-text {
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    padding: 52px 30px 30px;
+    position: relative;
+    width: 100%;
+    z-index: 0;
+}
+.testimonial-text p {
+    margin: 0;
+    font-size: 14px;
+}
+.lite-testimonial-area .owl-dots, .project-slides .owl-dots{
+  margin-top: 45px;
+  text-align: center;
+}
+.lite-testimonial-area .owl-dots div , .project-slides .owl-dots div{
+  background: #212121 none repeat scroll 0 0;
+  display: inline-block;
+  height: 10px;
+  margin-left: 5px;
+    border-radius: 50%;
+  width: 10px;
+}
+.lite-testimonial-area .owl-dots div.active, .project-slides .owl-dots div.active{
+   background-color: #278cc1;
+}
+
+
+
+/*================================================
+    12. TEAM AREA
+==================================================*/
+.member-info {
+    text-align: center;
+    border-bottom: 1px solid #3b99d5;
+}
+
+.member-image {
+    position: relative;
+	margin-top: 30px;
+margin: 30px auto;
+    width: 250px;
+}
+.member-image img {
+  width: 250px;
+  height: 250px;
+}
+.member-overlay {
+    height:250px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 250px;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+	border:1px;
+}
+.member-social {
+    background-color: rgba(59, 153,213, 0.9);
+    height: 100%;
+    width: 100%;
+
+}
+.pos-vertical-center {
+    position: relative;
+    text-align: left;
+	color:#fff;
+    top: 50%;
+	    font-size: 13px;
+		padding-left:20px;
+		padding-right:15px;
+
+}
+.pos-vertical-center {
+    transform: perspective(1px) translateY(-50%);
+}
+.member-image:hover .member-overlay{
+    visibility: visible;
+    opacity: 1;
+}
+.member-overlay a {
+    border: 1px solid #fff;
+    color: #fff;
+    display: inline-block;
+    font-size: 16px;
+    height: 35px;
+    line-height: 34px;
+    margin-right: 5px;
+    width: 35px;
+    text-align: center;
+}
+.pos-vertical-center a:hover {
+  background-color: #fff;
+  color: #3b99d5;
+}
+.member-info{
+    padding: 25px 0;
+}
+.member-info h3 {
+    font-size: 18px;
+    text-transform: capitalize;
+    font-weight: 500;
+    margin: 0;
+}
+.member-info h3 span {
+    display: block;
+    font-size: 14px;
+    font-weight: 300;
+    margin-top: 10px;
+}
+
+.header img {
+  float: left;
+  width: 200px;
+  height: 50px;
+
+}
+
+.header h2 {
+  position: relative;
+  
+}
+
+
+.gm-style {
+        font: 400 11px Roboto, Arial, sans-serif;
+        text-decoration: none;
+      }
+      .gm-style img { max-width: none; }
+	 .r_corners
+	 {
+		margin:110px 0px 0px 0px;
+		border-radius:5px;
+	 }
+	 
+	 .modal-header,h4, .modal_1 {
+      background-color: #333!important;
+      color: #fff !important;
+      text-align: center;
+      font-size: 30px;
+	 
+  }
+  .modal-header, .modal-body {
+      padding: 10px 20px;
+  }
+ .modal-content {
+
+	text-align:justify;
+}
+.pos-vertical-center 
+{
+	text-align:justify;
+}
+#founder{
+font-size: 38px;
+    font-weight: 700;
+    text-transform: capitalize;
+    margin: 0;
+	}
+	#fname
+	{
+	font-size: 22px;
+    font-weight: 500;
+    text-transform: capitalize;
+    margin: 0;
+	}
+	#border
+	{
+		width:350px;
+	}
+ .modal-header2 h2   {
+      background-color: #fff!important;
+      color: #000	 !important;
+      text-align: center;
+      font-size: 30px;
+	 
+  }
+  
+@media screen and(min-width:768px) {
+   .member-image{
+    text-align: center!important;
+   
+}
+}
+ 

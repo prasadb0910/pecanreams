@@ -1,0 +1,20 @@
+.portfolio-items
+{
+	height: 606px!important;
+}
+.isotope .isotope-item
+{
+
+width: 20% !important;
+    height: auto !important;
+    transition-property: transform,opacity!important;
+	transform: translate3d(0px, 0px, 0px)!important;
+	  position: relative!important;
+	  padding:1px;}
+#portfolio .animation-from-left
+{
+	    
+	  position: relative!important;
+
+}
+

@@ -1,0 +1,1 @@
+ALTER TABLE `otp_details` CHANGE `email_id` `email_id` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;

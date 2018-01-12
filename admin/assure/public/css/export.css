@@ -1,0 +1,33 @@
+.export:hover { 
+    color:#cc2127;
+}
+.export
+{
+	font-size:12px;
+	padding:0px !important;
+
+}
+.export_tab
+{
+	font-size:13px !important;
+}
+
+div.dt-button-collection 
+{
+	width: 100px;;
+	padding: 4px 4px 2px 4px;
+
+}
+div.dt-button-collection a.dt-button 
+{
+	background:white;
+	border:none;
+	
+}
+
+div.dt-button-collection a.dt-button:hover 
+{
+	background:white;
+	border:none;
+	
+}
