@@ -10,8 +10,8 @@
 <script src="http://prodo.create.rocks/wp-content/themes/prodo/assets/js/html5shiv.min.js"></script>
 <script src="http://prodo.create.rocks/wp-content/themes/prodo/assets/js/respond.min.js"></script>
 <![endif]-->
-<title>Online Real Estate Property Management Service in India | Pecan Reams</title>
-<meta name="Description" content="Comprehensive online real estate property management service provides one stop solution to manage all type of property transactions, cash flows, documents and tasks.">
+<title>Real Estate Market Analytics Tool & Maha RERA Registered Projects | Pecan Reams</title>
+<meta name="Description" content="iData is best real estate market online analytics tool providing data and real estate research covering the Maha RERA registered real estate projects in Maharashtra. 9000+ projects, 5000+ developers from residential, commercial and retail sectors.">
 <link rel='dns-prefetch' href='https://maps.google.com' />
 <link rel='dns-prefetch' href='https://fonts.googleapis.com' />
 <link rel='dns-prefetch' href='https://s.w.org' />
@@ -284,7 +284,18 @@ body#home-page #main .container #where-to-buy-callout h3 {
 }
 
 
-
+ul.nav li.dropdown:hover > ul.dropdown-menu {
+display: block!important;  
+ width: 100%!important;  
+}
+@media (min-width: 979px) {
+  ul.nav li.dropdown:hover > ul.dropdown-menu {
+    display: block!important;  
+	 width: 100%!important;
+  }
+  
+ 
+}
 
 
 
@@ -292,12 +303,23 @@ body#home-page #main .container #where-to-buy-callout h3 {
   <link rel='stylesheet'   href='assets/css/custom.css' type='text/css' media='all' />
 
       <link rel="stylesheet" href="css/pricing.css">
+	  
+  	<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109726639-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-109726639-1');
+	</script> -->
+	  
 </head>
 
 <body class="single single-post postid-3434 single-format-image nav-sticky">
 				
-		<div class="navbar navbar-fixed-top floating positive two" role="navigation">
+	<div class="navbar navbar-fixed-top floating positive two" role="navigation">
 			<div class="container">
+		
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
 					<span class="icon-bar"></span>
@@ -308,9 +330,120 @@ body#home-page #main .container #where-to-buy-callout h3 {
 				<img src="assets/images/main-logo.png" data-alt="assets/images/main-logo.png" alt="">
 				</a>
 			</div>
+				<span class="contacts">
+						<a href="tel:022 6143 1712 " class="p-d-10"><i class="fa fa-phone" aria-hidden="true"></i>
+								<small class="hidden-xs hidden-sm">022 6143 1712 </small> </a> &nbsp
+						<a href="mailto:info@dentalhome.in" class="p-d-10"><i class="fa fa-envelope" aria-hidden="true"></i>
+							<small class="hidden-xs hidden-sm">info@pecanreams.com</small></a>
+					
+					</span><br>
+			
 		 <div class="collapse navbar-collapse" id="navbar-collapse"> 
 			 	<ul id="menu-primary" class="nav navbar-nav navbar-right">
-			<li class="dropdown">
+				<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="index.php" >Home
+						<span class="caret"></span></a>
+						<ul class="dropdown-menu" >
+						  <li><a href="about.html#company">About Us</a></li>    <li class="divider"></li>
+						  <li><a href="about.html#about">Team</a></li>
+					   <li class="divider"></li>
+						  <li><a href="about.html#team">Pecan Group</a></li>
+					
+			
+						</ul>
+						
+					</li>
+	  
+	   
+	  
+				<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" >Solutions
+						<span class="caret"></span></a>
+						<ul class="dropdown-menu" >
+						  <li><a href="property-management-service.html">REAMS</a></li>    <li class="divider"></li>
+						  <li><a href="online-real-estate-analytics-tool.php">iDATA</a></li>
+					   <li class="divider"></li>
+						  <li><a href="public-notice-online.php">Assure</a></li>
+					
+						<li class="divider"></li>
+					   <li><a href="real-estate-private-equity-advisor.html">Advisory</a></li>
+						</ul>
+						
+					</li>
+	  
+	  
+				
+					<!--<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" >Company
+						<span class="caret"></span></a>
+							<ul class="dropdown-menu ">
+						  <li><a href="about.html">ABOUT US</a></li><li class="divider"></li>
+							 <li><a href="http://pecanadvisors.com" target="_blank">PECAN ADVISORS</a></li>
+					  
+					  
+						</ul>
+					</li>-->
+					
+					
+				<li  ><a class="jumper"  href="blog" target="_blank"> Blogs</a></li>
+					<li ><a class="jumper" href="contact.php">Contact Us</a></li>
+					
+						<li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" >Login
+        <span class="caret"></span></a>
+        	<ul class="dropdown-menu">
+          <li><a href="https://www.pecanreams.com/app/" target="_blank">REAMS</a></li><li class="divider"></li>
+          <li><a href="https://www.pecanreams.com/d3m/" target="_blank">iDATA / Assure</a></li>
+      
+        </ul>
+      </li>
+	   <li><a href="register.php">REGISTER</a></li>
+                 </ul>
+ 
+			</div>
+	 </div>
+	</div>
+
+
+
+ 
+
+ 
+<div class="service-overlay"> </div>
+					<div class="page-loader">
+			<div class="content">
+				<div class="line">
+					<div class="progress"></div>
+				</div>
+				<div class="text">Loading...</div>
+			</div>
+		</div>
+			
+		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+		
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.php">
+				<img src="assets/images/main-logo.png" data-alt="assets/images/main-logo.png" alt="">
+				</a>
+			</div>
+				<span class="contacts">
+						<a href="tel:022 6143 1712 " class="p-d-10"><i class="fa fa-phone" aria-hidden="true"></i>
+								<small class="hidden-xs hidden-sm">022 6143 1712 </small> </a> &nbsp
+						<a href="mailto:info@dentalhome.in" class="p-d-10"><i class="fa fa-envelope" aria-hidden="true"></i>
+							<small class="hidden-xs hidden-sm">info@pecanreams.com</small></a>
+					
+					</span><br>
+			
+			<div class="collapse navbar-collapse" id="navbar-collapse"> 
+			 	<ul id="menu-primary" class="nav navbar-nav navbar-right">
+								
+									<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="index.php" >Home
 						<span class="caret"></span></a>
 						<ul class="dropdown-menu" >
@@ -326,310 +459,316 @@ body#home-page #main .container #where-to-buy-callout h3 {
 	  
 	   
 	  
-				<li class="dropdown">
+					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#" >Solutions
 						<span class="caret"></span></a>
 						<ul class="dropdown-menu" >
-						  <li><a href="reams_features.php">REAMS</a></li>    <li class="divider"></li>
-						  <li><a href="idata_register.php">iDATA</a></li>
+						  <li><a href="property-management-service.html">REAMS</a></li>    <li class="divider"></li>
+						  <li><a href="online-real-estate-analytics-tool.php">iDATA</a></li>
 					   <li class="divider"></li>
-						  <li><a href="assure.php">Assure</a></li>
+						  <li><a href="public-notice-online.php">Assure</a></li>
 					
 						<li class="divider"></li>
-						  <li><a href="advisory.html">Advisory</a></li>
+						 	   <li><a href="real-estate-private-equity-advisor.html">Advisory</a></li>
 						</ul>
 						
 					</li>
 	  
 	  
-	
+	  
+				
+				<!--	<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" >Company
+						<span class="caret"></span></a>
+							<ul class="dropdown-menu ">
+						  <li><a href="about.html">ABOUT US</a></li><li class="divider"></li>
+							 <li><a href="http://pecanadvisors.com" target="_blank">PECAN ADVISORS</a></li>
+					  
+					  
+						</ul>
+					</li>-->
 					
 					
-				<li  ><a class="jumper"   href="blog" target="_blank"> Blogs</a></li>
-
-					<li ><a class="jumper" href="index.php#map">Contact Us</a></li>
+					<li  ><a class="jumper"  href="blog" target="_blank"> Blogs</a></li>
+					
+					<li ><a class="jumper" href="contact.php">Contact Us</a></li>
 					
 						<li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" >Login
         <span class="caret"></span></a>
         	<ul class="dropdown-menu">
           <li><a href="https://www.pecanreams.com/app/" target="_blank">REAMS</a></li><li class="divider"></li>
-          <li><a href="https://www.pecanreams.com/d3m/" target="_blank">iDATA</a></li>
+          <li><a href="https://www.pecanreams.com/d3m/" target="_blank">iDATA / Assure</a></li>
       
         </ul>
       </li>
+	
 	   <li><a href="register.php">REGISTER</a></li>
+					
                  </ul>
  
 			</div>
-	 </div>
+		</div>
+			
 	</div>
-<section class="section alt-background offsetTop blog-bg ">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<header>
-					<h2 style=" text-align:left;color:white;"></h2>
-		 <p class="info breadcrumbs" style="font-size:12px;"><span class="breadcrumbs_list" > <a href="index.php">Home ></a><a href="#"> Solutions ></a> <a href="#">Pecan Reams</a>  </span></p>
-									</header>
+ 
+<section class="intro" id="intro" data-type="slideshow" data-images=".images-list" data-content=".content" data-to-left=".arrow.left" data-to-right=".arrow.right" data-delay="10" style="height: 100%;">
+	<div style="background:rgba(0,0,0,.4); position:absolute; top:0; left; right:0; bottom:0; width:100%; height:100%;"> </div>
+	    <div class="images-list" style="position:relative;"> 
+			<img src="assets/images/slide11.jpg" alt="">
+			<img src="assets/images/slide22.jpg" alt="">
+			<img src="assets/images/slide3.jpg" alt="">  
+		</div> 
+	   <div class="container">
+	 	 <div class="content"> 
+			<div>
+	 
+
+            <div class="text-center">
+				<div class="row">
+					<div class="col-md-12">
+				 		<h1 class="animate"> Provide simple insights on various Real Estate markets in Maharashtra.</h1> 
+						
+					</div>
+				</div> 
+			</div>
+			
+
+			<div class="arrows animate">
+					<a class="arrow left"><i class="fa fa-chevron-left"></i></a>
+					<a class="arrow right"><i class="fa fa-chevron-right"></i></a>
+				</div>
+			</div>
+	        <div>
+		 
+<div class="text-center">
+				<div class="row">
+					<div class="col-md-12">
+				 	<h1 class="animate"> Make basic data on developers, projects, market easily available. </h1>
+						
+					</div>
+				</div>
+				
+			</div>
+				<div class="arrows animate">
+					<a class="arrow left"><i class="fa fa-chevron-left"></i></a>
+					<a class="arrow right"><i class="fa fa-chevron-right"></i></a>
+				</div>
+			</div>
+			
+					<div>
+		 
+<div class="text-center">
+				<div class="row">
+					<div class="col-md-12">
+				 	<h1 class="animate">   Help professionals work towards data driven decision making. </h1>
+						
+					</div>
+				</div>
+				
+			</div>
+				<div class="arrows animate">
+					<a class="arrow left"><i class="fa fa-chevron-left"></i></a>
+					<a class="arrow right"><i class="fa fa-chevron-right"></i></a>
+				</div>
+			</div>
+			
+			
+		 	<div>
+	 
+			 
+			<div class="arrows animate">
+					<a class="arrow left"><i class="fa fa-chevron-left"></i></a>
+					<a class="arrow right"><i class="fa fa-chevron-right"></i></a>
+				</div>
 			</div>
 		</div>
-	</div>
-</section>
+	  </div> 
+	</section>
 
-<div id="solutions">
-<section id="solution-info" class="section" style=" ">
-<div class="container">
-    <div class="row" style="text-align:center;">
-	 <div class="col-md-9 ">
-        <div class="col-md-6 col-sm-6  ">
-			   
-            
-            <header>
-            <h3> Self-Use Software </h3>
-          
-            </header>
-            
-            <div class="responsive-images">
-            <div class="frame-container-video">          
-            <div><img src="assets/images/team-1.png" class="img-responsive img-rounded" alt=""></div>
-			 
-            </div><br>
-           
-           
-		   <ul style="text-align:left;"> 
-
-<li>One stop solution to manage real estate transactions, cash flows, documents and tasks. </li>
-<li>Helps reducing errors & saves costs .</li>
-
-		   <ul>
-            </div>
-            
-			   </div>
-			
-      <div class="col-md-6 col-sm-6  ">
-            
-            <header>
-            <h3>Outsourced Team & Software</h3>
-          
-            </header>
-            
-            <div class="responsive-images">
-           <div class="frame-container" style="">
-            <div><img src="assets/images/tablet1.png" class="img-responsive img-rounded" alt=""></div>
-           
-            </div><br>
-			<ul style="text-align:left;"> 
-
-<li>Complete Real Estate Asset Management by a team of experienced professionals. </li>
-<li>Covering all activities from start to end including on field assistance.</li>
-
-		   <ul>
-			
-            </div>
-           </div>
-           </div>
-        
-			  <div class="col-md-3 col-sm-6">
-            <div class="serviceBox">
-                <div class="service-icon" >
-                    <img src="assets/images/main-logo_new.png" class="img-responsive img-rounded" alt="" style="padding:30px;margin:0 auto">
-                </div>
-                <div class="service-content">
-                   
-                    <p style="text-align:justify">
-                      Comprehensive real estate asset and portfolio management platform equipped to handle all kinds of Immovable properties.
-					   &nbsp &nbsp  &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    </p>
-                </div>
-               
-            </div>
-        </div>
-		
-        </div>
-    </div>
  
 
+ <div id="about-company">
+   <section id="company" class="section">
+	   <div class="company-overlay"></div>
+<div class="container">
+
+
+<div class="col-md-9 col-sm-6">
+ <h1 style="text-align: center;font-size:30px;">iDATA - Real Estate Market Insights</h1>
+<p>iDATA is our online analytics tool providing data and real estate research covering the under-construction Real estate projects in Maharashtra. By leveraging our database, our users gain access to information that would otherwise take months to assemble, along with the tools to search, analyze, compare, chart, and audit at a click of a button.</p><p> Our online database captures over 9000+ projects of nearly 5000+ developers and generates analysis for all verticals under the residential, commercial and retail sectors from a macro to a micro level. Essential Analytics tools to strengthen market knowledge, allow for detailed property comparisons and provide self consulting insights.</p>
+
+</div>
+	<div class="col-md-3 col-sm-6">
+            <div class="serviceBox"  style="margin-top:70px;">
+                <div class="service-icon">
+                   <h1><b style="font-family:'seguibl' !important;font-size:34px;text-align:center;color: rgb(40, 55, 122);">iDATA</b></h1>
+                </div>
+                <div class="service-content">
+                  
+                    <p>
+                       Access to in-depth knowledge & market insights about the Real estate projects registered under the Real Estate Regulation Act (MAHARERA).
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+ 
+</div>
+
+ 
 </section>
+ 
+ 
+  
+ 
 
 
 
-	
-
-
-<section id="features" class="section" style="  ">
-<div class="opa-city"> </div>
+ 
+ <section id="features" class="section" style=" ">
+<div class="opa-city" style="height:490px;"> </div>
  <h2 style="text-align: center;">Core Features</h2>
 
  
 <div class="container">
 <div class="services">
-<div id="flip-this"  class="text-center  offsetTopSs  offsetBottomSs animation animation-from-left col-sm-4 col-xs-6 col-md-4 flip-horizontal one-hover">
+<div id="flip-this"  class="text-center  offsetTopSs  offsetBottomSs animation animation-from-left col-sm-4 col-xs-6 col-md-4 flip-horizontal one-hover"  style="border-bottom:0px dashed #ddd;">
 <div class="front"> 
 <div><i class="fa exchange"> <img src="assets/images/icons/transaction-management.png" class="img-responsive icons" /></i>  </div>
 <header>
-<h4>Transaction Management</h4>
+<h4>  Market Insights</h4>
 </header>
 </div>
 <div class="back">
-<p>Managing transactions at all stages of property lifecycle viz, Purchase, Rent or Sale. </p>
+<p>Provide real estate professionals with insights on the demand supply situation in various micro-markets and developer groups. </p>
 </div>
  
 </div>
 
 
-<div id="flip-this"  class="text-center   offsetTopSs  offsetBottomSs animation animation-from-left col-sm-4 col-xs-6 col-md-4 flip-horizontal two-hover">
+<div id="flip-this"  class="text-center   offsetTopSs  offsetBottomSs animation animation-from-left col-sm-4 col-xs-6 col-md-4 flip-horizontal two-hover"  style="border-bottom:0px dashed #ddd;">
 <div class="front">  
 <div><i class="fa tasks"> <img src="assets/images/icons/task.png" class="img-responsive icons" /></i></div>
 <header>
-<h4>Task Management</h4>
+<h4>  Analytics</h4>
 </header>
 </div>
 <div class="back">
-<p>All your planned and unplanned tasks now tracked real time with our Task Manager.</p>
+<p> Providing analytics, data and real estate research covering the Real estate Industry in Maharashtra.</p>
 </div>
-</div>
-<div id="flip-this"  class="text-center   offsetTopSs  offsetBottomSs animation animation-from-left col-sm-4 col-xs-6 col-md-4 flip-horizontal three-hover">
+</div> 	
+
+<div id="flip-this"  class="text-center   offsetTopSs  offsetBottomSs animation animation-from-left col-sm-4 col-xs-6 col-md-4 flip-horizontal three-hover"  style="border-right:1px dashed #ddd;border-bottom:0px dashed #ddd;">
 <div class="front"> 
 <div><i class="fa money"> <img src="assets/images/icons/forecast.png" class="img-responsive icons" /></i></div>
 <header>
-<h4>Forecast Cash Flows</h4>
+<h4>In-depth information</h4>
 </header>
 </div>
 <div class="back">
-<p>Forecast of monthly, quarterly and annual inflow and outflows from the properties.</p>
+<p>Get in depth information on all under construction projects in Maharashtra.</p>
 </div>
 </div>
-</div>
- 
- 
-<div class="services">
-<div id="flip-this" class="text-center   offsetTopSs  offsetBottomSs animation animation-from-left col-sm-4 col-xs-6 col-md-4 flip-horizontal four-hover">
+
+<div id="flip-this" class="text-center   offsetTopSs  offsetBottomSs animation animation-from-left col-sm-4 col-xs-6 col-md-4 flip-horizontal four-hover"  style="border-right:0px dashed #ddd;">
 <div class="front"> 
 <div><i class="fa file-text-o"> <img src="assets/images/icons/document.png" class="img-responsive icons" /></i></div>
 <header>
-<h4>Document Digitisation</h4>
+<h4>Accuracy</h4>
 </header>
 </div>
 <div class="back">
-<p>Safe and secure storage of documents on cloud in digital form.</p>
-</div>
-</div>
-<div id="flip-this"  class="text-center   offsetTopSs  offsetBottomSs animation animation-from-left col-sm-4 col-xs-6 col-md-4 flip-horizontal five-hover">
-<div class="front">  
-<div><i class="fa  lightbulb-o"> <img src="assets/images/icons/strategized.png" class="img-responsive icons" /></i></div>
-<header>
-<h4>Strategized Buy/Sell</h4>
-</header>
-</div>
-<div class="back">
-<p>Efficient asset allocation and in-depth market knowledge from in-house experts. </p>
+<p> Aiding well informed decision making based on accurate data.</p>
 </div>
 </div>
 
-<div id="flip-this"  class="text-center   offsetTopSs  offsetBottomSs animation animation-from-left col-sm-4 col-xs-6 col-md-4 flip-horizontal six-hover">
-<div class="front"> 
-<div><i class="fa inr"> <img src="assets/images/icons/valuation.png" class="img-responsive icons" /></i></div>
-<header>
-<h4>Valuation/Diligence</h4>
-</header>
-</div>
-<div class="back">
-<p>Assisting in valuation and diligence exercise for all kind of properties.</p>
-</div>
-</div>
 </div>
 </div>
 
 </section>
- 
+<br>
+ <div id="classroom" class=" " style=" ">
+					<h2 style="text-align: center;">Current & Prospective Stakeholders</h2>
+					
+					<br>
+				
+					
+				 	<div class="container">
+					<div class="img desktop-img">
+                             
+<div class="col-md-4 col-sm-4 animated bounceInLeft">
+	<div class="single-about-detail clearfix">
+		<div class="about-img">
+	     <img   src="assets/images/Picture1.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt=" "  > 
+		</div>
+		<div class="about-details">
+		 <a href="easy-buy-difficult-sell.html"> 
+		 <h3>Investors
+ </h3> </a>
+	  
 
-<section id="benefits" class="section " style="position:relative; overflow:hidden; padding:0 0 100px;"> 
-<div class="container "  > 
-<h2 style="text-align: center;"> Key Benefits [Value Protection] </h2>
-<div class="col-md-8 col-sm-12 left-padding  offsetTopSs">
-<div class="">
-<div id="flip-key"  class="text-center offsetTopSs  offsetBottomSs animation animation-from-left col-sm-4 col-xs-6 col-md-4  ">
-<div class="icon-style"> 
-<div> <i class="fa  clock"> <img src="assets/images/icons/save-times.png" class="img-responsive icons" /></i></div>
-<header>
-<h4>Saves Time</h4>
-</header>
-</div>
-<div class="back-text">
-<p>Systematic input combined with detailed reports enabling efficient time management. </p>
-</div>
-</div>
+<ul class="clients">
+	  	<li>Investors have access to a plethora of properties which they can search through more easily than one can shop for products online.</li>
+	  	<li>Due to data harmonization, Investors can have clear insights to affirm or change their decisions.</li> <br><br><br>
+</ul>
 
 
-<div id="flip-key"  class="text-center offsetTopSs  offsetBottomSs animation animation-from-left col-sm-4 col-xs-6 col-md-4  ">
-<div class="icon-style">  
-<div> <i class="fa  bell-o"> <img src="assets/images/icons/reminder.png" class="img-responsive icons" /></i></div>
-<header>
-<h4>Reminders</h4>
-</header>
+			 
+		</div>
+	</div>
 </div>
-<div class="back-text">
-<p>Auto reminders for periodic and cash flow tasks added to the task manager.</p>
-</div>
-</div>
-<div id="flip-key"  class="text-center offsetTopSs  offsetBottomSs animation animation-from-left col-sm-4 col-xs-6 col-md-4  ">
-<div class="icon-style"> 
-<div> <i class="fa  clock"> <img src="assets/images/icons/confidentiality.png" class="img-responsive icons" /></i></div>
-<header>
-<h4>Confidentiality</h4>
-</header>
-</div>
-<div class="back-text">
-<p>Data encryption and highest regard to confidentiality.</p>
-</div>
-</div>
- 
-<div id="flip-key"  class="text-center offsetTopSs  offsetBottomSs animation animation-from-left col-sm-4 col-xs-6 col-md-4  ">
-<div class="icon-style"> 
-<div> <i class="fa  clock"> <img src="assets/images/icons/reports.png" class="img-responsive icons" /></i></div>
-<header>
-<h4>Reports</h4>
-</header>
-</div>
-<div class="back-text">
-<p>Array of reports from Group level to Owner level to Individual assets enabling detailed analysis.</p>
-</div>
-</div>
-<div id="flip-key"  class="text-center offsetTopSs  offsetBottomSs animation animation-from-left col-sm-4 col-xs-6 col-md-4  ">
-<div class="icon-style">  
-<div> <i class="fa trash-o"> <img src="assets/images/icons/error.png" class="img-responsive icons" /></i></div>
-<header>
-<h4>Reduces Errors</h4>
-</header>
-</div>
-<div class="back-text">
-<p>Maker-Checker process at all levels and auto generation of reports leads to reduction in errors.</p>
-</div>
-</div>
+     
+               <div class="col-md-4 col-sm-4 animated bounceInLeft">
+	<div class="single-about-detail clearfix">
+		<div class="about-img">
+	    <img   src="assets/images/Picture2.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt=" "  > 
+		</div>
+		<div class="about-details">
+		 <a  href="does-investing-in-far-off-places-make-sense.html">  <h3>Real Estate Developers
+</h3> </a>
+	
 
-<div id="flip-key"  class="text-center offsetTopSs  offsetBottomSs animation animation-from-left col-sm-4 col-xs-6 col-md-4  ">
-<div class="icon-style"> 
-<div> <i class="fa  clock"> <img src="assets/images/icons/professional-advice.png" class="img-responsive icons" /></i></div>
-<header>
-<h4>Professional Advice</h4>
-</header>
-</div>
-<div class="back-text">
-<p>In-house industry experts giving sound and quality advice.</p>
-</div>
-</div>
-</div>
-</div>
- </div>
- <div class="image-box">
-	<img src="assets/images/device_04.png"/>
- </div> 
 
- 
-</section>
-</div>
+<ul class="clients">
+	  	<li>Sitting on land parcel in Mumbai and wanting to know what other developers are up to?</li>
+	  	<li>How about viewing all the publicly available details of all the Projects around you?</li> 
+	  	<li>iData empowers you to view all the projects including their stages of development, pricing and specification at the mere click of a button.</li> 
+</ul>
 
+			 
+		</div>
+	</div>
+</div>     
+
+<div class="col-md-4 col-sm-4 animated bounceInLeft">
+	<div class="single-about-detail clearfix">
+		<div class="about-img">
+	   <img   src="assets/images/Picture3.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt=" "  > 
+		</div>
+		<div class="about-details">
+		  <h3>financial Institutions
+</h3> </a>
+	  
+
+<ul class="clients">
+	  	<li>A business deal is hard to find, Isn’t it? Well how about we make it easy for you?</li>
+	  	<li>With access to all the registered projects in the state, you can sift through and select project developers based on your criteria and make an informed decision.</li> <br><br>
+	  	
+</ul>
+			
+		</div>
+	</div>
+</div>      
+     
+                          
+        
+                       </div>  
+					   
+                    </div>
+					
+					
+				</div>
 
 
  
@@ -655,7 +794,7 @@ Copyright 2016. All rights reserved.
 <ul class="list-unstyled clear-margins ">
 			<li><a  href="about.html"> About Us</a></li>
 
-			<li><a  href="index.php#map"> Contact Us</a></li> 
+			<li><a  href="contact.php"> Contact Us</a></li> 
 </ul>
 </div>
 
@@ -675,11 +814,10 @@ Copyright 2016. All rights reserved.
 </div>
  
 <ul class="list-unstyled clear-margins">
-			<li><a  href="reams_features.php"> REAMS</a></li>
-			<li><a  href="idata_register.php"> iDATA</a></li>
-		 <li class="divider"></li>
-						  <li><a href="assure.php">Assure</a></li>
-						  			<li><a  href="advisory.html"> Advisory</a></li>
+			<li><a  href="property-management-service.html"> REAMS</a></li>
+			<li><a  href="online-real-estate-analytics-tool.php"> iDATA</a></li>
+			<li><a  href="public-notice-online.php"> Assure</a></li>
+						<li><a href="real-estate-private-equity-advisor.html">Advisory</a></li>
 			                         
 		
 </ul>
@@ -959,6 +1097,9 @@ if (video.play) {
 	
 	
 	</script>
+
+
+
 <script>
 $('.dropdown-toggle').click(function() {
     var location = $(this).attr('href');
@@ -966,6 +1107,14 @@ $('.dropdown-toggle').click(function() {
     return false;
 });
 </script>
+<script>
+jQuery(document).ready(function($)  {
+$("li.dropdown a").click(function(e){
+    $(this).next('ul.dropdown-menu').css("display", "block");
+    e.stopPropagation();
+  });
+}); </script> 
+
 <script type='text/javascript' src='assets/bootstrap/js/bootstrap.min.js?ver=4.6.1'></script>
 <script type='text/javascript' src='https://maps.google.com/maps/api/js?key=AIzaSyBQ9dVY1A4D4HbKBhh7HuXY3QRwLMWhg88'></script>
 <script type='text/javascript' src='assets/js/jquery.gmap.min.js?ver=4.6.1'></script>

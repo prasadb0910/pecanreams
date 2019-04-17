@@ -146,7 +146,7 @@
                             </td>
                             <td>
                                 @if($data->payment_status!='paid')
-                                <a href="{{'https://www.pecanreams.com/dataFrom.htm?user_id='.$data->user_id.'&sub_id=0&trans_id='.$data->id}}" class="label label-success" target="_new">Pay Now</a>
+                                <a href="{{'https://www.pecanreams.com/dataFrom.htm?user_id='.$data->user_id.'&sub_id=0&trans_id='.$data->id.'&module='.$data->module}}" class="label label-success" target="_new">Pay Now</a>
                                 @endif
                             </td>
                         </tr>

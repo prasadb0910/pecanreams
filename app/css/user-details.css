@@ -72,8 +72,8 @@ text-align: right;
 
 .message-box .mb-container {
     position: absolute;
-    left: 14px!important;  
-    top:2.5%!important;  
+    /*left: 14px!important;  
+    top:2.5%!important;*/  
     border-radius:0px!important;  
     background: rgba(0, 0, 0, 0.9);
     padding: 20px;

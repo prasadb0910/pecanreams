@@ -920,6 +920,49 @@
                             </div>
                         </div>
                         </div>
+
+                        <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                           <div class="col-md-6 col-sm-6 col-xs-12">
+                            <table class="table table-bordered" id="tbl_othername">
+                                <thead>
+                                    <tr>
+                                        <th>Other Name</th>
+                                        <th style="text-align:center;" class="hide">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $i=0; 
+                                    if(isset($othername) && count($othername)>0) {
+                                    for($i=0; $i<count($othername); $i++) { ?>
+                                        <tr id="othername_<?php echo $i; ?>_row">
+                                            <td>
+                                                <input type="text" class="form-control othername" name="othername[]" id="othername_<?php echo $i; ?>" placeholder="Enter Othername..." value="<?php if (isset($othername)) { echo $othername[$i]->othername; } ?>" />
+                                            </td>
+                                            <td style="text-align: center; vertical-align: middle;" class="hide">
+                                                <button type="button" id="othername_<?php echo $i; ?>_row_delete" class="delete_row" onClick="delete_row(this);"><span class="fa trash fa-trash-o"></span></button>
+                                            </td>
+                                        </tr>
+                                    <?php }} else { ?>
+                                    <tr id="othername_<?php echo $i; ?>_row">
+                                        <td>
+                                            <input type="text" class="form-control othername" name="othername[]" id="othername_<?php echo $i; ?>" placeholder="Enter Other Name..." value="" />
+                                        </td>
+                                        <td style="text-align: center; vertical-align: middle;" class="hide">
+                                            <button type="button" id="othername_<?php echo $i; ?>_row_delete" class="delete_row" onClick="delete_row(this);"><span class="fa trash fa-trash-o"></span></button>
+                                        </td>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                                <tfoot class="add_new hide">
+                                    <tr>
+                                        <td colspan="2"><input type="button" class="btn btn-success" id="repeat_guarantor" value="+"></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            </div>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>

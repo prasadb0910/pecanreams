@@ -2,7 +2,7 @@
 #register-form{overflow:hidden;}
 .lost-password{margin:0;padding:0!important;}
 #login-modal .modal-dialog{height:auto;width:100%;max-width:450px;margin:25px auto;overflow:hidden;top:10%;}
-#login-modal input[type=text], input[type=password]{margin-top:10px;height:50px;margin-bottom:5px;}
+#login-modal input[type=text], input[type=password]{/*margin-top:10px;*/height:50px;margin-bottom:5px;}
 #div-login-msg,
 #div-lost-msg,
 #div-register-msg{border:1px solid #dadfe1;height:40px;line-height:37px;transition:all ease-in-out 500ms;}
@@ -65,7 +65,12 @@
   color: #696f6f!important;
 }
 
-
+.serviceBox h2
+{
+	font-size:18px!important;
+	    margin-bottom: 0.5em!important;
+	    margin-top: 7px!important;
+}
 
 #about ul {
   list-style: none;
@@ -195,3 +200,35 @@
 {
 	color:#de0e0e!important;
 }
+.contacts
+{
+	float:right!important;
+}
+.contacts a
+{
+	color: #282828!important;
+}
+
+.contacts a:hover
+{
+	color: #282828!important;
+}
+
+.contacts  i.fa {
+    color: #282828!important;;
+}
+
+ul.nav li.dropdown:hover > ul.dropdown-menu {
+display: block!important;  
+ width: 100%!important;  
+}
+@media (min-width: 979px) {
+  ul.nav li.dropdown:hover > ul.dropdown-menu {
+    display: block!important;  
+	 width: 100%!important;
+  }
+
+
+ 
+}
+

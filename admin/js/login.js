@@ -168,17 +168,20 @@ $('#modal-otp').on('shown.bs.modal', function () {
 
 $('#email').keypress(function(e) {
     if(e.which == 13) {
-        submit_login_form();
+        // submit_login_form();
+        checkCredentials();
     }
 });
 $('#password').keypress(function(e) {
     if(e.which == 13) {
-        submit_login_form();
+        // submit_login_form();
+        checkCredentials();
     }
 });
 
 $('#log_in').click(function(){
-    submit_login_form();
+    // submit_login_form();
+    checkCredentials();
 });
 
 var submit_login_form = function() {
@@ -214,27 +217,29 @@ var submit_login_form = function() {
 }
 
 var checkCredentials = function() {
-    $.ajax({
-        url: BASE_URL+'index.php/login/checkcredentials',
-        data: 'email=' + $("#email").val() + '&password=' + $("#password").val() + '&module=' + $("#module").val(),
-        type: "POST",
-        dataType: 'json',
-        global: false,
-        async: false,
-        success: function (data) {
-            if(data.msg!=''){
-                alert(data.msg);
+    if ($("#form_login").valid()) {
+        $.ajax({
+            url: BASE_URL+'index.php/login/checkcredentials',
+            data: 'email=' + $("#email").val() + '&password=' + $("#password").val() + '&module=' + $("#module").val(),
+            type: "POST",
+            dataType: 'json',
+            global: false,
+            async: false,
+            success: function (data) {
+                if(data.msg!=''){
+                    alert(data.msg);
+                }
+                if(data.redirect_url!=''){
+                    window.location.href = data.redirect_url;
+                }
+            },
+            error: function (xhr, status, error) {
+                result = 0;
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
             }
-            if(data.redirect_url!=''){
-                window.location.href = data.redirect_url;
-            }
-        },
-        error: function (xhr, status, error) {
-            result = 0;
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err.Message);
-        }
-    });
+        });
+    }
 }
 
 $('#btn_save').click(function(){

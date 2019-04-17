@@ -176,3 +176,5 @@ Route::post('/user_payment_detail/save', 'User_payment_detailController@save')->
 Route::get('/user_payment_detail/list1', 'User_payment_detailController@list1')->name('user_payment_detail.list1');
 Route::get('/user_payment_detail/get_invoice/{id}', 'User_payment_detailController@get_invoice')->name('user_payment_detail.get_invoice');
 Route::get('/user_payment_detail/payment_response/{response_message}/{order_status}', 'User_payment_detailController@payment_response')->name('user_payment_detail.payment_response');
+Route::get('/user_payment_detail/plan', 'User_payment_detailController@plan')->name('user_payment_detail.plan');
+Route::get('/user_payment_detail/get_plan', 'User_payment_detailController@get_plan')->name('user_payment_detail.get_plan');

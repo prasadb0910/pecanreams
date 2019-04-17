@@ -80,6 +80,8 @@ class Contacts extends CI_Controller
 
             $data['maker_checker'] = $this->session->userdata('maker_checker');
 
+            // echo json_encode($data);
+
             load_view('contacts/contact_details', $data);
         } else {
             echo '<script>alert("You donot have access to this page.");</script>';

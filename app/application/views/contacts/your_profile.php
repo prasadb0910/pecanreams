@@ -66,7 +66,7 @@
                                             </div>
                                             <div class="form-group others-hide">
                                                 <div class="col-md-6">
-                                                    <label class="col-md-4 control-label">Date Of Birth <span class="asterisk_sign">*</span></label>
+                                                    <label class="col-md-4 control-label">Date Of Birth </label>
                                                     <div class="col-md-6">
                                                         <input type="text" class="form-control datepicker1" id="c_dob" name="c_dob" placeholder="Date Of Birth" value="<?php if (isset($editcontact)) { if($editcontact[0]->c_dob!='' && $editcontact[0]->c_dob!=null) echo date('d/m/Y',strtotime($editcontact[0]->c_dob)); } ?>"/>
                                                     </div>
@@ -104,7 +104,7 @@
                                                 <div class="col-md-6">
                                                     <label class="col-md-4 control-label">Email ID <span class="asterisk_sign">*</span></label>
                                                     <div class="col-md-6">
-                                                       <input type="text" class="form-control" id="email_id1" name="email_id1" placeholder="Email Id" value="<?php if (isset($editcontact)) { echo $editcontact[0]->c_emailid1; } ?>"/>
+                                                       <input type="text" class="form-control" id="email_id1" name="email_id1" style="background-color: white; color: #245478;" placeholder="Email Id" value="<?php if (isset($editcontact)) { echo $editcontact[0]->c_emailid1; } ?>" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -116,7 +116,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-6">
-                                                    <label class="col-md-4 control-label">PAN No. <span class="asterisk_sign">*</span></label>
+                                                    <label class="col-md-4 control-label">PAN No. </label>
                                                     <div class="col-md-6">
                                                        <input type="text" class="form-control" id="c_pan_card" name="c_pan_card" placeholder="PAN No." value="<?php if (isset($editcontact)) { echo $editcontact[0]->c_pan_card; } ?>"/>
                                                     </div>
@@ -129,26 +129,50 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <label class="col-md-2 control-label">Address <span class="asterisk_sign others-validation">*</span></label>
-                                                    <div class="col-md-8">
-                                                        <textarea class="form-control" id="c_address" name="c_address"><?php if (isset($editcontact)) { echo $editcontact[0]->c_address; } ?></textarea>
+                                                <div class="col-md-6">
+                                                    <label class="col-md-4 control-label">GST No. </label>
+                                                    <div class="col-md-6">
+                                                       <input type="text" class="form-control" id="c_gst_no" name="c_gst_no" placeholder="GST No." value="<?php if (isset($editcontact)) { echo $editcontact[0]->c_gst_no; } ?>"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="col-md-4 control-label">Group Name </label>
+                                                    <div class="col-md-6">
+                                                        <input type="hidden" id="group_id" name="group_id" value="<?php if(isset($group_details)){ echo $group_details[0]->g_id; } ?>" />
+                                                        <input type="text" class="form-control" id="group_name" name="group_name" placeholder="Group Name" value="<?php if(isset($group_name)){ echo $group_name; } ?>" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-6">
-                                                    <label class="col-md-4 control-label">KYC Required? <span class="asterisk_sign others-validation">*</span></label>
-                                                    <div class="col-md-6" style="line-height:33px;">
-                                                        <input type="radio" name="kyc" class="icheckbox" value="1" id="kyc_yes" data-error="#err_kyc" <?php if (isset($editcontact)) { if($editcontact[0]->c_kyc_required=='1') echo 'checked'; } ?>/>&nbsp;&nbsp;Yes&nbsp;&nbsp;&nbsp;
-                                                        <input type="radio" name="kyc" class="icheckbox" value="0" id="kyc_no" data-error="#err_kyc" <?php if (isset($editcontact)) { if($editcontact[0]->c_kyc_required=='0') echo 'checked'; } ?>/>&nbsp;&nbsp;No
-                                                        <div id="err_kyc"></div>
+                                                    <label class="col-md-4 control-label">Do You want maker checker? *</label>
+                                                    <div class="col-md-8">
+                                                        <input type="radio" class="" name="maker_checker" value="yes" required <?php if(isset($group_details)){ if($group_details[0]->maker_checker=='yes') echo 'checked'; } ?> /> Yes &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <input type="radio" class="" name="maker_checker" value="no" required <?php if(isset($group_details)){ if($group_details[0]->maker_checker=='no') echo 'checked'; } ?> /> No
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <label class="col-md-2 control-label">Address </label>
+                                                    <div class="col-md-8">
+                                                        <textarea class="form-control" id="c_address" name="c_address"><?php if (isset($editcontact)) { echo $editcontact[0]->c_address; } ?></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="form-group">
+                                                <div class="col-md-6">
+                                                    <label class="col-md-4 control-label">KYC Required? <span class="asterisk_sign others-validation">*</span></label>
+                                                    <div class="col-md-6" style="line-height:33px;">
+                                                        <input type="radio" name="kyc" class="icheckbox" value="1" id="kyc_yes" data-error="#err_kyc" <?php //if (isset($editcontact)) { if($editcontact[0]->c_kyc_required=='1') echo 'checked'; } ?>/>&nbsp;&nbsp;Yes&nbsp;&nbsp;&nbsp;
+                                                        <input type="radio" name="kyc" class="icheckbox" value="0" id="kyc_no" data-error="#err_kyc" <?php //if (isset($editcontact)) { if($editcontact[0]->c_kyc_required=='0') echo 'checked'; } ?>/>&nbsp;&nbsp;No
+                                                        <div id="err_kyc"></div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
                                         </div>
                                     </div>
-                                    <div class="panel panel-primary" id="kyc-section" style="<?php if (isset($editcontact)) { if($editcontact[0]->c_kyc_required!='1') echo 'display:none;'; } else echo 'display:none;'; ?>">
+                                    <!-- <div class="panel panel-primary" id="kyc-section" style="<?php //if (isset($editcontact)) { if($editcontact[0]->c_kyc_required!='1') echo 'display:none;'; } else echo 'display:none;'; ?>">
                                         <a href="#accOneColTwo">  
                                             <div class="panel-heading">
                                                 <h4 class="panel-title">
@@ -157,21 +181,19 @@
                                             </div>  
                                         </a>                              
                                         <div class="panel-body" id="accOneColTwo">
-                                            <?php $this->load->view('templates/document');?>
+                                            <?php //$this->load->view('templates/document');?>
                                             
 
                                             <div class="col-md-12 btn-margin">
                                                 <button type="button" class="btn btn-success" id="repeat-documents"  >+</button>
-                                                <!-- <button type="button" class="btn btn-success" id="reverse-documents" style="margin-left: 10px;">-</button> -->
-
                                                 <a href="#accOneColThree" >
                                                     <button type="button" class="btn btn-info pull-right">  Next  <span class="fa fa-angle-double-right"></span> </button>
                                                 </a>
                                             </div>
                                         </div>                                
-                                    </div>
+                                    </div> -->
                                     
-                                    <div class="panel panel-primary" id="nominee-section" style="display:block;">
+                                    <!-- <div class="panel panel-primary" id="nominee-section" style="display:block;">
                                         <a href="#accOneColThree"> 
                                             <div class="panel-heading">
                                                 <h4 class="panel-title"><span class="fa fa-check-square-o"> </span> Nominee Details </h4>
@@ -189,41 +211,41 @@
                                                 </thead>
                                                 
                                                 <tbody>
-                                                    <?php $j=0;
-                                                    if(isset($editcontnom)) {
-                                                    for($j=0;$j<count($editcontnom); $j++) { ?>
-                                                    <tr id="repeat_nominee_<?php echo $j+1; ?>">
-                                                        <td  align="center"><?php echo ($j+1); ?></td>
+                                                    <?php 
+                                                    // $j=0;
+                                                    // if(isset($editcontnom)) {
+                                                    // for($j=0;$j<count($editcontnom); $j++) { ?>
+                                                    <tr id="repeat_nominee_<?php //echo $j+1; ?>">
+                                                        <td  align="center"><?php //echo ($j+1); ?></td>
                                                         <td class="Contact_name">
-                                                            <input type="hidden" id="txtname_<?php echo '' . $j+1 . '_id"'; ?> name="nm_name[]" class="form-control" value="<?php if (set_value('nm_name')!=null) { echo set_value('nm_name'); } else if(isset($editcontnom[$j]->nm_name)){ echo $editcontnom[$j]->nm_name; } else { echo ''; }?>" />
-                                                            <input type="text" id="txtname_<?php echo '' . $j+1 . '"'; ?> name="nm_contact_name[]" class="form-control auto_client nm_contact_name" value="<?php if(isset($editcontnom[$j]->c_name)){ echo $editcontnom[$j]->c_name; } else { echo ''; }?>" placeholder="Type to choose contact from database..." />
+                                                            <input type="hidden" id="txtname_<?php //echo '' . $j+1 . '_id"'; ?> name="nm_name[]" class="form-control" value="<?php //if (set_value('nm_name')!=null) { echo set_value('nm_name'); } else if(isset($editcontnom[$j]->nm_name)){ echo $editcontnom[$j]->nm_name; } else { echo ''; }?>" />
+                                                            <input type="text" id="txtname_<?php //echo '' . $j+1 . '"'; ?> name="nm_contact_name[]" class="form-control auto_client nm_contact_name" value="<?php //if(isset($editcontnom[$j]->c_name)){ echo $editcontnom[$j]->c_name; } else { echo ''; }?>" placeholder="Type to choose contact from database..." />
                                                         </td>
                                                         <td>
-                                                            <input type="text" name="nm_relation[]" class="form-control" placeholder="Relation" value="<?php if(isset($editcontnom[$j]->nm_relation)){ echo $editcontnom[$j]->nm_relation; } else { echo ''; }?>"/>
+                                                            <input type="text" name="nm_relation[]" class="form-control" placeholder="Relation" value="<?php //if(isset($editcontnom[$j]->nm_relation)){ echo $editcontnom[$j]->nm_relation; } else { echo ''; }?>"/>
                                                         </td>
                                                     </tr>
-                                                    <?php } } else { ?>
-                                                    <tr id="repeat_nominee_<?php echo $j+1; ?>">
-                                                        <td><?php echo $j+1; ?></td>
+                                                    <?php //} } else { ?>
+                                                    <tr id="repeat_nominee_<?php //echo $j+1; ?>">
+                                                        <td><?php //echo $j+1; ?></td>
                                                         <td class="Contact_name">
-                                                            <input type="hidden" id="txtname_<?php echo '' . $j+1 . '_id"'; ?> name="nm_name[]" class="form-control" />
-                                                            <input type="text" id="txtname_<?php echo '' . $j+1 . '"'; ?> name="nm_contact_name[]" class="form-control auto_client nm_contact_name" placeholder="Type to choose contact from database..." />
+                                                            <input type="hidden" id="txtname_<?php //echo '' . $j+1 . '_id"'; ?> name="nm_name[]" class="form-control" />
+                                                            <input type="text" id="txtname_<?php //echo '' . $j+1 . '"'; ?> name="nm_contact_name[]" class="form-control auto_client nm_contact_name" placeholder="Type to choose contact from database..." />
                                                         </td>
                                                         <td>
                                                             <input type="text" name="nm_relation[]" class="form-control" placeholder="Relation"/>
                                                         </td>
                                                     </tr>
-                                                    <?php } ?>
+                                                    <?php //} ?>
                                                 </tbody>
                                             </table>
                                             </div>
                                             <div class="col-md-12 btn-margin">
                                                 <button type="button" class="btn btn-success repeat-nominee"> + </button>
                                                 <button type="button" class="btn btn-success reverse-nominee" > - </button>
-                                                <!-- <button type="button" class="btn btn-info mb-control sch" style="float:right;" data-box="#message-box-info"><span class="fa fa-plus"></span> Add Contact</button> -->
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 </div>
                                 </div>
@@ -232,8 +254,10 @@
 			
                                 <div class="panel-footer">
                                     <input type="hidden" id="submitVal" value="1" />
-                                    <a href="<?php echo base_url(); ?>index.php/contacts" class="btn btn-danger btn-danger" >Cancel</a>
-                                    <input formnovalidate="formnovalidate" type="submit" class="btn btn-success pull-right save-form" name="submit" value="Save" />
+                                    <!-- <a href="<?php //echo base_url(); ?>index.php/contacts" class="btn btn-danger btn-danger" >Cancel</a> -->
+                                    <div style="display: flow-root;">
+                                        <input formnovalidate="formnovalidate" type="submit" class="btn btn-success pull-right save-form" name="submit" value="Save" />
+                                    </div>
                                 </div>
                             </form>
 				        </div>

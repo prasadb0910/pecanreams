@@ -123,10 +123,10 @@
                         <div class="box-body">
                             <div class="form-group" id="unit_floor">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <label class="col-md-2 col-sm-2 col-xs-12 control-label">Unit/Apartment No</label>
+                                  <!--   <label class="col-md-2 col-sm-2 col-xs-12 control-label">Unit/Apartment No</label>
                                     <div class="col-md-4 col-sm-4 col-xs-12">
                                         <input type="text" class="form-control" name="apartment_no" value="@if(isset($data)){{$data->apartment_no}}@endif" placeholder="Enter Unit/Apartment No...">
-                                    </div>
+                                    </div> -->
                                     <label class="col-md-2 col-sm-2 col-xs-12 control-label">Floor</label>
                                     <div class="col-md-4 col-sm-4 col-xs-12">
                                         <input type="text" class="form-control" name="floor" value="@if(isset($data)){{$data->floor}}@endif" placeholder="Enter Floor...">

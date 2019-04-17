@@ -5918,9 +5918,9 @@ $("#form_profile").validate({
             required: true,
             lettersonly: true
         },
-        c_dob: {
-            required: true
-        },
+        // c_dob: {
+        //     required: true
+        // },
         mobile_no1: {
             required: true,
             numbersonly: true
@@ -5930,11 +5930,14 @@ $("#form_profile").validate({
             checkemail: true,
             checkAvailability: true
         },
-        c_pan_card: {
-            required: true
-        },
-        c_address: {
-            required: true
+        // c_pan_card: {
+        //     required: true
+        // },
+        // c_address: {
+        //     required: true
+        // },
+        group_name: {
+            checkGroupAvailability: true
         }
     },
 

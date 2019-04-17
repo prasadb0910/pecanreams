@@ -20,6 +20,10 @@ use App\Pn_notice_location_detail;
 use App\Pn_notice_certificate_no_detail;
 use App\Pn_no_notice;
 use App\Pn_property;
+use App\Pn_notice_criteria;
+use App\Pn_notice_othername;
+use App\Pn_notice_scan;
+use App\Pn_notice_count;
 use Illuminate\Http\Request;
 use Session;
 use DB;
@@ -79,24 +83,31 @@ class NoticeController extends Controller
         // $date_of_notice = '2017-10-25';
         $notice_count = 0;
         $i=1;
+        $notice_user_count = 0;
 
-        $newspapers = DB::select("select E.*, case when F.no_of_notices>0 then F.no_of_notices 
-                                    when E.no_notice = 'No Notice' then 'No Notice' else '0' end as notice_count from 
+
+        $newspapers = DB::select("select E.*, F.non_relevant_notice_count, case when F.relevant_notice_count>0 then F.relevant_notice_count 
+                                    when E.no_notice = 'No Notice' then 'No Notice' else '0' end as relevant_notice_count from 
                                     (select C.*, case when D.id is not null then 'No Notice' else '' end as no_notice from 
-                                    (select A.*, B.id as notice_id, B.fk_newspaper_id, B.notice_title, B.address, 
+                                    (select A.*, B.id as notice_id, B.fk_newspaper_id, B.notice_title, B.address, B.name, 
                                         '".$date_of_notice."' as date_of_notice, B.updated_at from 
                                     (select id, paper_name, language, e_paper, frequency, area from pn_newspapers where status = 'approved') A 
                                     left join 
-                                    (select id, fk_newspaper_id, notice_title, address, updated_at from pn_notices where status = 'approved' and 
-                                        date(date_of_notice) = date('".$date_of_notice."')) B 
+                                    (select p.id, p.fk_newspaper_id, p.notice_title, p.address, F.name , p.updated_at from pn_notices p
+                                        left join group_users F on (p.created_by = F.gu_id)
+                                         where p.status = 'approved' and 
+                                        date(p.date_of_notice) = date('".$date_of_notice."')) B 
                                     on (A.id = B.fk_newspaper_id)) C 
                                     left join 
                                     (select id, fk_newspaper_id, date_of_notice from pn_no_notices where status = 'approved' and 
                                         date(date_of_notice) = date('".$date_of_notice."')) D 
                                     on (C.id = D.fk_newspaper_id and C.date_of_notice = D.date_of_notice)) E 
                                     left join 
-                                    (select fk_newspaper_id, count(id) as no_of_notices from pn_notices where status = 'approved' and 
-                                        date(date_of_notice) = date('".$date_of_notice."') group by fk_newspaper_id) F 
+                                    (select fk_newspaper_id, ifnull(notice_count,0) as notice_count, 
+                                        ifnull(non_relevant_notice_count,0) as non_relevant_notice_count, 
+                                        ifnull(notice_count,0)-ifnull(non_relevant_notice_count,0) as relevant_notice_count 
+                                        from pn_notice_counts 
+                                        where status = 'approved' and date(date_of_notice) = date('".$date_of_notice."')) F 
                                     on (E.id = F.fk_newspaper_id) 
                                     order by E.paper_name, E.updated_at desc");
         $rows = '';
@@ -118,20 +129,24 @@ class NoticeController extends Controller
                                     <div>'.$data->frequency.'</div>
                                 </td>
                                 <td class="table-text">
-                                    <div>'.$data->area.'</div>
+                                    <div>'.$data->non_relevant_notice_count.'</div>
                                 </td>
                                 <td class="table-text">
-                                    <div>'.$data->notice_count.'</div>
+                                    <div>'.$data->relevant_notice_count.'</div>
                                 </td>
                                 <td class="table-text">
                                     <div>'.$data->notice_title.'</div>
                                 </td>
                                 <td class="table-text">
                                     <div>'.$data->address.'</div>
+                                </td>
+                                <td class="table-text">
+                                    <div>'.$data->name.'</div>
                                 </td>'.
                                 (isset($data->notice_id)?
                                     '<td>
                                         <button class="label label-success btn_submit" id="submit_'.$data->id.'" type="submit" onClick="get_newspaper_id(this)">Add</button>
+                                        <button type="button" id="non_relevant_'.$data->id.'" class="label label-info" onClick="show_modal2(this)">Non Relevant</button>
                                         <a href="'.url('index.php/notice/details/'.$data->notice_id).'" class="label label-info">Details</a>
                                         <a href="'.url('index.php/notice/edit/'.$data->notice_id).'" class="label label-warning">Edit</a>
                                         <a href="'.url('index.php/notice/map/'.$data->notice_id).'" class="label label-primary">Map Notice</a>
@@ -139,10 +154,11 @@ class NoticeController extends Controller
                                     </td>':
                                     '<td>
                                         <button class="label label-success btn_submit" id="submit_'.$data->id.'" type="submit" onClick="get_newspaper_id(this)">Add</button>'.
-                                        (($data->notice_count!="No Notice")?
+                                        (($data->relevant_notice_count!="No Notice")?
                                         '<button class="label label-danger btn_submit" id="set_notice_'.$data->id.'" type="submit" onClick="set_notice(this)">No Notice</button>':
                                         '').
-                                    '</td>'
+                                        '<button type="button" id="non_relevant_'.$data->id.'" class="label label-info" onClick="show_modal2(this)">Non Relevant</button>
+                                    </td>'
                                 ).'
                             </tr>';
 
@@ -161,6 +177,97 @@ class NoticeController extends Controller
         $result['rows2'] = $rows2;
         $result['total_notice_count'] = $notice_count;
 
+         $newspapers_addedby = DB::select("select count(id) as count
+                                    from  pn_notices where status = 'approved' and 
+                                    date(date_of_notice) = date('".$date_of_notice."') and created_by=".auth()->user()->gu_id);
+          
+        /*  foreach($newspapers_addedby as $data){
+            if(isset($data->created_by) && $data->created_by==auth()->user()->gu_id){
+                $notice_user_count = $notice_user_count + 1;
+            }
+          }
+           */
+
+        $result['notice_user_count'] = $newspapers_addedby[0]->count;
+
+        echo json_encode($result);
+    }
+
+    public function get_scan(Request $request){
+        $data = $request->all();
+        $date_of_notice = $this->FormatDate($data['date_of_notice']);
+        $fk_newspaper_id = $data['fk_newspaper_id'];
+        $page_number = $data['page_number'];
+
+        $cond = '';
+
+        if($date_of_notice!=''){
+            $cond = $cond . " and A.date_of_notice = '$date_of_notice'";
+        }
+        if($fk_newspaper_id!=''){
+            $cond = $cond . " and A.fk_newspaper_id = '$fk_newspaper_id'";
+        }
+        if($page_number!=''){
+            $cond = $cond . " and A.page_number = '$page_number'";
+        }
+
+        $scan_data = DB::select("select A.*, B.paper_name from pn_notice_scans A left join pn_newspapers B on (A.fk_newspaper_id=B.id) 
+                                where A.status = 'approved'" . $cond);
+
+        $rows = '';
+        $i = 0;
+        foreach($scan_data as $data){
+            $rows = $rows . '<tr>
+                                <td class="table-text">
+                                    <div>'.++$i.'</div>
+                                </td>
+                                <td class="table-text">
+                                    <div>'.$data->date_of_notice.'</div>
+                                </td>
+                                <td class="table-text">
+                                    <div>'.$data->paper_name.'</div>
+                                </td>
+                                <td class="table-text">
+                                    <div>'.$data->page_number.'</div>
+                                </td>
+                                <td class="table-text">
+                                    <div>'.$data->section.'</div>
+                                </td>
+                                <td>
+                                    <input type="hidden" id="scan_image_'.$i.'_file" name="scan_image" value="'.$data->notice_file.'" />
+                                    <button type="button" id="scan_image_'.$i.'" class="label label-success" onClick="cropScanImage(this);">Select</button>
+                                </td>
+                            </tr>';
+        }
+
+        $result['rows'] = $rows;
+        echo json_encode($result);
+    }
+
+    public function set_scan(Request $request){
+        $data = $request->all();
+        $imagedata = $data['imagedata'];
+        if(isset($imagedata)){
+            // $imageName = 'Scan_' . date('dmYHis') . '.' . $imagedata->getClientOriginalExtension();
+            // $imagePath = base_path() . '/public/uploads/scans/temp/';
+            // $imagedata->move($imagePath, $imageName);
+
+            // define('UPLOAD_DIR', base_path() . '/public/uploads/scans/temp/');
+            define('UPLOAD_DIR', base_path() . '/public/uploads/scans/temp/');
+            $image_parts = explode(";base64,", $imagedata);
+            $image_base64 = base64_decode($image_parts[1]);
+
+            // $file = UPLOAD_DIR . uniqid() . '.png';
+            $imageName = 'Scan_' . date('dmYHis') . '.png';
+            $file = UPLOAD_DIR . $imageName;
+
+            // $imageName = 'Scan_' . date('dmYHis') . '.png';
+            // $imagePath = base_path() . '/public/uploads/scans/temp/';
+            // $image_base64->move($imagePath, $imageName);
+
+            file_put_contents($file, $image_base64);
+        }
+        $result['imageName'] = $imageName;
         echo json_encode($result);
     }
 
@@ -169,11 +276,11 @@ class NoticeController extends Controller
         $access = $user->get_access();
         if(isset($access['Notices'])) {
             if($access['Notices']['r_view']=='1' || $access['Notices']['r_insert']=='1' || $access['Notices']['r_edit']=='1' || $access['Notices']['r_delete']=='1' || $access['Notices']['r_approvals']=='1' || $access['Notices']['r_export']=='1') {
-                $notice = Pn_notice::with(array(
-                                    'Pn_newspaper'=>function($query){$query->select('id','paper_name');},
-                                    'Pn_notice_type'=>function($query){$query->select('id','notice_type');}
-                                    ))->orderBy('updated_at','desc')->get();
-                return view('notice.index', ['access' => $access, 'notice' => $notice]);
+                // $notice = Pn_notice::with(array(
+                //                     'Pn_newspaper'=>function($query){$query->select('id','paper_name');},
+                //                     'Pn_notice_type'=>function($query){$query->select('id','notice_type');}
+                //                     ))->orderBy('updated_at','desc')->get();
+                return view('notice.index', ['access' => $access]);
             } else {
                 return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Notice', 'msg' => 'You donot have access to this page.']);
             }
@@ -271,12 +378,14 @@ class NoticeController extends Controller
                 $property_no_detail = Pn_notice_property_no_detail::where('fk_notice_id', $id)->get();
                 $location_detail = Pn_notice_location_detail::where('fk_notice_id', $id)->get();
                 $certificate_no_detail = Pn_notice_certificate_no_detail::where('fk_notice_id', $id)->get();
+                $othername = Pn_notice_othername::where('fk_notice_id', $id)->get();
                 return view('notice.details', ['access' => $access, 'data' => $data, 'legal_owner_name' => $legal_owner_name, 
                                                 'purchased_from' => $purchased_from, 'company_name' => $company_name, 
                                                 'guarantor' => $guarantor, 'property_no_detail' => $property_no_detail, 
                                                 'location_detail' => $location_detail, 'certificate_no_detail' => $certificate_no_detail, 
                                                 'newspaper_list' => $newspaper_list, 'notice_type_list' => $notice_type_list, 
                                                 'property_no_type_list' => $property_no_type_list, 'location_type_list' => $location_type_list, 
+                                                'othername' => $othername, 
                                                 'certificate_no_type_list' => $certificate_no_type_list]);
             } else {
                 return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Notice', 'msg' => 'You donot have access to this page.']);
@@ -304,12 +413,14 @@ class NoticeController extends Controller
                 $property_no_detail = Pn_notice_property_no_detail::where('fk_notice_id', $id)->get();
                 $location_detail = Pn_notice_location_detail::where('fk_notice_id', $id)->get();
                 $certificate_no_detail = Pn_notice_certificate_no_detail::where('fk_notice_id', $id)->get();
+                $othername = Pn_notice_othername::where('fk_notice_id', $id)->get();
                 return view('notice.details', ['access' => $access, 'data' => $data, 'legal_owner_name' => $legal_owner_name, 
                                                 'purchased_from' => $purchased_from, 'company_name' => $company_name, 
                                                 'guarantor' => $guarantor, 'property_no_detail' => $property_no_detail, 
                                                 'location_detail' => $location_detail, 'certificate_no_detail' => $certificate_no_detail, 
                                                 'newspaper_list' => $newspaper_list, 'notice_type_list' => $notice_type_list, 
                                                 'property_no_type_list' => $property_no_type_list, 'location_type_list' => $location_type_list, 
+                                                'othername' => $othername,
                                                 'certificate_no_type_list' => $certificate_no_type_list]);
             } else {
                 return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Notice', 'msg' => 'You donot have access to this page.']);
@@ -337,12 +448,14 @@ class NoticeController extends Controller
                 $property_no_detail = Pn_notice_property_no_detail::where('fk_notice_id', $id)->get();
                 $location_detail = Pn_notice_location_detail::where('fk_notice_id', $id)->get();
                 $certificate_no_detail = Pn_notice_certificate_no_detail::where('fk_notice_id', $id)->get();
+                $othername = Pn_notice_othername::where('fk_notice_id', $id)->get();
                 return view('notice.details', ['access' => $access, 'data' => $data, 'legal_owner_name' => $legal_owner_name, 
                                                 'purchased_from' => $purchased_from, 'company_name' => $company_name, 
                                                 'guarantor' => $guarantor, 'property_no_detail' => $property_no_detail, 
                                                 'location_detail' => $location_detail, 'certificate_no_detail' => $certificate_no_detail, 
                                                 'newspaper_list' => $newspaper_list, 'notice_type_list' => $notice_type_list, 
                                                 'property_no_type_list' => $property_no_type_list, 'location_type_list' => $location_type_list, 
+                                                'othername' => $othername, 
                                                 'certificate_no_type_list' => $certificate_no_type_list]);
             } else {
                 return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Notice', 'msg' => 'You donot have access to this page.']);
@@ -1825,7 +1938,7 @@ class NoticeController extends Controller
                 $data3 = array();
                 $data3['fk_property_id'] = $data->id;
                 $data3['fk_notice_id'] = $data2->id;
-                $user_id = '1';
+                $user_id = auth()->user()->gu_id;;
                 $data3['updated_by'] = $user_id;
                 $data3['status'] = 'pending';
                 $data3['created_by'] = $user_id;
@@ -1836,74 +1949,89 @@ class NoticeController extends Controller
 
     public function match_criteria($criteria1, $criteria2){
         $bl_criteria = false;
+        $matching_criteria = '';
 
         if(stripos($criteria1, $criteria2)!==false || stripos($criteria2, $criteria1)!==false){
             $bl_criteria = true;
+            $matching_criteria = 'Whole word match.';
             goto Label1;
         }
         if(is_numeric($criteria1)==false && is_numeric($criteria2)==false){
             if(metaphone($criteria1)==metaphone($criteria2) || soundex($criteria1)==soundex($criteria2)){
                 $bl_criteria = true;
+                $matching_criteria = 'Whole word sounds like match.';
                 goto Label1;
             }
         }
 
+        $criteria1 = preg_replace('/[^A-Za-z0-9]/', '', $criteria1);
+        $criteria2 = preg_replace('/[^A-Za-z0-9]/', '', $criteria2);
+
         $i = 0;
-        $substr = substr($criteria1, $i, 5);
-        while (strlen($substr)>=5) {
+        $substr = substr($criteria1, $i, 7);
+        while (strlen($substr)>=7) {
             if(stripos($criteria2, $substr)!==false){
                 $bl_criteria = true;
+                $matching_criteria = 'Seven characters match.';
                 goto Label1;
             }
             $i = $i + 1;
-            $substr = substr($criteria1, $i, 5);
+            $substr = substr($criteria1, $i, 7);
         }
 
         $i = 0;
-        $substr = substr($criteria2, $i, 5);
-        while (strlen($substr)>=5) {
+        $substr = substr($criteria2, $i, 7);
+        while (strlen($substr)>=7) {
             if(stripos($criteria1, $substr)!==false){
                 $bl_criteria = true;
+                $matching_criteria = 'Seven characters match.';
                 goto Label1;
             }
             $i = $i + 1;
-            $substr = substr($criteria2, $i, 5);
+            $substr = substr($criteria2, $i, 7);
         }
 
-        $i = 0;
-        $substr1 = substr($criteria1, $i, 5);
-        $substr2 = substr($criteria2, $i, 5);
-        while (strlen($substr1)>=5 && strlen($substr2)>=5) {
-            if(is_numeric($substr1)==false && is_numeric($substr2)==false){
-                if(metaphone($substr1)==metaphone($substr2) || soundex($substr1)==soundex($substr2)){
-                    $bl_criteria = true;
-                    goto Label1;
-                }
-            }
+        // $i = 0;
+        // $substr1 = substr($criteria1, $i, 5);
+        // $substr2 = substr($criteria2, $i, 5);
+        // while (strlen($substr1)>=5 && strlen($substr2)>=5) {
+        //     if(is_numeric($substr1)==false && is_numeric($substr2)==false){
+        //         // if(metaphone($substr1)==metaphone($substr2) || soundex($substr1)==soundex($substr2)){
+        //         if(soundex($substr1)==soundex($substr2)){
+        //             $bl_criteria = true;
+        //             goto Label1;
+        //         }
+        //     }
 
-            $i = $i + 1;
-            $substr1 = substr($criteria1, $i, 5);
-            $substr2 = substr($criteria2, $i, 5);
-        }
+        //     $i = $i + 1;
+        //     $substr1 = substr($criteria1, $i, 5);
+        //     $substr2 = substr($criteria2, $i, 5);
+        // }
 
         Label1:
 
-        return $bl_criteria;
+        return $matching_criteria;
     }
 
-    public function match_no($criteria1, $criteria2){
+    public function match_no_old($criteria1, $criteria2){
         $bl_criteria = false;
 
-        $check_arr1 = preg_replace('/[^A-Za-z0-9]/', '', $criteria1);
-        $check_arr2 = preg_replace('/[^A-Za-z0-9]/', '', $criteria2);
+        // $check_arr1 = preg_replace('/[^A-Za-z0-9]/', '', $criteria1);
+        // $check_arr2 = preg_replace('/[^A-Za-z0-9]/', '', $criteria2);
+
+        $check_arr1 = preg_replace('/[^0-9]/', '', $criteria1);
+        $check_arr2 = preg_replace('/[^0-9]/', '', $criteria2);
 
         if(stripos($check_arr1, $check_arr2)!==false || stripos($check_arr2, $check_arr1)!==false){
             $bl_criteria = true;
             goto Label1;
         }
 
-        $check_arr1 = preg_replace('/[^A-Za-z0-9\,]/', '', $criteria1);
-        $check_arr2 = preg_replace('/[^A-Za-z0-9\,]/', '', $criteria2);
+        // $check_arr1 = preg_replace('/[^A-Za-z0-9\,]/', '', $criteria1);
+        // $check_arr2 = preg_replace('/[^A-Za-z0-9\,]/', '', $criteria2);
+
+        $check_arr1 = preg_replace('/[^0-9\,]/', '', $criteria1);
+        $check_arr2 = preg_replace('/[^0-9\,]/', '', $criteria2);
 
         $check_arr = explode(',', $check_arr1);
         foreach ($check_arr as $check_val) {
@@ -1930,6 +2058,54 @@ class NoticeController extends Controller
         return $bl_criteria;
     }
 
+    public function get_no($criteria){
+        $result='';
+        preg_match('/\d+/', $criteria, $matches);
+        if(count($matches)>0) $result=$matches[0];
+        return $result;
+    }
+
+    public function match_no($criteria1, $criteria2){
+        $bl_criteria = false;
+        $check_arr1 = array();
+        $check_arr2 = array();
+        $matching_criteria = '';
+
+        $j=0;
+        $check_arr = explode(',', $criteria1);
+        for($i=0; $i<count($check_arr); $i++){
+            $result=$this->get_no($check_arr[$i]);
+            if($result!=''){
+                $check_arr1[$j]=$result;
+                $j++;
+            }
+        }
+
+        $j=0;
+        $check_arr = explode(',', $criteria2);
+        for($i=0; $i<count($check_arr); $i++){
+            $result=$this->get_no($check_arr[$i]);
+            if($result!=''){
+                $check_arr2[$j]=$result;
+                $j++;
+            }
+        }
+
+        for($i=0; $i<count($check_arr1); $i++){
+            for($j=0; $j<count($check_arr2); $j++){
+                if($check_arr1[$i]==$check_arr2[$j]){
+                    $bl_criteria = true;
+                    $matching_criteria = 'No - '.$check_arr1[$i].' match.';
+                    goto Label1;
+                }
+            }
+        }
+
+        Label1:
+
+        return $bl_criteria;
+    }
+
     public function match_property_notice($notice_id){
         // $notice_id = '1';
         $notice = Pn_notice::where('id',$notice_id)->orderBy('updated_at','desc')->get();
@@ -1937,7 +2113,7 @@ class NoticeController extends Controller
         
         // echo count($notice);
         // echo '<br/>';
-
+        
         foreach($notice as $data){
             $cond = "";
 
@@ -1953,10 +2129,21 @@ class NoticeController extends Controller
             $sql = "select company_name from pn_notice_company_names where fk_notice_id = '".$data->id."'";
             $company_name = DB::select($sql);
 
+            $sql = "select purchased_from from pn_notice_purchased_froms where fk_notice_id = '".$data->id."'";
+            $purchased_from = DB::select($sql);
+
             $sql = "select A.* from pn_properties A where A.status = 'approved' and 
                     A.id not in (select distinct fk_property_id from pn_property_notices where fk_notice_id='".$data->id."')";
             $property = DB::select($sql);
             foreach($property as $data1){
+
+                // echo 'Notice Id - ' . $data->id;
+                // echo '<br/>';
+
+                // echo 'Property Id - ' . $data1->id;
+                // echo '<br/>';
+                $matching_criteria_array = [];
+
                 $sql = "select fk_location_type_id, location from pn_property_location_details where fk_property_id = '".$data1->id."'";
                 $location1 = DB::select($sql);
 
@@ -1968,9 +2155,14 @@ class NoticeController extends Controller
 
                 $sql = "select company_name from pn_property_company_names where fk_property_id = '".$data1->id."'";
                 $company_name1 = DB::select($sql);
+                
+                $sql = "select purchased_from from pn_property_purchased_froms where fk_property_id = '".$data1->id."'";
+                $purchased_from1 = DB::select($sql);
 
-                $bl_location = false;
+                $bl_city = false;
                 $city_exist = false;
+                
+                $bl_location = false;
                 $pincode_exist = false;
                 $location_exist = false;
                 // $district_exist = false;
@@ -2005,25 +2197,166 @@ class NoticeController extends Controller
                 $bl_owner_names = false;
                 $legal_owner_name_exist = false;
                 $company_name_exist = false;
+                $purchased_from_exist = false;
 
-                $notice_city = preg_replace('/[^A-Za-z0-9]/', '', $data->city);
-                $property_city = preg_replace('/[^A-Za-z0-9]/', '', $data1->city);
+                foreach($legal_owner_name as $data2){
+                    $notice_legal_owner_name = preg_replace('/[^A-Za-z0-9 ]/', '', $data2->legal_owner_name);
+
+                    if(isset($notice_legal_owner_name) && $notice_legal_owner_name!=''){
+                        foreach($legal_owner_name1 as $data3){
+                            $property_legal_owner_name = preg_replace('/[^A-Za-z0-9 ]/', '', $data3->legal_owner_name);
+                            if(isset($property_legal_owner_name) && $property_legal_owner_name!=''){
+                                // echo 'legal_owner_name_exist';
+                                // echo '<br/>';
+                                
+                                $legal_owner_name_exist = true;
+                                $matching_criteria = $this->match_criteria($notice_legal_owner_name, $property_legal_owner_name);
+                                if($matching_criteria!=''){
+                                    $bl_owner_names = true;
+
+                                    /* $match_criteria_val .= 'Notice Legal Owner Name = '.$notice_legal_owner_name.' ,  <br>';
+                                    $match_criteria_val .= 'Property Legal Owner Name = '.$property_legal_owner_name.' ,  <br>';*/
+                                    $matching_criteria_array[] = array("parameter"=>'Owner Name',"notice"=>$notice_legal_owner_name,"property"=>$property_legal_owner_name,"matching_criteria"=>$matching_criteria);
+                                    // echo 'Legal Owner Name Matched';
+                                    // echo '<br/>';
+
+                                    // $row = $row . '<td>'.$notice_legal_owner_name.'</td>';
+                                    // $row = $row . '<td>'.$property_legal_owner_name.'</td>';
+                                    // $row = $row . '<td>Legal Owner Name Matched</td>';
+
+                                    goto Insert_Record;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                foreach($company_name as $data2){
+                    $notice_company_name = preg_replace('/[^A-Za-z0-9 ]/', '', $data2->company_name);
+
+                    if(isset($notice_company_name) && $notice_company_name!=''){
+                        foreach($company_name1 as $data3){
+                            $property_company_name = preg_replace('/[^A-Za-z0-9 ]/', '', $data3->company_name);
+                            if(isset($property_company_name) && $property_company_name!=''){
+                                // echo 'company_name_exist';
+                                // echo '<br/>';
+                                
+                                $company_name_exist = true;
+                                $matching_criteria = $this->match_criteria($notice_company_name, $property_company_name);
+                                if($matching_criteria!=''){
+                                    $bl_owner_names = true;
+
+                                    /*$match_criteria_val .= 'Notice Company Name  = '.$notice_company_name.' , <br>';
+                                    $match_criteria_val .= 'Property Company Name  = '.$property_company_name.' , <br>';*/
+
+                                    $matching_criteria_array[] = array("parameter"=>'Company Name',"notice"=>$notice_company_name,"property"=>$property_company_name,"matching_criteria"=>$matching_criteria);
+                                    // echo 'Company Name Matched';
+                                    // echo '<br/>';
+
+                                    // $row = $row . '<td>'.$notice_company_name.'</td>';
+                                    // $row = $row . '<td>'.$property_company_name.'</td>';
+                                    // $row = $row . '<td>Company Name Matched</td>';
+
+                                    goto Insert_Record;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                foreach($purchased_from as $data2){
+                    $notice_purchased_from = preg_replace('/[^A-Za-z0-9 ]/', '', $data2->purchased_from);
+
+                    if(isset($notice_purchased_from) && $notice_purchased_from!=''){
+                        foreach($purchased_from1 as $data3){
+                            $property_purchased_from = preg_replace('/[^A-Za-z0-9 ]/', '', $data3->purchased_from);
+                            if(isset($property_purchased_from) && $property_purchased_from!=''){
+                                // echo 'purchased_from_exist';
+                                // echo '<br/>';
+                                
+                                $purchased_from_exist = true;
+                                $matching_criteria = $this->match_criteria($notice_purchased_from, $property_purchased_from);
+                                if($matching_criteria!=''){
+                                    $bl_owner_names = true;
+
+                                    /*$match_criteria_val .= 'Notice Purchase From = '.$notice_purchased_from.' , <br>';
+                                    $match_criteria_val .= 'Property Purchase From = '.$property_purchased_from.' , <br>';*/
+
+                                    $matching_criteria_array[] = array("parameter"=>'Purchase From',"notice"=>$notice_purchased_from,"property"=>$property_purchased_from,"matching_criteria"=>$matching_criteria);
+                                    // echo 'Company Name Matched';
+                                    // echo '<br/>';
+
+                                    // $row = $row . '<td>'.$notice_purchased_from.'</td>';
+                                    // $row = $row . '<td>'.$property_purchased_from.'</td>';
+                                    // $row = $row . '<td>Purchased From Matched</td>';
+
+                                    goto Insert_Record;
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+
+                $notice_city = preg_replace('/[^A-Za-z0-9 ]/', '', $data->city);
+                $property_city = preg_replace('/[^A-Za-z0-9 ]/', '', $data1->city);
                 if(isset($notice_city) && $notice_city!=''){
                     if(isset($property_city) && $property_city!=''){
+                        // echo 'city_exist';
+                        // echo '<br/>';
+
                         $city_exist = true;
-                        $bl_location = $this->match_criteria($notice_city, $property_city);
-                        if($bl_location==true){
-                            goto Check_Property_Nos;
+                        $matching_criteria = $this->match_criteria($notice_city, $property_city);
+                        if($matching_criteria!=''){
+                            $bl_city = true;
+
+                            /*$match_criteria_val .= 'Notice City = '.$notice_city.' , <br>';
+                            $match_criteria_val .= 'Property City = '.$property_city.' , <br>';*/
+
+                            $matching_criteria_array[] = array("parameter"=>'City',"notice"=>$notice_city,"property"=>$property_city,"matching_criteria"=>$matching_criteria);
+
+
+                            // echo $notice_city;
+                            // echo '<br/>';
+                            // echo $property_city;
+                            // echo '<br/>';
+                            // echo 'City Matched 1';
+                            // echo '<br/>';
+
+                            // $row = $row . '<td>'.$notice_city.'</td>';
+                            // $row = $row . '<td>'.$property_city.'</td>';
+                            // $row = $row . '<td>City Matched 1</td>';
+
+                            goto Check_Property_Location;
                         }
                     }
 
                     foreach($location1 as $data3){
-                        $property_location = preg_replace('/[^A-Za-z0-9]/', '', $data3->location);
-                        if(isset($property_location) && $property_location!=''){
-                            $city_exist = true;
-                            $bl_location = $this->match_criteria($notice_city, $property_location);
-                            if($bl_location==true){
-                                goto Check_Property_Nos;
+                        if($data3->fk_location_type_id=='4'){
+                            $property_location = preg_replace('/[^A-Za-z0-9 ]/', '', $data3->location);
+                            if(isset($property_location) && $property_location!=''){
+                                // echo 'city_exist';
+                                // echo '<br/>';
+
+                                $city_exist = true;
+                                $matching_criteria = $this->match_criteria($notice_city, $property_location);
+                                if($matching_criteria!=''){
+                                    $bl_city = true;
+
+                                    /*$match_criteria_val .= 'Notice City = '.$notice_city.' , <br>';
+                                    $match_criteria_val .= 'Property City = '.$property_location.' , <br>';*/
+
+                                    $matching_criteria_array[] = array("parameter"=>'City',"notice"=>$notice_city,"property"=>$property_location,"matching_criteria"=>$matching_criteria);
+                                    // echo 'City Matched 2';
+                                    // echo '<br/>';
+
+                                    // $row = $row . '<td>'.$notice_city.'</td>';
+                                    // $row = $row . '<td>'.$property_location.'</td>';
+                                    // $row = $row . '<td>City Matched 2</td>';
+
+                                    goto Check_Property_Location;
+                                }
                             }
                         }
                     }
@@ -2031,44 +2364,116 @@ class NoticeController extends Controller
 
                 if(isset($property_city) && $property_city!=''){
                     if(isset($notice_city) && $notice_city!=''){
+                        // echo 'city_exist';
+                        // echo '<br/>';
+
                         $city_exist = true;
-                        $bl_location = $this->match_criteria($property_city, $notice_city);
-                        if($bl_location==true){
-                            goto Check_Property_Nos;
+                        $matching_criteria = $this->match_criteria($property_city, $notice_city);
+                        if($matching_criteria!=''){
+                            $bl_city = true;
+
+                            /* $match_criteria_val .= 'Notice City = '.$notice_city.' , <br>';
+                              $match_criteria_val .= 'Property City = '.$property_city.' , <br>';
+                            */
+                              $matching_criteria_array[] = array("parameter"=>'City',"notice"=>$notice_city,"property"=>$property_city,"matching_criteria"=>$matching_criteria);
+                            // echo 'City Matched 3';
+                            // echo '<br/>';
+
+                            // $row = $row . '<td>'.$property_city.'</td>';
+                            // $row = $row . '<td>'.$notice_city.'</td>';
+                            // $row = $row . '<td>City Matched 3</td>';
+
+                            goto Check_Property_Location;
                         }
                     }
 
                     foreach($location as $data2){
-                        $property_location = preg_replace('/[^A-Za-z0-9]/', '', $data2->location);
-                        if(isset($property_location) && $property_location!=''){
-                            $city_exist = true;
-                            $bl_location = $this->match_criteria($property_city, $property_location);
-                            if($bl_location==true){
-                                goto Check_Property_Nos;
+                        if($data2->fk_location_type_id=='4'){
+                            $property_location = preg_replace('/[^A-Za-z0-9 ]/', '', $data2->location);
+                            if(isset($property_location) && $property_location!=''){
+                                // echo 'city_exist';
+                                // echo '<br/>';
+                                
+                                $city_exist = true;
+                                $matching_criteria = $this->match_criteria($property_city, $property_location);
+                                if($matching_criteria!=''){
+                                    $bl_city = true;
+                                    
+                                    /*$match_criteria_val .= 'Property City = '.$property_city.' , <br>';
+
+                                    $match_criteria_val .= 'Property Location = '.$property_location.' , <br>';*/
+
+                                    $matching_criteria_array[] = array("parameter"=>'City',"notice"=>$property_city,"property"=>$property_location,"matching_criteria"=>$matching_criteria);
+                                    // echo 'City Matched 4';
+                                    // echo '<br/>';
+
+                                    // $row = $row . '<td>'.$property_city.'</td>';
+                                    // $row = $row . '<td>'.$property_location.'</td>';
+                                    // $row = $row . '<td>City Matched 4</td>';
+
+                                    goto Check_Property_Location;
+                                }
                             }
                         }
                     }
                 }
-                
+
+                Check_Property_Location:
+
                 $notice_pincode = preg_replace('/[^A-Za-z0-9]/', '', $data->pincode);
                 $property_pincode = preg_replace('/[^A-Za-z0-9]/', '', $data1->pincode);
                 if(isset($notice_pincode) && $notice_pincode!='' && isset($property_pincode) && $property_pincode!=''){
+                    // echo 'pincode_exist';
+                    // echo '<br/>';
+                    
                     $pincode_exist = true;
-                    $bl_location = $this->match_criteria($notice_pincode, $property_pincode);
-                    if($bl_location==true){
+                    $matching_criteria = $this->match_no($notice_pincode, $property_pincode);
+                    if($matching_criteria!=''){
+                        $bl_location = true;
+                       
+                        /* $match_criteria_val .= 'Notice Pincode = '.$notice_pincode.' , <br>';
+
+                         $match_criteria_val .= 'Property Pincode = '.$property_pincode.' , <br>';*/
+                        $matching_criteria_array[] = array("parameter"=>'Pincode',"notice"=>$notice_pincode,"property"=>$property_pincode,"matching_criteria"=>$matching_criteria);
+                        // echo 'Pincode Matched';
+                        // echo '<br/>';
+
+                        // $row = $row . '<td>'.$notice_pincode.'</td>';
+                        // $row = $row . '<td>'.$property_pincode.'</td>';
+                        // $row = $row . '<td>Pincode Matched</td>';
+
                         goto Check_Property_Nos;
                     }
                 }
                 
                 foreach($location as $data2){
-                    $notice_location = preg_replace('/[^A-Za-z0-9]/', '', $data2->location);
+                    $notice_location = preg_replace('/[^A-Za-z0-9 ]/', '', $data2->location);
                     if(isset($notice_location) && $notice_location!=''){
                         foreach($location1 as $data3){
-                            $property_location = preg_replace('/[^A-Za-z0-9]/', '', $data3->location);
+                            $property_location = preg_replace('/[^A-Za-z0-9 ]/', '', $data3->location);
                             if(isset($property_location) && $property_location!=''){
+                                // echo 'location_exist';
+                                // echo '<br/>';
+                                
                                 $location_exist = true;
-                                $bl_location = $this->match_criteria($notice_location, $property_location);
-                                if($bl_location==true){
+                                $matching_criteria = $this->match_criteria($notice_location, $property_location);
+                                if($matching_criteria!=''){
+                                    $bl_location = true;
+
+                                    /* $match_criteria_val .= 'Notice Location = '.$notice_location.' , <br>';
+
+                                    $match_criteria_val .= 'Property Location = '.$property_location.' , <br>';*/
+
+                                    $matching_criteria_array[] = array("parameter"=>'Location',"notice"=>$notice_location,"property"=>$property_location,"matching_criteria"=>$matching_criteria);
+
+
+                                    // echo 'Location Matched';
+                                    // echo '<br/>';
+
+                                    // $row = $row . '<td>'.$notice_location.'</td>';
+                                    // $row = $row . '<td>'.$property_location.'</td>';
+                                    // $row = $row . '<td>Location Matched</td>';
+
                                     goto Check_Property_Nos;
                                 }
                             }
@@ -2085,9 +2490,27 @@ class NoticeController extends Controller
                         foreach($property_no1 as $data3){
                             $property_property_no = $data3->property_no;
                             if(isset($property_property_no) && $property_property_no!=''){
+                                // echo 'property_no_exist';
+                                // echo '<br/>';
+                                
                                 $property_no_exist = true;
-                                $bl_property_nos = $this->match_no($notice_property_no, $property_property_no);
-                                if($bl_property_nos==true){
+                                $matching_criteria = $this->match_no($notice_property_no, $property_property_no);
+                                if($matching_criteria!=''){
+                                    $bl_property_nos = true;
+
+                                    /*
+                                    $match_criteria_val .= 'Notice Property Number = '.$notice_property_no.' , <br>';
+
+                                    $match_criteria_val .= 'Property - Property Number = '.$property_property_no.' , <br>';*/
+
+                                    $matching_criteria_array[] = array("parameter"=>'Property Number',"notice"=>$notice_property_no,"property"=>$property_property_no,"matching_criteria"=>$matching_criteria);
+                                    // echo 'Property No Matched';
+                                    // echo '<br/>';
+
+                                    // $row = $row . '<td>'.$notice_property_no.'</td>';
+                                    // $row = $row . '<td>'.$property_property_no.'</td>';
+                                    // $row = $row . '<td>Property No Matched</td>';
+
                                     goto Check_Property_Names;
                                 }
                             }
@@ -2097,103 +2520,177 @@ class NoticeController extends Controller
 
                 Check_Property_Names:
 
-                $notice_building_name = preg_replace('/[^A-Za-z0-9]/', '', $data->building_name);
-                $property_building_name = preg_replace('/[^A-Za-z0-9]/', '', $data1->building_name);
+                $notice_building_name = preg_replace('/[^A-Za-z0-9 ]/', '', $data->building_name);
+                $property_building_name = preg_replace('/[^A-Za-z0-9 ]/', '', $data1->building_name);
                 if(isset($notice_building_name) && $notice_building_name!='' && isset($property_building_name) && $property_building_name!=''){
+                    // echo 'building_name_exist';
+                    // echo '<br/>';
+                    
                     $building_name_exist = true;
-                    $bl_property_names = $this->match_criteria($notice_building_name, $property_building_name);
-                    if($bl_property_names==true){
+                    $matching_criteria = $this->match_criteria($notice_building_name, $property_building_name);
+
+                    if($matching_criteria!=''){
+                        $bl_property_names = true;
+
+                        /*$match_criteria_val .= 'Notice Building Name = '.$notice_building_name.' , <br>';
+
+                         $match_criteria_val .= 'Property Building Name= '.$property_building_name.' , <br>';*/
+
+                        $matching_criteria_array[] = array("parameter"=>'Building Name',"notice"=>$notice_building_name,"property"=>$property_building_name,"matching_criteria"=>$matching_criteria);
+                        // echo 'Building Name Matched 1';
+                        // echo '<br/>';
+
+                        // $row = $row . '<td>'.$notice_building_name.'</td>';
+                        // $row = $row . '<td>'.$property_building_name.'</td>';
+                        // $row = $row . '<td>Building Name Matched 1</td>';
+
                         goto Check_Owner_Names;
                     }
                 }
                 
-                $notice_building_name = preg_replace('/[^A-Za-z0-9]/', '', $data->building_name);
-                $property_society_name = preg_replace('/[^A-Za-z0-9]/', '', $data1->society_name);
+                $notice_building_name = preg_replace('/[^A-Za-z0-9 ]/', '', $data->building_name);
+                $property_society_name = preg_replace('/[^A-Za-z0-9 ]/', '', $data1->society_name);
                 if(isset($notice_building_name) && $notice_building_name!='' && isset($property_society_name) && $property_society_name!=''){
+                    // echo 'building_name_exist';
+                    // echo '<br/>';
+                    
                     $building_name_exist = true;
-                    $bl_property_names = $this->match_criteria($notice_building_name, $property_society_name);
-                    if($bl_property_names==true){
+                    $matching_criteria = $this->match_criteria($notice_building_name, $property_society_name);
+                    if($matching_criteria!=''){
+                        $bl_property_names = true;
+
+                        /*$match_criteria_val .= 'Notice Society Name = '.$notice_building_name.' , <br>';
+
+                        $match_criteria_val .= 'Property Society Name = '.$property_society_name.' , <br>';*/
+
+                        $matching_criteria_array[] = array("parameter"=>'Society Name',"notice"=>$notice_building_name,"property"=>$property_society_name,"matching_criteria"=>$matching_criteria);
+                        // echo 'Building Name Matched 2';
+                        // echo '<br/>';
+
+                        // $row = $row . '<td>'.$notice_building_name.'</td>';
+                        // $row = $row . '<td>'.$property_society_name.'</td>';
+                        // $row = $row . '<td>Building Name Matched 2</td>';
+
                         goto Check_Owner_Names;
                     }
                 }
                 
-                $notice_society_name = preg_replace('/[^A-Za-z0-9]/', '', $data->society_name);
-                $property_society_name = preg_replace('/[^A-Za-z0-9]/', '', $data1->society_name);
+                $notice_society_name = preg_replace('/[^A-Za-z0-9 ]/', '', $data->society_name);
+                $property_society_name = preg_replace('/[^A-Za-z0-9 ]/', '', $data1->society_name);
                 if(isset($notice_society_name) && $notice_society_name!='' && isset($property_society_name) && $property_society_name!=''){
+                    // echo 'society_name_exist';
+                    // echo '<br/>';
+                    
                     $society_name_exist = true;
-                    $bl_property_names = $this->match_criteria($notice_society_name, $property_society_name);
-                    if($bl_property_names==true){
+                    $matching_criteria = $this->match_criteria($notice_society_name, $property_society_name);
+                    if($matching_criteria!=''){
+                        $bl_property_names = true;
+
+                        /*$match_criteria_val .= 'Notice Society Name  = '.$notice_society_name.' , <br>';
+
+                        $match_criteria_val .= 'Property Society Name = '.$property_society_name.' , <br>';*/
+
+                        $matching_criteria_array[] = array("parameter"=>'Society Name',"notice"=>$notice_society_name,"property"=>$property_society_name,"matching_criteria"=>$matching_criteria);
+                        // echo 'Society Name Matched 1';
+                        // echo '<br/>';
+
+                        // $row = $row . '<td>'.$notice_society_name.'</td>';
+                        // $row = $row . '<td>'.$property_society_name.'</td>';
+                        // $row = $row . '<td>Society Name Matched 1</td>';
+
                         goto Check_Owner_Names;
                     }
                 }
                 
-                $notice_society_name = preg_replace('/[^A-Za-z0-9]/', '', $data->society_name);
-                $property_building_name = preg_replace('/[^A-Za-z0-9]/', '', $data1->building_name);
+                $notice_society_name = preg_replace('/[^A-Za-z0-9 ]/', '', $data->society_name);
+                $property_building_name = preg_replace('/[^A-Za-z0-9 ]/', '', $data1->building_name);
                 if(isset($notice_society_name) && $notice_society_name!='' && isset($property_building_name) && $property_building_name!=''){
+                    // echo 'society_name_exist';
+                    // echo '<br/>';
+                    
                     $society_name_exist = true;
-                    $bl_property_names = $this->match_criteria($notice_society_name, $property_building_name);
-                    if($bl_property_names==true){
+                    $matching_criteria = $this->match_criteria($notice_society_name, $property_building_name);
+                    if($matching_criteria!=''){
+                        $bl_property_names = true;
+                        
+                        /*$match_criteria_val .= 'Notice Society Name  = '.$notice_building_name.' , <br>';
+
+                        $match_criteria_val .= 'Property Building  Name = '.$property_building_name.' , <br>';*/
+
+                        $matching_criteria_array[] = array("parameter"=>'Society Name',"notice"=>$notice_society_name,"property"=>$property_building_name,"matching_criteria"=>$matching_criteria);
+                        // echo 'Society Name Matched 2';
+                        // echo '<br/>';
+
+                        // $row = $row . '<td>'.$notice_society_name.'</td>';
+                        // $row = $row . '<td>'.$property_building_name.'</td>';
+                        // $row = $row . '<td>Society Name Matched 2</td>';
+
                         goto Check_Owner_Names;
                     }
                 }
                 
                 Check_Owner_Names:
 
-                if($bl_location==false && $bl_property_nos==false && $bl_property_names==false){
-                    foreach($legal_owner_name as $data2){
-                        $notice_legal_owner_name = preg_replace('/[^A-Za-z0-9]/', '', $data2->legal_owner_name);
+                
 
-                        if(isset($notice_legal_owner_name) && $notice_legal_owner_name!=''){
-                            foreach($legal_owner_name1 as $data3){
-                                $property_legal_owner_name = preg_replace('/[^A-Za-z0-9]/', '', $data3->legal_owner_name);
-                                if(isset($property_legal_owner_name) && $property_legal_owner_name!=''){
-                                    $legal_owner_name_exist = true;
-                                    $bl_owner_names = $this->match_criteria($notice_legal_owner_name, $property_legal_owner_name);
-                                    if($bl_owner_names==true){
-                                        goto Insert_Record;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                // echo ($bl_location==true)?'Location - True':'Location - False';
+                // echo '<br/>';
+                // echo ($bl_property_nos==true)?'Property No - True':'Property No - False';
+                // echo '<br/>';
+                // echo ($bl_property_names==true)?'Property Name - True':'Property Name - False';
+                // echo '<br/>';
 
-                    foreach($company_name as $data2){
-                        $notice_company_name = preg_replace('/[^A-Za-z0-9]/', '', $data2->company_name);
+                // $row = $row . '<td>'.(($bl_city==true)?'City - True':'City - False').'</td>';
+                // $row = $row . '<td>'.(($bl_location==true)?'Location - True':'Location - False').'</td>';
+                // $row = $row . '<td>'.(($bl_property_nos==true)?'Property No - True':'Property No - False').'</td>';
+                // $row = $row . '<td>'.(($bl_property_names==true)?'Property Name - True':'Property Name - False').'</td>';
 
-                        if(isset($notice_company_name) && $notice_company_name!=''){
-                            foreach($company_name1 as $data3){
-                                $property_company_name = preg_replace('/[^A-Za-z0-9]/', '', $data3->company_name);
-                                if(isset($property_company_name) && $property_company_name!=''){
-                                    $company_name_exist = true;
-                                    $bl_owner_names = $this->match_criteria($notice_company_name, $property_company_name);
-                                    if($bl_owner_names==true){
-                                        goto Insert_Record;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                if($bl_city==true && $bl_location==true && ($bl_property_nos==true || $bl_property_names==true)){
+                    goto Insert_Record;
                 }
 
-                if($bl_location==false && $bl_property_nos==false && $bl_property_names==false){
+                if($bl_property_nos==true && $bl_property_names==true){
+                    goto Insert_Record;
+                }
+
+                if($bl_owner_names==false && $city_exist == false && $location_exist == false & $pincode_exist == false && $property_no_exist == false && $building_name_exist == false && $society_name_exist == false){
+
                     goto Next_Record;
                 }
 
-                if($location_exist == false && $city_exist == false && $pincode_exist == false){
+                if($city_exist == false){
+                    $bl_city = true;
+                }
+                if($location_exist == false && $pincode_exist == false){
                     $bl_location = true;
                 }
-                if($property_no_exist == false){
+                if($property_no_exist == false && $building_name_exist == false && $society_name_exist == false){
                     $bl_property_nos = true;
                 }
-                if($building_name_exist == false && $society_name_exist == false){
+                if($property_no_exist == false && $building_name_exist == false && $society_name_exist == false){
                     $bl_property_names = true;
                 }
 
-                if($bl_location==false || $bl_property_nos==false || $bl_property_names==false){
+                // echo ($bl_location==true)?'Location - True':'Location - False';
+                // echo '<br/>';
+                // echo ($bl_property_nos==true)?'Property No - True':'Property No - False';
+                // echo '<br/>';
+                // echo ($bl_property_names==true)?'Property Name - True':'Property Name - False';
+                // echo '<br/>';
+
+                // $row = $row . '<td>'.(($bl_city==true)?'City - True':'City - False').'</td>';
+                // $row = $row . '<td>'.(($bl_location==true)?'Location - True':'Location - False').'</td>';
+                // $row = $row . '<td>'.(($bl_property_nos==true)?'Property No - True':'Property No - False').'</td>';
+                // $row = $row . '<td>'.(($bl_property_names==true)?'Property Name - True':'Property Name - False').'</td>';
+
+                if($bl_city==false || $bl_location==false || ($bl_property_nos==false && $bl_property_names==false)){
                     goto Next_Record;
                 }
 
                 Insert_Record:
+
+                // echo 'Insert_Record';
+                // echo '<br/>';
 
                 $data3 = array();
                 $data3['fk_notice_id'] = $data->id;
@@ -2202,8 +2699,12 @@ class NoticeController extends Controller
                 $data3['updated_by'] = $user_id;
                 $data3['status'] = 'pending';
                 $data3['created_by'] = $user_id;
-                Pn_property_notice::create($data3);
-
+                $insertid = Pn_property_notice::create($data3)->id;
+                for($i=0;$i<count($matching_criteria_array);$i++)
+                {
+                    $matching_criteria_array[$i]['pn_property_notice_id'] = $insertid;
+                }
+                Pn_notice_criteria::insert($matching_criteria_array);
                 Next_Record:
             }
         }
@@ -2216,13 +2717,20 @@ class NoticeController extends Controller
             if($access['Notices']['r_insert']=='1' || $access['Notices']['r_edit']=='1' || $access['Notices']['r_delete']=='1' || $access['Notices']['r_approvals']=='1') {
                 $date_of_notice = $this->FormatDate($request->get('date_of_notice'));
 
+                $temp_notice_file = $request->get('temp_notice_file');
+                $notice_file = $request->get('notice_file');
+                if($temp_notice_file!=''){
+                    $data['notice_file'] = $temp_notice_file;
+                } else {
+                    $data['notice_file'] = $notice_file;
+                }
+                
                 $data['id'] = $request->get('id');
                 $data['fk_notice_type_id'] = $request->get('fk_notice_type_id');
                 $data['details'] = $request->get('details');
                 $data['notice_title'] = $request->get('notice_title');
                 // $data['date_of_notice'] = $request->get('date_of_notice');
                 $data['date_of_notice'] = $date_of_notice;
-                $data['notice_file'] = $request->get('notice_file');
                 $data['fk_newspaper_id'] = $request->get('fk_newspaper_id');
                 // $data['name_of_property'] = $request->get('name_of_property');
                 $data['property_type'] = $request->get('property_type');
@@ -2253,6 +2761,14 @@ class NoticeController extends Controller
                     Session::flash('success_msg', 'Notice added successfully!');
                 }
 
+                if($temp_notice_file!=''){
+                    $imageName = 'Notice_' . $id . '.png';
+                    $imagePath = base_path() . '/public/uploads/notices/';
+                    rename(base_path().'/public/uploads/scans/temp/'.$temp_notice_file, $imagePath.$imageName);
+                    $data['notice_file'] = $imageName;
+                    Pn_notice::find($id)->update($data);
+                }
+                
                 $notice_file = $request->file('notice_file_file');
                 if(isset($notice_file)){
                     $imageName = 'Notice_' . $id . '.' . $notice_file->getClientOriginalExtension();
@@ -2333,6 +2849,16 @@ class NoticeController extends Controller
                 }
                 if(count($guarantor_data)>0){
                     Pn_notice_guarantor::insert($guarantor_data);
+                }
+
+                $othername = $request->get('othername');
+                Pn_notice_othername::where('fk_notice_id', $id)->delete();
+                $othername_data = array();
+                for($i=0; $i<count($othername); $i++){
+                    $othername_data[] = array('fk_notice_id'=>$id, 'othername'=>$othername[$i]);
+                }
+                if(count($othername_data)>0){
+                    Pn_notice_othername::insert($othername_data);
                 }
 
                 // $this->match_property($id);
@@ -2458,5 +2984,220 @@ class NoticeController extends Controller
         } else {
             return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Notice', 'msg' => 'You donot have access to this page.']);
         }
+    }
+
+    public function scan(){
+        $user = new User();
+        $access = $user->get_access();
+        if(isset($access['Notices'])) {
+            if($access['Notices']['r_view']=='1' || $access['Notices']['r_insert']=='1' || $access['Notices']['r_edit']=='1' || $access['Notices']['r_delete']=='1' || $access['Notices']['r_approvals']=='1' || $access['Notices']['r_export']=='1') {
+                $newspaper_list = Pn_newspaper::orderBy('paper_name','asc')->get();
+                return view('notice.scan', ['access' => $access, 'newspaper_list' => $newspaper_list]);
+            } else {
+                return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Notice', 'msg' => 'You donot have access to this page.']);
+            }
+        } else {
+            return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Notice', 'msg' => 'You donot have access to this page.']);
+        }
+    }
+
+    public function save_scan(Request $request){
+        $user = new User();
+        $access = $user->get_access();
+        if(isset($access['Notices'])) {
+            if($access['Notices']['r_insert']=='1' || $access['Notices']['r_edit']=='1' || $access['Notices']['r_delete']=='1' || $access['Notices']['r_approvals']=='1') {
+                $date_of_notice = $this->FormatDate($request->get('date_of_notice'));
+                $fk_newspaper_id = $request->get('fk_newspaper_id');
+                $page_number = $request->get('page_number');
+                $section = $request->get('section');
+
+                $data['id'] = $request->get('id');
+                $data['date_of_notice'] = $date_of_notice;
+                $data['notice_file'] = $request->get('notice_file');
+                $data['fk_newspaper_id'] = $fk_newspaper_id;
+                $data['page_number'] = $page_number;
+                $data['section'] = $section;
+
+                $user_id = auth()->user()->gu_id;
+                $data['updated_by'] = $user_id;
+                $data['status'] = 'approved';
+                
+                $sql = "select * from pn_notice_scans where date_of_notice = '".$date_of_notice."' and 
+                        fk_newspaper_id = '".$fk_newspaper_id."' and page_number = '".$page_number."'";
+                $result = DB::select($sql);
+                if(count($result)){
+                    $data['id'] = $result[0]->id;
+                }
+
+                if(isset($data['id'])){
+                    $id = $data['id'];
+                    Pn_notice_scan::find($id)->update($data);
+                    Session::flash('success_msg', 'Notice updated successfully!');
+                } else {
+                    $data['created_by'] = $user_id;
+                    $id = Pn_notice_scan::create($data)->id;
+                    Session::flash('success_msg', 'Notice added successfully!');
+                }
+
+                $notice_file = $request->file('notice_file_file');
+                if(isset($notice_file)){
+                    $imageName = 'Notice_' . $id . '.' . $notice_file->getClientOriginalExtension();
+                    $imagePath = base_path() . '/public/uploads/scans/';
+                    $notice_file->move($imagePath, $imageName);
+                    $data['notice_file'] = $imageName;
+                    Pn_notice_scan::find($id)->update($data);
+                }
+
+                return redirect('index.php/notice/scan');
+            } else {
+                return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Notice', 'msg' => 'You donot have access to this page.']);
+            }
+        } else {
+            return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Notice', 'msg' => 'You donot have access to this page.']);
+        }
+    }
+
+    public function get_notice_count(Request $request){
+        $data = $request->all();
+
+        $date_of_notice = $this->FormatDate($data['date_of_notice2']);
+        $newspaper_id = $data['newspaper_id2'];
+        // $date_of_notice = '2018-08-29';
+
+        $total_notice_count = 0;
+        $relevant_notice_count = 0;
+        $non_relevant_notice_count = 0;
+        $diff_notice_count = 0;
+        $notice_count = 0;
+        $i=1;
+
+        $sql = "select E.*, (E.relevant_notice_count-E.no_of_notices) as diff_notice_count from 
+                (select C.*, (C.notice_count-C.non_relevant_notice_count) as relevant_notice_count, ifnull(D.no_of_notices,0) as no_of_notices from 
+                (select A.*, ifnull(B.notice_count,0) as notice_count, ifnull(B.non_relevant_notice_count,0) as non_relevant_notice_count from 
+                (select * from pn_newspapers where status = 'approved' and id = '$newspaper_id') A 
+                left join 
+                (select * from pn_notice_counts where date(date_of_notice) = date('$date_of_notice') and fk_newspaper_id = '$newspaper_id') B 
+                on (A.id=B.fk_newspaper_id)) C 
+                left join 
+                (select fk_newspaper_id, count(id) as no_of_notices from pn_notices where status = 'approved' and 
+                    date(date_of_notice) = date('$date_of_notice') and fk_newspaper_id = '$newspaper_id' group by fk_newspaper_id) D 
+                on (C.id=D.fk_newspaper_id)) E 
+                order by E.paper_name, E.updated_at desc";
+
+        $newspapers = DB::select($sql);
+        foreach($newspapers as $data){
+            $total_notice_count = $total_notice_count + intval($data->notice_count);
+            $relevant_notice_count = $relevant_notice_count + intval($data->relevant_notice_count);
+            $non_relevant_notice_count = $non_relevant_notice_count + intval($data->non_relevant_notice_count);
+            $diff_notice_count = $diff_notice_count + intval($data->diff_notice_count);
+            $notice_count = $notice_count + intval($data->no_of_notices);
+        }
+
+        $result['total_notice_count'] = $total_notice_count;
+        $result['relevant_notice_count'] = $relevant_notice_count;
+        $result['non_relevant_notice_count'] = $non_relevant_notice_count;
+        $result['diff_notice_count'] = $diff_notice_count;
+        $result['notice_count'] = $notice_count;
+
+        echo json_encode($result);
+    }
+
+    public function set_non_relevant_count(Request $request){
+        $user = new User();
+        $access = $user->get_access();
+        if(isset($access['Notices'])) {
+            if($access['Notices']['r_insert']=='1' || $access['Notices']['r_edit']=='1' || $access['Notices']['r_delete']=='1' || $access['Notices']['r_approvals']=='1') {
+                $date_of_notice = $this->FormatDate($request->get('date_of_notice2'));
+                $newspaper_id = $request->get('newspaper_id2');
+                $total_non_relevant = $request->get('total_non_relevant');
+                $user_id = auth()->user()->gu_id;
+
+                $affected = DB::update("update pn_notice_counts set non_relevant_notice_count = '".$total_non_relevant."', 
+                                    status = 'approved', updated_by = ".$user_id.", updated_at = now() 
+                                    where date(date_of_notice) = date('".$date_of_notice."') and 
+                                    fk_newspaper_id = '".$newspaper_id."'");
+            
+                if($affected==0){
+                    $data['date_of_notice'] = $date_of_notice;
+                    $data['fk_newspaper_id'] = $newspaper_id;
+                    $data['non_relevant_notice_count'] = $total_non_relevant;
+                    $data['status'] = 'approved';
+                    $data['created_by'] = $user_id;
+                    $id = Pn_notice_count::create($data)->id;
+                }
+
+                Session::flash('success_msg', 'Non Relevant Notice count updated!');
+                return redirect('index.php/notice');
+            } else {
+                return view('message', ['access' => $access, 'title' => 'Access Denied', 'module' => 'Notice', 'msg' => 'You donot have access to this page.']);
+            }
+        } else {
+            return view('message', ['access' => $access, 'title' => 'Access Denied', 'module' => 'Notice', 'msg' => 'You donot have access to this page.']);
+        }
+    }
+
+    public function get_matching_log(){
+        $user = new User();
+        $access = $user->get_access();
+        if(isset($access['Notices'])) {
+            if($access['Notices']['r_view']=='1' || $access['Notices']['r_insert']=='1' || $access['Notices']['r_edit']=='1' || $access['Notices']['r_delete']=='1' || $access['Notices']['r_approvals']=='1' || $access['Notices']['r_export']=='1') {
+                // $notice = Pn_notice::with(array(
+                //                     'Pn_newspaper'=>function($query){$query->select('id','paper_name');},
+                //                     'Pn_notice_type'=>function($query){$query->select('id','notice_type');}
+                //                     ))->orderBy('updated_at','desc')->get();
+                return view('notice.matching_log', ['access' => $access]);
+            } else {
+                return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Notice', 'msg' => 'You donot have access to this page.']);
+            }
+        } else {
+            return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Notice', 'msg' => 'You donot have access to this page.']);
+        }
+    }
+
+    public function get_log(Request $request){
+        $data = $request->all();
+
+        $from_date = $this->FormatDate($data['from_date']);
+        $to_date = $this->FormatDate($data['to_date']);
+        // $from_date = '2018-08-29';
+
+        $sql = "select A.date_of_notice, B.fk_notice_id, C.* 
+                from pn_notices A 
+                left join pn_property_notices B on (A.id = B.fk_notice_id) 
+                left join pn_notice_criterias C on (B.id = C.pn_property_notice_id) 
+                where A.date_of_notice>='$from_date' and A.date_of_notice<='$to_date' and C.pn_notice_criteria_id is not null";
+
+        $match_criteria = DB::select($sql);
+        $rows = '';
+        $i = 1;
+        foreach($match_criteria as $data){
+            $rows = $rows . '<tr>
+                                <td class="table-text">
+                                    <div>'.$i++.'</div>
+                                </td>
+                                <td class="table-text">
+                                    <div>'.date('d/m/Y',strtotime($data->date_of_notice)).'</div>
+                                </td>
+                                <td class="table-text">
+                                    <div>'.$data->fk_notice_id.'</div>
+                                </td>
+                                <td class="table-text">
+                                    <div>'.$data->notice.'</div>
+                                </td>
+                                <td class="table-text">
+                                    <div>'.$data->property.'</div>
+                                </td>
+                                <td class="table-text">
+                                    <div>'.$data->parameter.'</div>
+                                </td>
+                                <td class="table-text">
+                                    <div>'.$data->matching_criteria.'</div>
+                                </td>
+                            </tr>';
+        }
+
+        $result['rows'] = $rows;
+
+        echo json_encode($result);
     }
 }

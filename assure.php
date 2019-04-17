@@ -1,334 +1,346 @@
 <!DOCTYPE html>
 <html class="no-js  " lang="en-US">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="format-detection" content="telephone=no">
-
-	<link href="assets/images/favicon.png" rel="icon">
-	<!--[if lt IE 9]>
-	<script src="http://prodo.create.rocks/wp-content/themes/prodo/assets/js/html5shiv.min.js"></script>
-	<script src="http://prodo.create.rocks/wp-content/themes/prodo/assets/js/respond.min.js"></script>
-	<![endif]-->
-	<title> Pecan Reams</title>
-	<link rel='dns-prefetch' href='https://maps.google.com' />
-	<link rel='dns-prefetch' href='https://fonts.googleapis.com' />
-	<link rel='dns-prefetch' href='https://s.w.org' />
-	 
-	<style type="text/css">
-		img.wp-smiley,
-		img.emoji {
-		display: inline !important;
-		border: none !important;
-		box-shadow: none !important;
-		height: 1em !important;
-		width: 1em !important;
-		margin: 0 .07em !important;
-		vertical-align: -0.1em !important;
-		background: none !important;
-		padding: 0 !important;
-		}
-	</style>
-
-	<style>
-		.bx-wrapper
-		{
-			width:100%!important; 
-		}
-		.bx-window
-		{
-			width:100%!important; 
-		}
-	</style>
-
-	<link rel='stylesheet' id='roboto-css'  href='https://fonts.googleapis.com/css?family=Roboto%3A300%2C400%2C400italic%2C500%2C500italic&#038;ver=4.6.1' type='text/css' media='all' />
-	<link rel='stylesheet' id='open-sans-css'  href='https://fonts.googleapis.com/css?family=Open+Sans%3A300%2C300italic%2C400%2C400italic%2C600%2C600italic%2C700%2C700italic&#038;ver=4.6.1' type='text/css' media='all' />
-	<link rel='stylesheet' id='bootstrap-css'  href='assets/bootstrap/css/bootstrap.min.css?ver=4.6.1' type='text/css' media='all' />
-	<link rel='stylesheet' id='font-awesome-css'  href='assets/css/plugins/font-awesome.min.css?ver=4.6.1' type='text/css' media='all' />
-	<link rel='stylesheet' id='isotope-css'  href='assets/css/plugins/isotope.min.css?ver=4.6.1' type='text/css' media='all' />
-	<link rel='stylesheet' id='style-css'  href='assets/css/style.min.css?ver=2.1' type='text/css' media='all' />
-	<link rel='stylesheet' id='wp-style-css'  href='style.css?ver=4.6.1' type='text/css' media='all' />
-	<link rel='stylesheet' id='responsive-css'  href='assets/css/responsive.min.css?ver=4.6.1' type='text/css' media='all' />
-	<link rel='stylesheet'   href='assets/css/login-min.css' type='text/css' media='all' />
-	<link rel='stylesheet'   href='assets/css/login.css' type='text/css' media='all' />
-	<link rel='stylesheet'   href='css/style1.css' type='text/css' media='all' />
-	 
-	<link rel="stylesheet" href="css/how-it-works.css">
-	<link rel="stylesheet" href="css/pricing.css">
-	<link rel="stylesheet" href="css/style.css">
-
-	<!--[if lt IE 9]>
-	<link rel='stylesheet' id='oldie-css'  href='assets/css/oldie.min.css?ver=4.6.1' type='text/css' media='all' />
-	<![endif]-->
-	 
-
-	<style type="text/css">
-		.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}
-		.services { display:flex;}
-		#benefits{  }
-		#benefits.container{ display:flex;}
-		#flip-key { padding:10px   20px;     min-height: 234px; border-right:1px dashed #ddd;  border-bottom:1px dashed #ddd;
-		  position:relative!important;       transform-style: flat!important;  background:#fff;    text-align: left!important; 
-		       z-index: 0!important;   flex:1; box-sizing:border-box;   
-		   font-size:14px;
-		}
-
-		#flip-this {
-		  position:relative!important;       transform-style: flat!important;  background:none;    text-align: center!important; 
-		  padding-left:0!important;  padding-right:0!important;    z-index: 0!important;   flex:1; box-sizing:border-box;  
-		  border-right:1px dashed #ddd;  border-bottom:1px dashed #ddd;
-		}
-		#flip-this:nth-child(3) { border-right:0;}
-		.four-hover, .five-hover , .six-hover{ border-bottom:0!important;}
-		#features h2 {    text-align: center;     position: relative; color:#fff;  }
-		#flip-this p {  padding:15px 30px;  font-size:17px; color:#fff; }
-		#flip-this h4 {  color:#fff; font-weight:100!important; text-transform:capitalize; letter-spacing:.5px!important; text-shadow:3px 2px 3px rgba(0,0,0,.3); }
-		/*#flip-this:hover { background:#2185c5; color:#fff;}*/
-		#flip-this img {
-		 
-		}
-		.front {  }
-		#flip-this .back {
-		  
-		  
-		    text-align: center;
-			 position:relative!important;
-		}
-		 
-		/*.service-overlay { position:fixed; top:0; left:0; bottom:0; right:0; background:rgba(0,0,0,.6);display:none;  z-index:9999;}*/
-		.offsetTopSs { padding-top:45px;}
-
-		.offsetBottomSs { padding-bottom:88px;}
-		.frame-container-video{width:85%; margin:auto;}
-		.frame-container{width:85%; margin:auto;}
-		.embed-container {     position: absolute;     top: 109px;    /* width: 300px; */    left: 113px;    /* padding: 0; */ margin: 0;}
-			
-		.image-slider p {
-		position: absolute;
-		bottom: -10px;
-		background: rgba(0,0,0,.5);
-		width: 100%;
-		padding: 10px;
-		color: #fff;
-		font-size: 18px;
-		text-align: center;}
-		.image-slider img{/* width:520px;  height:325px;*/ }	
-		@media only screen and (max-width:767px){ 
-		.width-large{display:none!important;}
-		#solution h4 { visibility:hidden; margin:0;}
-		.width-small { text-align:center;   display:block!important; clear:both;     padding: 30px 0 0;}
-		.width-small a { margin:5px;}
-		}
-	</style>
-
-	<style>
-		.footer-bottom {
-		    background-color: #191818; font-size:12px;
-		    width: 100%; padding:5px 0;
-		}
-		.copyright {
-		    color: #ccc;    text-align: right;
-		}
-		.design {
-		    color: #fff;
-		  
-		  
-		    text-align: left;
-		}
-		.design a {
-		    color: #fff;
-		}
-
-		/*------------------*/
-		footer .housing-line {
-		   padding: 13px 0 0 0;
-		    display: inline-block;
-		 
-		    
-		    -webkit-box-sizing: border-box;
-		    -moz-box-sizing: border-box;
-		    box-sizing: border-box;
-		}
-		footer .housing-line img { height:88px;}
-		.footer .footer-logo-coloured {
-		  /*  height: 87px;
-		    background-image: url(assets/images/main-logo.png); 
-		    width: 167px;*/
-		    display: inline-block;
-		    background-size: contain;
-		    background-position: left;
-		    background-repeat: no-repeat;
-		    margin-bottom: 4px;
-		}
-
-		.footer .desc {
-		    color: #7f7f7f;
-		    font-size: 11px;
-		    line-height: 22px;
-		}
-		 .footer .footer-header {
-		    color: #000;
-		    height: 35px;  
-		    font-weight: 500;
-		    font-size: 16px;
-		}
-		 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="format-detection" content="telephone=no">
+<link href="assets/images/favicon.png" rel="icon">
+<!--[if lt IE 9]>
+<script src="http://prodo.create.rocks/wp-content/themes/prodo/assets/js/html5shiv.min.js"></script>
+<script src="http://prodo.create.rocks/wp-content/themes/prodo/assets/js/respond.min.js"></script>
+<![endif]-->
+<title>Public Notice Alert – Online Public Notice India | Pecan Reams</title>
+<meta name="Description" content="Assure is India’s first online public notice alert system which notifies you regarding any public notice issued on your asset through alerts. Track your public & Legal Notice.">
+<link rel='dns-prefetch' href='https://maps.google.com' />
+<link rel='dns-prefetch' href='https://fonts.googleapis.com' />
+<link rel='dns-prefetch' href='https://s.w.org' />
+ 
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+display: inline !important;
+border: none !important;
+box-shadow: none !important;
+height: 1em !important;
+width: 1em !important;
+margin: 0 .07em !important;
+vertical-align: -0.1em !important;
+background: none !important;
+padding: 0 !important;
+}
 
 
-		.footer .footer-header .footer-text {
-		    display: inline-block; text-transform:uppercase;
-		    font-weight:900; color:#fff; 
-		    letter-spacing:1px;
-		    font-size: 12px;
-		}
-		#portfolio-details h4 { font-weight:400; font-size:25px; margin:5px 0;}
-		#portfolio-details h5 { font-weight:400; font-size:20px; margin:5px 0; }
-		.spacing-top1 { padding-top:80px;}
-		.spacing-top { padding-top:50px;}
-		.spacing-bottom { padding-bottom:50px;}
-		@media only screen and (max-width:380px){
-		.image-slider p { padding:5px; font-size:14px;}
-		}
-		.login-overlay { position:fixed; top:0; left:0; bottom:0; right:0; background:rgba(0,0,0,.6);display:none;  z-index:9999;}
-		.login-box { background:#fff; width:100%; max-width:480px; min-height:250px; margin:auto; display:none;}
-		.width-small { display:none;}
-		.width-large {     padding: 69px 0 0; text-align:center;} 
-		.width-large a {  font-size:17px; }
-		/*--------------form style------------->
-
-		 </style>
-		<style>
-		#embed-video {
-		position: fixed; overflow:hidden;	
-		    top: 0;
-		    left: 0;
-		    right: 0;
-		   bottom:0;
-		    z-index: 999999;
-			}
-			
-			.close-video {
-			position: fixed;
-		    z-index: 999999;
-		    color: #000;
-		    right: 60px;
-			}
-			/*----------------*/
 
 
-		.single-about-detail {
-		    position: relative;
-		    margin-bottom: 50px;
-		}	
-		.about-img img {
-		   /* height: 206px;*/
-		}
-		.about-img img {
-		    width: 100%;
-		}
-		.about-img img {
-		    width: 100% !important;
-			height:250px!important
-		   
-		}
+</style>
 
-		.about-details {
-		    background: #eee;
-		    border-top:0px solid #fff;
-		    transition: all .7s ease 0s;
-		    -webkit-transition: all .7s ease 0s;
-		    -moz-transition: all .7s ease 0s;
-		    -o-transition: all .7s ease 0s;
-		    -ms-transition: all .7s ease 0s;
-		}
-		.about-details {
-		    /*min-height:260px;*/
-		}
-		 body#home-page #main .container #where-to-buy-callout h3 {
-		    font-size: 20px;
-		}
-		body#home-page #main .container #where-to-buy-callout h3 {
-		    font-size: 15px;
-		    padding: 30px 0 10px 0;
-		    color: #7d4225;
-		}
-		.single-about-detail h3 {
-		    color: #000 !important;
-		    font-size:20px !important; padding:0 20px;
-		    line-height: 30px;
-		    text-transform: capitalize;
-			font-weight: 400;
-		}
-		 
-		 
-		 
+<style>
+.bx-wrapper
+{
+	width:100%!important; 
+}
+.bx-window
+{
+	width:100%!important; 
+}
 
-		.single-about-detail p {
-		    color: #000 !important;  line-height:26px;
-		   
-		}
-		.about-details p {
-		    
-		    padding: 0 28px;
-		    padding-bottom: 30px;
-		}
-		 
-		 
-		.btn-read {
-		   /* position: absolute;
-		    bottom: 10px;  
-		    left:30%;  */
-			
-			display: block;
-		    margin: auto;
-		  /*  width: 132px;
-			margin-top: -18px;*/
-		}
-		.btn-width {   margin: auto;  width: 132px; display:block;     padding-bottom: 16px;}
-
-		.text-center #share-title {
-		    text-align:center!important;
-		    color: #333!important;
-		    padding:0;
-		}
-	</style>
+</style>
 
 
-	<link rel='stylesheet'   href='assets/css/custom.css' type='text/css' media='all' />
-	<link rel="stylesheet" href="assets/css/flexslider.css" type="text/css" media="screen" />
 
-	<?php include('db.php') ?>
+<link rel='stylesheet' id='roboto-css'  href='https://fonts.googleapis.com/css?family=Roboto%3A300%2C400%2C400italic%2C500%2C500italic&#038;ver=4.6.1' type='text/css' media='all' />
+<link rel='stylesheet' id='open-sans-css'  href='https://fonts.googleapis.com/css?family=Open+Sans%3A300%2C300italic%2C400%2C400italic%2C600%2C600italic%2C700%2C700italic&#038;ver=4.6.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bootstrap-css'  href='assets/bootstrap/css/bootstrap.min.css?ver=4.6.1' type='text/css' media='all' />
+<link rel='stylesheet' id='font-awesome-css'  href='assets/css/plugins/font-awesome.min.css?ver=4.6.1' type='text/css' media='all' />
+<link rel='stylesheet' id='isotope-css'  href='assets/css/plugins/isotope.min.css?ver=4.6.1' type='text/css' media='all' />
+<link rel='stylesheet' id='style-css'  href='assets/css/style.min.css?ver=2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-style-css'  href='style.css?ver=4.6.1' type='text/css' media='all' />
+<link rel='stylesheet' id='responsive-css'  href='assets/css/responsive.min.css?ver=4.6.1' type='text/css' media='all' />
+   <link rel='stylesheet'   href='assets/css/login-min.css' type='text/css' media='all' />
+ <link rel='stylesheet'   href='assets/css/login.css' type='text/css' media='all' />
+ <link rel='stylesheet'   href='css/style1.css' type='text/css' media='all' />
+ 
+     <link rel="stylesheet" href="css/how-it-works.css">
+     <link rel="stylesheet" href="css/pricing.css">
+     <link rel="stylesheet" href="css/style.css">
+
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='oldie-css'  href='assets/css/oldie.min.css?ver=4.6.1' type='text/css' media='all' />
+<![endif]-->
+ 
+ 
+ 
+ 
+
+ <style>
+<style type="text/css">
+
+.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}
+.services { display:flex;}
+#benefits{  }
+#benefits.container{ display:flex;}
+#flip-key { padding:10px   20px;     min-height: 234px; border-right:1px dashed #ddd;  border-bottom:1px dashed #ddd;
+  position:relative!important;       transform-style: flat!important;  background:#fff;    text-align: left!important; 
+       z-index: 0!important;   flex:1; box-sizing:border-box;   
+   font-size:14px;
+}
+
+#flip-this {
+  position:relative!important;       transform-style: flat!important;  background:none;    text-align: center!important; 
+  padding-left:0!important;  padding-right:0!important;    z-index: 0!important;   flex:1; box-sizing:border-box;  
+  border-right:1px dashed #ddd;  border-bottom:1px dashed #ddd;
+}
+#flip-this:nth-child(3) { border-right:0;}
+.four-hover, .five-hover , .six-hover{ border-bottom:0!important;}
+#features h2 {    text-align: center;     position: relative; color:#fff;  }
+#flip-this p {  padding:15px 30px;  font-size:17px; color:#fff; }
+#flip-this h4 {  color:#fff; font-weight:100!important; text-transform:capitalize; letter-spacing:.5px!important; text-shadow:3px 2px 3px rgba(0,0,0,.3); }
+/*#flip-this:hover { background:#2185c5; color:#fff;}*/
+#flip-this img {
+ 
+}
+.front {  }
+#flip-this .back {
+  
+  
+    text-align: center;
+	 position:relative!important;
+}
+ 
+/*.service-overlay { position:fixed; top:0; left:0; bottom:0; right:0; background:rgba(0,0,0,.6);display:none;  z-index:9999;}*/
+.offsetTopSs { padding-top:45px;}
+
+.offsetBottomSs { padding-bottom:88px;}
+.frame-container-video{width:85%; margin:auto;}
+.frame-container{width:85%; margin:auto;}
+.embed-container {     position: absolute;     top: 109px;    /* width: 300px; */    left: 113px;    /* padding: 0; */ margin: 0;}
 	
-	<?php
+.image-slider p {
+position: absolute;
+bottom: -10px;
+background: rgba(0,0,0,.5);
+width: 100%;
+padding: 10px;
+color: #fff;
+font-size: 18px;
+text-align: center;}
+.image-slider img{/* width:520px;  height:325px;*/ }	
+@media only screen and (max-width:767px){ 
+.width-large{display:none!important;}
+#solution h4 { visibility:hidden; margin:0;}
+.width-small { text-align:center;   display:block!important; clear:both;     padding: 30px 0 0;}
+.width-small a { margin:5px;}
+}
+</style>
 
-	    // $host="localhost";
-	    // $username="root";
-	    // $password="pecan@12345";
-	    // $dbname="prop_details";
-	    // $conn = mysqli_connect($host, $username, $password, $dbname);
-		
-		function moneyFormatIndia($num) {
-		    $explrestunits = "" ;
-		    if(strlen($num)>3) {
-		        $lastthree = substr($num, strlen($num)-3, strlen($num));
-		        $restunits = substr($num, 0, strlen($num)-3); // extracts the last three digits
-		        $restunits = (strlen($restunits)%2 == 1)?"0".$restunits:$restunits; // explodes the remaining digits in 2's formats, adds a zero in the beginning to maintain the 2's grouping.
-		        $expunit = str_split($restunits, 2);
-		        for($i=0; $i<sizeof($expunit); $i++) {
-		            // creates each of the 2's group and adds a comma to the end
-		            if($i==0) {
-		                $explrestunits .= (int)$expunit[$i].","; // if is first value , convert into integer
-		            } else {
-		                $explrestunits .= $expunit[$i].",";
-		            }
-		        }
-		        $thecash = $explrestunits.$lastthree;
-		    } else {
-		        $thecash = $num;
-		    }
-		    return $thecash; // writes the final format where $currency is the currency symbol.
-		}
-	?>
+ <style>
+.footer-bottom {
+    background-color: #191818; font-size:12px;
+    width: 100%; padding:5px 0;
+}
+.copyright {
+    color: #ccc;    text-align: right;
+}
+.design {
+    color: #fff;
+  
+  
+    text-align: left;
+}
+.design a {
+    color: #fff;
+}
+
+/*------------------*/
+footer .housing-line {
+   padding: 13px 0 0 0;
+    display: inline-block;
+ 
+    
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+footer .housing-line img { height:88px;}
+.footer .footer-logo-coloured {
+  /*  height: 87px;
+    background-image: url(assets/images/main-logo.png); 
+    width: 167px;*/
+    display: inline-block;
+    background-size: contain;
+    background-position: left;
+    background-repeat: no-repeat;
+    margin-bottom: 4px;
+}
+
+.footer .desc {
+    color: #7f7f7f;
+    font-size: 11px;
+    line-height: 22px;
+}
+ .footer .footer-header {
+    color: #000;
+    height: 35px;  
+    font-weight: 500;
+    font-size: 16px;
+}
+ 
+
+
+.footer .footer-header .footer-text {
+    display: inline-block; text-transform:uppercase;
+    font-weight:900; color:#fff; 
+    letter-spacing:1px;
+    font-size: 12px;
+}
+#portfolio-details h4 { font-weight:400; font-size:25px; margin:5px 0;}
+#portfolio-details h5 { font-weight:400; font-size:20px; margin:5px 0; }
+.spacing-top1 { padding-top:80px;}
+.spacing-top { padding-top:50px;}
+.spacing-bottom { padding-bottom:50px;}
+@media only screen and (max-width:380px){
+.image-slider p { padding:5px; font-size:14px;}
+}
+.login-overlay { position:fixed; top:0; left:0; bottom:0; right:0; background:rgba(0,0,0,.6);display:none;  z-index:9999;}
+.login-box { background:#fff; width:100%; max-width:480px; min-height:250px; margin:auto; display:none;}
+.width-small { display:none;}
+.width-large {     padding: 69px 0 0; text-align:center;} 
+.width-large a {  font-size:17px; }
+/*--------------form style------------->
+
+ </style>
+<style>
+#embed-video {
+position: fixed; overflow:hidden;	
+    top: 0;
+    left: 0;
+    right: 0;
+   bottom:0;
+    z-index: 999999;
+	}
+	
+	.close-video {
+	position: fixed;
+    z-index: 999999;
+    color: #000;
+    right: 60px;
+	}
+	/*----------------*/
+
+
+.single-about-detail {
+    position: relative;
+    margin-bottom: 50px;
+}	
+.about-img img {
+   /* height: 206px;*/
+}
+.about-img img {
+    width: 100%;
+}
+.about-img img {
+    width: 100% !important;
+	height:250px!important
+   
+}
+
+.about-details {
+    background: #eee;
+    border-top:0px solid #fff;
+    transition: all .7s ease 0s;
+    -webkit-transition: all .7s ease 0s;
+    -moz-transition: all .7s ease 0s;
+    -o-transition: all .7s ease 0s;
+    -ms-transition: all .7s ease 0s;
+}
+.about-details {
+    /*min-height:260px;*/
+}
+ body#home-page #main .container #where-to-buy-callout h3 {
+    font-size: 20px;
+}
+body#home-page #main .container #where-to-buy-callout h3 {
+    font-size: 15px;
+    padding: 30px 0 10px 0;
+    color: #7d4225;
+}
+.single-about-detail h3 {
+    color: #000 !important;
+    font-size:20px !important; padding:0 20px;
+    line-height: 30px;
+    text-transform: capitalize;
+	font-weight: 400;
+}
+ 
+ 
+ 
+
+.single-about-detail p {
+    color: #000 !important;  line-height:26px;
+   
+}
+.about-details p {
+    
+    padding: 0 28px;
+    padding-bottom: 30px;
+}
+ 
+ 
+.btn-read {
+   /* position: absolute;
+    bottom: 10px;  
+    left:30%;  */
+	
+	display: block;
+    margin: auto;
+  /*  width: 132px;
+	margin-top: -18px;*/
+}
+.btn-width {   margin: auto;  width: 132px; display:block;     padding-bottom: 16px;}
+
+.text-center #share-title {
+    text-align:center!important;
+    color: #333!important;
+    padding:0;
+}
+</style>
+
+
+
+</style>
+  <link rel='stylesheet'   href='assets/css/custom.css' type='text/css' media='all' />
+ <link rel="stylesheet" href="assets/css/flexslider.css" type="text/css" media="screen" />
+ <?php
+
+    $host="localhost";
+    $username="root";
+    $password="pecan@12345";
+    $dbname="prop_details";
+    $conn = mysqli_connect($host, $username, $password, $dbname);
+	
+	function moneyFormatIndia($num) {
+    $explrestunits = "" ;
+    if(strlen($num)>3) {
+        $lastthree = substr($num, strlen($num)-3, strlen($num));
+        $restunits = substr($num, 0, strlen($num)-3); // extracts the last three digits
+        $restunits = (strlen($restunits)%2 == 1)?"0".$restunits:$restunits; // explodes the remaining digits in 2's formats, adds a zero in the beginning to maintain the 2's grouping.
+        $expunit = str_split($restunits, 2);
+        for($i=0; $i<sizeof($expunit); $i++) {
+            // creates each of the 2's group and adds a comma to the end
+            if($i==0) {
+                $explrestunits .= (int)$expunit[$i].","; // if is first value , convert into integer
+            } else {
+                $explrestunits .= $expunit[$i].",";
+            }
+        }
+        $thecash = $explrestunits.$lastthree;
+    } else {
+        $thecash = $num;
+    }
+    return $thecash; // writes the final format where $currency is the currency symbol.
+}
+	
+?>
 </head>
 <body class="single single-post postid-3434 single-format-image nav-sticky">
 				
@@ -1014,7 +1026,7 @@ Covering an average of 150 notices on a daily basis.
 					<h2 style="text-align: center;color:#282828;font-weight:400">Pricing</h2>
 						
 						<?php 
-						$query = "select * from subscription where module='Assure'";
+						$query = "select * from subscription";
 						$result = mysqli_query($conn, $query); 
 						while ($row = mysqli_fetch_assoc($result)) 
 						{
@@ -1075,12 +1087,7 @@ Covering an average of 150 notices on a daily basis.
 							}
 							print'
 							<div class="pricing-footer">
-								<form action="register.php" method="post">
-									<input type="hidden" name="pricing" value="'.$row["yearly_package"].'" />
-									<input type="hidden" name="module" value="'.$row["module"].'" />
-									<input type="submit" name="'.$row["package_name"].'" class="btn btn-default" value="Get Started" />
-								</form>
-									<!-- <a href="register.php" class="btn btn-default">Get Started</a> -->
+								<a href="register.php" class="btn btn-default">Get Started</a>
 							</div>
 						</div>
 					</div>';

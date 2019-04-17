@@ -7,7 +7,6 @@
         <div class="alert alert-success">{{Session::get('success_msg')}}</div>
         @endif
 
-        @if(!empty($notice))
 		<div class="box box-default">
 			<div class="box-header with-border">
 				<h4 class="pull-left"><b>List of Alerts</b></h4>
@@ -35,7 +34,8 @@
 							<td>{{Carbon\Carbon::parse($data->date_of_notice)->format('d/m/Y')}}</td>
 							<td>{{$data->notice_type}}</td>
 							<td>{{$data->issued_by}}</td>
-							<td><a href="@if(isset($data)){{url('/') . '/uploads/notices/' . $data->notice_file}}@endif" class="label label-success" target="_blank">View</a></td>
+							<!-- <td><a href="@if(isset($data)){{url('/') . '/uploads/notices/' . $data->notice_file}}@endif" class="label label-success" target="_blank">View</a></td> -->
+							<td><a href="@if(isset($data)){{url('/../../') . '/admin/assure/public/uploads/notices/' . $data->notice_file}}@endif" class="label label-success" target="_blank">View</a></td>
 							<!-- <td><a href="@if(isset($data)){{--url('/') . '/user_notice/send/' . $data->id--}}@endif" class="label label-success">Send</a></td> -->
 						</tr>
 						@endforeach
@@ -43,7 +43,6 @@
 				</table>
 			</div>
 		</div>
-        @endif
     </div>
 </div>
 @endsection

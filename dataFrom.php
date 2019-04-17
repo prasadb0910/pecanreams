@@ -26,7 +26,7 @@
 <p class='loading-image'></p>
 <p>You shall now be leaving Pecan Reams and will be taken to Ccavenues Payment Gateway</p>
 <!-- <form method="post" id="customerData" name="customerData" action="http://localhost/pecanreams/ccavRequestHandler.php"> -->
-<form method="post" id="customerData" name="customerData" action="<?php echo $base_url; ?>ccavRequestHandler.php">
+<form method="post" id="customerData" name="customerData" action="https://www.pecanreams.com/ccavRequestHandler.php">
     <input type="hidden" name="tid" id="tid" readonly />
     <input type="hidden" name="order_id" id="order_id" readonly />
     <input type="hidden" name="merchant_id" value="151492"/>
@@ -34,8 +34,8 @@
     <input type="hidden" name="currency" value="INR"/>
     <!-- <input type="hidden" name="redirect_url" value="http://localhost/pecanreams/ccavResponseHandler.php"/>
     <input type="hidden" name="cancel_url" value="http://localhost/pecanreams/ccavResponseHandler.php"/> -->
-    <input type="hidden" name="redirect_url" value="<?php echo $base_url; ?>ccavResponseHandler.php"/>
-    <input type="hidden" name="cancel_url" value="<?php echo $base_url; ?>ccavResponseHandler.php"/>
+    <input type="hidden" name="redirect_url" value="https://www.pecanreams.com/ccavResponseHandler.php"/>
+    <input type="hidden" name="cancel_url" value="https://www.pecanreams.com/ccavResponseHandler.php"/>
     <input type="hidden" name="language" value="EN"/>		     	
     <input type="hidden" name="integration_type" value=""/>
 	<!-- iframe_normal -->
@@ -51,6 +51,7 @@
 	<input type="hidden" name="merchant_param1" id="merchant_param1" value=""/>
 	<input type="hidden" name="merchant_param2" id="merchant_param2" value=""/>
 	<input type="hidden" name="merchant_param3" id="merchant_param3" value=""/>
+	<input type="hidden" name="merchant_param4" id="merchant_param4" value=""/>
 	
 	
 	<!--INPUT TYPE="submit" class="payment-btn blue_btn " value="Make Payment" -->
@@ -91,6 +92,7 @@
 		document.getElementById('merchant_param1').value = QueryString.user_id;
 		document.getElementById('merchant_param2').value = QueryString.sub_id;
 		document.getElementById('merchant_param3').value = QueryString.trans_id;
+		document.getElementById('merchant_param4').value = QueryString.module;
 		// document.getElementById('amount').value = QueryString.price;
 		
 		setTimeout(function(){

@@ -6,9 +6,11 @@ use App\User_payment_detail;
 use App\User_plan_detail;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use DB;
 use DateTime;
 use Session;
+use Mail;
 
 class User_payment_detailController extends Controller
 {
@@ -20,7 +22,7 @@ class User_payment_detailController extends Controller
 
                 $this->set_payment_details();
                 
-                $sql = "select A.*, B.name as user_name from user_payment_details A left join group_users B on (A.user_id = B.gu_id)";
+                $sql = "select A.*, B.name as user_name from user_payment_details A left join group_users B on (A.user_id = B.gu_id) where module = 'Assure'";
                 $payments = DB::select($sql);
                 return view('payment.index', ['access' => $access, 'payments' => $payments]);
             } else {
@@ -112,11 +114,12 @@ class User_payment_detailController extends Controller
         $data = DB::select($sql);
         if(count($data)>0){
             for($i=0; $i<count($data); $i++){
-                if($data[$i]->status=='Success'){
+                if($data[$i]->status=='Success' && $data[$i]->module=='Assure'){
                     $payment_id = $data[$i]->id;
                     $user_id = $data[$i]->user_id;
                     $sub_id = $data[$i]->sub_id;
                     $trans_id = $data[$i]->trans_id;
+                    $module = $data[$i]->module;
                     $transaction_amount = $data[$i]->amount;
                     $order_date = $data[$i]->order_date;
                     $pay_mode = $data[$i]->pay_mode;
@@ -141,6 +144,7 @@ class User_payment_detailController extends Controller
                             $invoice_no = $this->generate_invoice_no($order_date);
 
                             $data3['user_id'] = $user_id;
+                            $data3['module'] = $module;
                             $data3['payment_id'] = $payment_id;
                             $data3['payment_date'] = $order_date;
                             $data3['plan_name'] = $plan_name;
@@ -185,6 +189,7 @@ class User_payment_detailController extends Controller
                             User_payment_detail::create($data3);
 
                             $data4['user_id'] = $user_id;
+                            $data4['module'] = $module;
                             $data4['plan_name'] = $plan_name;
                             $data4['no_of_properties'] = $num_of_prop;
                             $data4['plan_expires_on'] = $sub_end_date;
@@ -201,6 +206,8 @@ class User_payment_detailController extends Controller
                                 User_plan_detail::create($data4);
                             }
 
+                            $this->send_payment_receipt_email($user_id, $transaction_amount);
+
                             // echo json_encode($data4);
                             // echo '<br/>';
                         }
@@ -212,6 +219,7 @@ class User_payment_detailController extends Controller
                             $data2 = DB::select($sql);
                             if(count($data2)>0){
                                 $data3['payment_id'] = $payment_id;
+                                $data3['module'] = $module;
                                 $data3['payment_date'] = $order_date;
                                 $data3['payment_method'] = $pay_mode;
                                 $data3['payment_status'] = 'paid';
@@ -219,6 +227,8 @@ class User_payment_detailController extends Controller
 
                                 $id = $data2[0]->id;
                                 User_payment_detail::find($id)->update($data3);
+
+                                $this->send_payment_receipt_email($user_id, $transaction_amount);
 
                                 // echo json_encode($data3);
                                 // echo '<br/>';
@@ -228,6 +238,31 @@ class User_payment_detailController extends Controller
                 }
             }
         }
+    }
+
+    public function send_payment_receipt_email($user_id, $transaction_amount){
+        $user = User::find($user_id);
+        $name = $user->name;
+        $email = $user->gu_email;
+
+        // $user_id = Crypt::encryptString($user_id);
+
+        $total_outstanding = 0;
+        $sql = "select sum(transaction_amount) as total_outstanding from user_payment_details where user_id = '" . $user_id . "' and payment_status != 'paid'";
+        $result = DB::select($sql);
+        if(count($result)>0){
+            if(isset($result[0]->total_outstanding)){
+                $total_outstanding = $result[0]->total_outstanding;
+            }
+        }
+
+        $data = array('user_id'=>$user_id, 'name'=>$name, 'email'=>$email, 'transaction_amount'=>$transaction_amount, 'total_outstanding'=>$total_outstanding);
+
+        Mail::send('payment.mail_payment_receipt', $data, function($message) use ($data) {
+            $message->to($data['email'], $data['name'])
+                    ->subject('Receipt of Payment')
+                    ->from('info@pecanreams.com','Pecan Reams');
+        });
     }
 
     public function set_monthly_payment_details(){
@@ -253,7 +288,7 @@ class User_payment_detailController extends Controller
                 // echo $end_date;
                 // echo '<br/>';
 
-                $sql = "select * from user_plan_details where user_id = '$user_id'";
+                $sql = "select * from user_plan_details where user_id = '$user_id' and module = 'Assure'";
                 $data2 = DB::select($sql);
                 if(count($data2)>0){
                     $plan_name = $data2[0]->plan_name;
@@ -304,7 +339,7 @@ class User_payment_detailController extends Controller
                 // echo '<br/>';
 
                 $invoice_date = null;
-                $sql = "select max(invoice_date) as invoice_date from user_payment_details where status = 'approved' and user_id = '$user_id' and plan_name = 'Monthly'";
+                $sql = "select max(invoice_date) as invoice_date from user_payment_details where status = 'approved' and user_id = '$user_id' and plan_name = 'Monthly' and module = 'Assure'";
                 $data2 = DB::select($sql);
                 if(count($data2)>0){
                     if(isset($data2[0]->invoice_date)){
@@ -385,7 +420,10 @@ class User_payment_detailController extends Controller
                     // echo $end_date->format('Y-m-d');
                     // echo '<br/>';
 
-                    $end_date->modify("+15 days");
+                    // $end_date->modify("+15 days");
+
+                    $due_date = $end_date;
+                    $due_date->modify("+15 days");
 
                     // echo $end_date->format('Y-m-d');
                     // echo '<br/>';
@@ -394,12 +432,13 @@ class User_payment_detailController extends Controller
                     // $data3['payment_id'] = $payment_id;
                     // $data3['payment_date'] = $order_date;
                     $data3['plan_name'] = 'Monthly';
+                    $data3['module'] = 'Assure';
                     $data3['invoice_no'] = $invoice_no;
                     $data3['invoice_date'] = date('Y-m-d');
                     $data3['no_of_properties'] = $prop_num;
                     // $data3['payment_method'] = $pay_mode;
                     $data3['transaction_amount'] = round($transaction_amount,0);
-                    $data3['payment_due_date'] = $end_date->format('Y-m-d');
+                    $data3['payment_due_date'] = $due_date->format('Y-m-d');
                     $data3['payment_status'] = 'pending';
                     $data3['status'] = 'approved';
                     $data3['created_by'] = '1';
@@ -447,9 +486,27 @@ class User_payment_detailController extends Controller
                     // echo '<br/>';
 
                     User_payment_detail::create($data3);
+
+                    $this->send_payment_due_email($user_id, $start_date->format('d/m/Y'), $end_date->format('d/m/Y'));
                 }
             }
         }
+    }
+
+    public function send_payment_due_email($user_id, $start_date, $end_date){
+        $user = User::find($user_id);
+        $name = $user->name;
+        $email = $user->gu_email;
+
+        // $user_id = Crypt::encryptString($user_id);
+
+        $data = array('user_id'=>$user_id, 'name'=>$name, 'email'=>$email, 'start_date'=>$start_date, 'end_date'=>$end_date);
+
+        Mail::send('payment.mail_payment_due', $data, function($message) use ($data) {
+            $message->to($data['email'], $data['name'])
+                    ->subject('Reminder - Payment Due')
+                    ->from('info@pecanreams.com','Pecan Reams');
+        });
     }
 
     public function FormatDate($date, $format = 'd/m/Y') {
@@ -615,10 +672,12 @@ class User_payment_detailController extends Controller
     public function get_invoice($id){
         $user = new User();
         $access = $user->get_access();
-        if(isset($access['Invoice'])) {
-            if($access['Invoice']['r_view']=='1' || $access['Invoice']['r_insert']=='1' || $access['Invoice']['r_edit']=='1' || $access['Invoice']['r_delete']=='1' || $access['Invoice']['r_approvals']=='1' || $access['Invoice']['r_export']=='1') {
+        // if(isset($access['Invoice'])) {
+        //     if($access['Invoice']['r_view']=='1' || $access['Invoice']['r_insert']=='1' || $access['Invoice']['r_edit']=='1' || $access['Invoice']['r_delete']=='1' || $access['Invoice']['r_approvals']=='1' || $access['Invoice']['r_export']=='1') {
                 
-                $user_id = auth()->user()->gu_id;
+        //         $user_id = auth()->user()->gu_id;
+
+        //         $id = Crypt::decryptString($id);
 
                 $sql = "select A.*, B.name from user_payment_details A left join group_users B on (A.user_id = B.gu_id) where A.id = '$id'";
                 $result = DB::select($sql);
@@ -673,12 +732,12 @@ class User_payment_detailController extends Controller
                 } else {
                     return view('message', ['access' => $access, 'title'  => 'No Data Found', 'module' => 'Tax Invoice', 'msg' => 'No data found.']);
                 }
-            } else {
-                return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'User Payment Details', 'msg' => 'You donot have access to this page.']);
-            }
-        } else {
-            return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'User Payment Details', 'msg' => 'You donot have access to this page.']);
-        }
+        //     } else {
+        //         return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'User Payment Details', 'msg' => 'You donot have access to this page.']);
+        //     }
+        // } else {
+        //     return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'User Payment Details', 'msg' => 'You donot have access to this page.']);
+        // }
     }
 
     public function payment_response($response_message, $order_status){
@@ -692,7 +751,53 @@ class User_payment_detailController extends Controller
 
                 $this->set_payment_details();
 
-                return view('message', ['access' => $access, 'title'  => $order_status, 'module' => 'Payment Status', 'msg' => $response_message]);
+                return view('message', ['access' => $access, 'title'  => $order_status, 'module' => 'User Payment Details', 'msg' => $response_message]);
+            } else {
+                return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'User Payment Details', 'msg' => 'You donot have access to this page.']);
+            }
+        } else {
+            return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'User Payment Details', 'msg' => 'You donot have access to this page.']);
+        }
+    }
+    
+    public function plan(){
+        $user = new User();
+        $access = $user->get_access();
+        if(isset($access['UserPayments'])) {
+            if($access['UserPayments']['r_view']=='1' || $access['UserPayments']['r_insert']=='1' || $access['UserPayments']['r_edit']=='1' || $access['UserPayments']['r_delete']=='1' || $access['UserPayments']['r_approvals']=='1') {
+                
+                $user_id = auth()->user()->gu_id;
+                $final_data = array();
+
+                $sql = "select * from user_plan_details where user_id = '$user_id' and module = 'Assure' and 
+                        id = (select max(id) from user_plan_details where user_id = '$user_id' and module = 'Assure')";
+                $data = DB::select($sql);
+                if(count($data)>0){
+                    $final_data['plan_name'] = $data[0]->plan_name . ' Yearly';
+                    $final_data['no_of_properties'] = $data[0]->no_of_properties;
+                    $final_data['plan_expires_on'] = $data[0]->plan_expires_on;
+                }
+
+                $no_of_properties_registered = 0;
+                $sql = "select count(id) as no_of_prop from pn_properties where status = 'approved' and created_by = '$user_id'";
+                $data = DB::select($sql);
+                if(count($data)>0){
+                    $no_of_properties_registered = $data[0]->no_of_prop;
+                }
+
+                if(!isset($final_data['plan_name'])){
+                    if($no_of_properties_registered<=20){
+                        $final_data['plan_name'] = 'Basic Monthly';
+                    } else if($no_of_properties_registered<=50){
+                        $final_data['plan_name'] = 'Business Monthly';
+                    } else {
+                        $final_data['plan_name'] = 'Enterprise Monthly';
+                    }
+                }
+
+                $final_data['no_of_properties_registered'] = $no_of_properties_registered;
+
+                return view('payment.plan_details', ['access' => $access, 'final_data'  => $final_data]);
             } else {
                 return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'User Payment Details', 'msg' => 'You donot have access to this page.']);
             }
@@ -701,4 +806,30 @@ class User_payment_detailController extends Controller
         }
     }
 
+    public function get_plan(){
+        $user = new User();
+        $access = $user->get_access();
+        // if(isset($access['Invoice'])) {
+        //     if($access['Invoice']['r_view']=='1' || $access['Invoice']['r_insert']=='1' || $access['Invoice']['r_edit']=='1' || $access['Invoice']['r_delete']=='1' || $access['Invoice']['r_approvals']=='1' || $access['Invoice']['r_export']=='1') {
+                
+                $user_id = auth()->user()->gu_id;
+
+        //         $id = Crypt::decryptString($id);
+
+                $sql = "select * from subscription where module = 'Assure'";
+                $data = DB::select($sql);
+
+                if(count($data)>0){
+                    
+                    return view('payment.plans', ['access' => $access, 'subscription' => $data, 'user_id' => $user_id]);
+                } else {
+                    return view('message', ['access' => $access, 'title'  => 'No Data Found', 'module' => 'User Payment Details', 'msg' => 'No data found.']);
+                }
+        //     } else {
+        //         return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'User Payment Details', 'msg' => 'You donot have access to this page.']);
+        //     }
+        // } else {
+        //     return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'User Payment Details', 'msg' => 'You donot have access to this page.']);
+        // }
+    }
 }

@@ -23,7 +23,7 @@
     scrollbar-dark-shadow-color: #222; 
     -ms-overflow-style: -ms-autohiding-scrollbar;  
 	}
-  .form-control { padding:6px!important;  }
+  /*.form-control { padding:6px!important;  }*/
   body{ overflow:initial; }
   .fonts {
     font-size:35px; 
@@ -179,7 +179,7 @@
           <li style="<?php if ($userdata['groupid']=='0') echo 'display: none;';?>"><a href="<?php echo base_url().'index.php/dashboard/home'; ?>">Dashboard</a></li>
           <li style="<?php if ($userdata['groupid']=='0') echo 'display: none;';?>"><a href="<?php echo base_url().'index.php/profile'; ?>">User Profile</a></li>
           <li <?php if ($User==0) echo 'style="display: none;"'; ?>><a href="<?php if ($userdata['groupid']!='0') echo base_url().'index.php/assign'; else echo base_url().'index.php/assign/adminuser'; ?>">User</a></li>
-          <li <?php if ($UserRoles==0) echo 'style="display: none;"'; ?>><a href="<?php echo base_url().'index.php/manage'; ?>">User Roles</a></li>
+          <li <?php if ($UserRoles==0 || $userdata['maker_checker']=='no') echo 'style="display: none;"'; ?>><a href="<?php echo base_url().'index.php/manage'; ?>">User Roles</a></li>
           <li><a href="#">Help</a></li>
           <li><a href="#">Support</a></li>
           <!-- <li>

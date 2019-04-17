@@ -1,5 +1,5 @@
 <?php
-$host = 'ec2-54-251-128-158.ap-southeast-1.compute.amazonaws.com';
+$host = 'ec2-54-251-130-150.ap-southeast-1.compute.amazonaws.com';
 // $host = 'localhost';
 $user = 'root';
 // $pass = '';

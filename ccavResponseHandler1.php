@@ -67,26 +67,28 @@
 					modified='$order_date'
 				";
 		mysqli_query($conn,$sql);
-		if($order_status==="Success"){
-			// $query = "select * from users where id = '$user_id' limit 1";
-			// $result = mysql_query($query);
+		// if($order_status==="Success"){
+		// 	// $query = "select * from users where id = '$user_id' limit 1";
+		// 	// $result = mysql_query($query);
 
-			// if (mysql_num_rows($result) > 0) {
-			// 	while ($row = mysql_fetch_assoc($result)) {
-			// 		echo '';
-			// 		file_get_contents("http://www.mydietist.com/Mailapp/send_mails/$user_id/$sub_id");
-			// 		sleep(2);
-			// 	}
-			// }
+		// 	// if (mysql_num_rows($result) > 0) {
+		// 	// 	while ($row = mysql_fetch_assoc($result)) {
+		// 	// 		echo '';
+		// 	// 		file_get_contents("http://www.mydietist.com/Mailapp/send_mails/$user_id/$sub_id");
+		// 	// 		sleep(2);
+		// 	// 	}
+		// 	// }
 			
-			// $getcode="select offer_code from nearbuy_user_info where id='$user_id'";
-			// $row = mysql_fetch_assoc($getcode);
-			// $offer_code  = $row['offer_code'];
-			// if($offer_code!="") {
-			// 	$updatenearbuyoffer = "update nearbuy_offer_codes set status='Redeemed' where offer_code='$offer_code'";
-			// 	mysql_query($updatenearbuyoffer);
-			// }
-		}
+		// 	// $getcode="select offer_code from nearbuy_user_info where id='$user_id'";
+		// 	// $row = mysql_fetch_assoc($getcode);
+		// 	// $offer_code  = $row['offer_code'];
+		// 	// if($offer_code!="") {
+		// 	// 	$updatenearbuyoffer = "update nearbuy_offer_codes set status='Redeemed' where offer_code='$offer_code'";
+		// 	// 	mysql_query($updatenearbuyoffer);
+		// 	// }
+		// }
+
+		file_get_contents("https://www.pecanreams.com/d3m/public/index.php/user_payment_detail/set_payment_details");
 	}
 
 ?>
@@ -125,14 +127,14 @@ src="https://www.facebook.com/tr?id=1739458019616984&ev=PageView&noscript=1"
 	<div class="overflow-screen"></div>	
 
 	<script>
-		// window.location = "http://localhost/d3m/public/index.php/user_payment_detail/payment_response/<?php echo $response_message; ?>/<?php echo $order_status; ?>";
-		// window.location = "http://ec2-52-221-239-38.ap-southeast-1.compute.amazonaws.com/public_notices/public/index.php/user_payment_detail/payment_response/<?php echo $response_message; ?>/<?php echo $order_status; ?>";
-		// window.location = "http://www.pecanreams.com/d3m/public/index.php/user_payment_detail/payment_response/<?php echo $response_message; ?>/<?php echo $order_status; ?>";
-		<?php if($sub_id!=0){ ?>
-			window.location = "<?php echo $base_url; ?>app";
-		<? } else { ?>
-			window.location = "<?php echo $base_url; ?>d3m/public/index.php/user_payment_detail/payment_response/<?php echo $response_message; ?>/<?php echo $order_status; ?>";
-		<? } ?>
+		// window.location = "http://localhost/d3m/public/index.php/user_payment_detail/payment_response/<?php //echo $response_message; ?>/<?php //echo $order_status; ?>";
+		// window.location = "http://ec2-52-221-239-38.ap-southeast-1.compute.amazonaws.com/public_notices/public/index.php/user_payment_detail/payment_response/<?php //echo $response_message; ?>/<?php //echo $order_status; ?>";
+		// window.location = "http://www.pecanreams.com/d3m/public/index.php/user_payment_detail/payment_response/<?php //echo $response_message; ?>/<?php //echo $order_status; ?>";
+		<?php //if($sub_id!=0){ ?>
+			//window.location = "<?php //echo $base_url; ?>app";
+		<? //} else { ?>
+			//window.location = "<?php //echo $base_url; ?>d3m/public/index.php/user_payment_detail/payment_response/<?php //echo $response_message; ?>/<?php //echo $order_status; ?>";
+		<? //} ?>
 	</script>
 	</body>	
 </html>

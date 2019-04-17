@@ -89,6 +89,11 @@ class Dashboard extends CI_Controller
             }
         }
 
+        $query=$this->db->query("SELECT A.gu_gid, B.group_name FROM group_users A, group_master B 
+                                WHERE A.gu_cid = '$cid' and A.gu_gid = B.g_id and B.group_status='Active'");
+        $result=$query->result();
+        $data['groups']=$result;
+
         $query=$this->db->query("SELECT * FROM contact_master A WHERE A.c_id = '$cid'");
         $result=$query->result();
         $data['contact_details']=$result;
@@ -425,7 +430,8 @@ class Dashboard extends CI_Controller
                 $this->db->where('g_id',$group_id);
                 $this->db->update('group_master', $data);
                 
-                redirect(base_url().'index.php/Dashboard');
+                // redirect(base_url().'index.php/Dashboard');
+                redirect(base_url().'index.php/dashboard/home');
                 
             } else {
                 echo "Unauthorized access.";

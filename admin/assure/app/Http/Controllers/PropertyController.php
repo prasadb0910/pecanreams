@@ -29,7 +29,18 @@ class PropertyController extends Controller
     public function index(){
         $user = new User();
         $access = $user->get_access();
-        if(isset($access['Properties'])) {
+        if(isset($access['AdminProperties'])) {
+            if($access['AdminProperties']['r_view']=='1') {
+                $sql = "select A.*, B.name as user_name from pn_properties A left join group_users B on (A.created_by = B.gu_id) 
+                        where A.status = 'approved' order by updated_at desc";
+                $property = DB::select($sql);
+                // $property = Pn_property::orderBy('updated_at','desc')->get();
+                
+                return view('property.index', ['access' => $access, 'property' => $property]);
+            } else {
+                return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Property', 'msg' => 'You donot have access to this page.']);
+            }
+        } else if(isset($access['Properties'])) {
             if($access['Properties']['r_view']=='1' || $access['Properties']['r_insert']=='1' || $access['Properties']['r_edit']=='1' || $access['Properties']['r_delete']=='1' || $access['Properties']['r_approvals']=='1' || $access['Properties']['r_export']=='1') {
                 $user_id = auth()->user()->gu_id;
                 $property = Pn_property::where('created_by',$user_id)->orderBy('updated_at','desc')->get();
@@ -42,17 +53,6 @@ class PropertyController extends Controller
                 // $property = DB::select($sql);
 
 
-                return view('property.index', ['access' => $access, 'property' => $property]);
-            } else {
-                return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Property', 'msg' => 'You donot have access to this page.']);
-            }
-        } else if(isset($access['AdminProperties'])) {
-            if($access['AdminProperties']['r_view']=='1') {
-                $sql = "select A.*, B.name as user_name from pn_properties A left join group_users B on (A.created_by = B.gu_id) 
-                        where A.status = 'approved' order by updated_at desc";
-                $property = DB::select($sql);
-                // $property = Pn_property::orderBy('updated_at','desc')->get();
-                
                 return view('property.index', ['access' => $access, 'property' => $property]);
             } else {
                 return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Property', 'msg' => 'You donot have access to this page.']);

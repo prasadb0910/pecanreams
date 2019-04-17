@@ -10,7 +10,8 @@
 <script src="http://prodo.create.rocks/wp-content/themes/prodo/assets/js/html5shiv.min.js"></script>
 <script src="http://prodo.create.rocks/wp-content/themes/prodo/assets/js/respond.min.js"></script>
 <![endif]-->
-<title> Pecan Reams</title>
+<title>Online Real Estate Property Management Service in India | Pecan Reams</title>
+<meta name="Description" content="Comprehensive online real estate property management service provides one stop solution to manage all type of property transactions, cash flows, documents and tasks.">
 <link rel='dns-prefetch' href='https://maps.google.com' />
 <link rel='dns-prefetch' href='https://fonts.googleapis.com' />
 <link rel='dns-prefetch' href='https://s.w.org' />

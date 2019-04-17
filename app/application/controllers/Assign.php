@@ -420,6 +420,10 @@ class Assign extends CI_Controller
                         $data['owner'][$i]['name']=$result[$i]->ow_proprietorship_comapny_name;
                     }
                 }
+
+                $query=$this->db->query("SELECT * FROM group_master WHERE g_id = '$gid'");
+                $result=$query->result();
+                $data['group_details']=$result;
                 
                 load_view('management/user_assign_details', $data);
             } else {
@@ -771,6 +775,10 @@ class Assign extends CI_Controller
                     }
                 }
                 
+                $query=$this->db->query("SELECT * FROM group_master WHERE g_id = '$gid'");
+                $result=$query->result();
+                $data['group_details']=$result;
+                
                 load_view('management/user_assign_view', $data);
             } else {
                 echo '<script>alert("You donot have access to this page.");</script>';
@@ -848,6 +856,10 @@ class Assign extends CI_Controller
                     }
                 }
 
+                $query=$this->db->query("SELECT * FROM group_master WHERE g_id = '$gid'");
+                $result=$query->result();
+                $data['group_details']=$result;
+                
                 load_view('management/user_assign_details', $data);
             } else {
                 echo '<script>alert("You donot have access to this page.");</script>';

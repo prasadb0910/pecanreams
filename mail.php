@@ -19,7 +19,7 @@ try {
     $mail->Host = 'ssl://smtp.googlemail.com';  // Specify main and backup SMTP servers
     $mail->SMTPAuth = true;                               // Enable SMTP authentication
     $mail->Username = 'info@pecanreams.com';                 // SMTP username
-    $mail->Password = 'Info@003#';                           // SMTP password
+    $mail->Password = 'ASSURE789';                           // SMTP password
     $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
     $mail->Port = 465;                                    // TCP port to connect to
 

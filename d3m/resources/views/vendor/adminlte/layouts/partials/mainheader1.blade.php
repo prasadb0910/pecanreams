@@ -113,8 +113,8 @@
                     <ul class="dropdown-menu " >
                         <li><a href="{{ url('/index.php/home') }}">Dashboard</a></li>
                         <li><a href="{{ url('/index.php/get_user_profile') }}">User Profile</a></li>
-                        <li><a href="{{ url('/index.php/get_user') }}">User</a></li>
-                        <li><a href="{{ url('/index.php/get_user_roles') }}">User Roles</a></li>
+                        <!-- <li><a href="{{-- url('/index.php/get_user') --}}">User</a></li> -->
+                        <!-- <li><a href="{{-- url('/index.php/get_user_roles') --}}">User Roles</a></li> -->
                         <li><a href="#">Help</a></li>
                         <li><a href="#">Support</a></li>
                         <li><a href=""  data-toggle="modal" data-target="#change_psw" >Change Password</a></li>

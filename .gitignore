@@ -1,0 +1,11 @@
+# Ignore folder named `uploads`
+admin/assure/public/uploads/
+
+# Ignore file named `admin/assure/public/.htaccess`
+admin/assure/public/.htaccess
+
+# Ignore file named `admin/assure/.htaccess`
+admin/assure/.htaccess
+
+# Ignore file named `admin/assure/.env`
+admin/assure/.env

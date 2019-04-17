@@ -566,74 +566,77 @@ class Purchase extends CI_Controller
                     $pcolname="";
                 }
 
-                $query=$this->db->query("select C.*, D.d_documentname as doc_documentname, d_show_expiry_date from 
-                                        (select B.*, A.d_type_id, A.d_type, A.d_m_status from 
-                                        (select d_type_id, d_type, d_m_status from document_type_master 
-                                        union all 
-                                        select d_type_id, d_type, d_m_status from 
-                                        (select 0 as d_type_id, '' as d_type, '' as d_m_status from document_type_master limit 1) AA) A 
-                                        left join 
-                                        (select * from document_details where doc_ref_id='$pid' and doc_ref_type='Property_Purchase') B 
-                                        on (A.d_type_id=B.doc_type_id)) C 
-                                        left join 
-                                        (select * from document_master) D 
-                                        on (C.doc_doc_id=D.d_id) where doc_id is not null order by doc_id");
-                $result=$query->result();
-                $data['documents']=$result;
+                // $query=$this->db->query("select C.*, D.d_documentname as doc_documentname, d_show_expiry_date from 
+                //                         (select B.*, A.d_type_id, A.d_type, A.d_m_status from 
+                //                         (select d_type_id, d_type, d_m_status from document_type_master 
+                //                         union all 
+                //                         select d_type_id, d_type, d_m_status from 
+                //                         (select 0 as d_type_id, '' as d_type, '' as d_m_status from document_type_master limit 1) AA) A 
+                //                         left join 
+                //                         (select * from document_details where doc_ref_id='$pid' and doc_ref_type='Property_Purchase') B 
+                //                         on (A.d_type_id=B.doc_type_id)) C 
+                //                         left join 
+                //                         (select * from document_master) D 
+                //                         on (C.doc_doc_id=D.d_id) where doc_id is not null order by doc_id");
+                // $result=$query->result();
+                // $data['documents']=$result;
 
-                if(count($result)>0){
-                    for($i=0; $i<count($result); $i++){
-                        $d_type_id = $result[$i]->d_type_id;
+                // if(count($result)>0){
+                //     for($i=0; $i<count($result); $i++){
+                //         $d_type_id = $result[$i]->d_type_id;
 
-                        if($pcolname==""){
-                            $query=$this->db->query("select * from (select A.d_id, B.d_documentname from 
-                                                (select * from document_types where d_type_id='$d_type_id') A 
-                                                left join 
-                                                (select * from document_master where d_t_type like '%purchase%') B 
-                                                on (A.d_id=B.d_id)) C where C.d_documentname is not null");
-                        } else {
-                            $query=$this->db->query("select * from (select A.d_id, B.d_documentname from 
-                                                (select * from document_types where d_type_id='$d_type_id') A 
-                                                left join 
-                                                (select * from document_master where d_t_type like '%purchase%' and $pcolname='Yes') B 
-                                                on (A.d_id=B.d_id)) C where C.d_documentname is not null");
-                        }
+                //         if($pcolname==""){
+                //             $query=$this->db->query("select * from (select A.d_id, B.d_documentname from 
+                //                                 (select * from document_types where d_type_id='$d_type_id') A 
+                //                                 left join 
+                //                                 (select * from document_master where d_t_type like '%purchase%') B 
+                //                                 on (A.d_id=B.d_id)) C where C.d_documentname is not null");
+                //         } else {
+                //             $query=$this->db->query("select * from (select A.d_id, B.d_documentname from 
+                //                                 (select * from document_types where d_type_id='$d_type_id') A 
+                //                                 left join 
+                //                                 (select * from document_master where d_t_type like '%purchase%' and $pcolname='Yes') B 
+                //                                 on (A.d_id=B.d_id)) C where C.d_documentname is not null");
+                //         }
                         
-                        $data['docs'][$d_type_id]=$query->result();
-                    }
-                } else {
-                    $query=$this->db->query("select d_type_id, d_type, d_m_status, '' as doc_doc_id, 
-                                            '' as doc_documentname, '' as d_show_expiry_date, 
-                                            '' as doc_description, '' as doc_ref_no, '' as doc_doi, 
-                                            '' as doc_doe, '' as doc_document, '' as document_name 
-                                            from document_type_master");
-                    $result=$query->result();
-                    $data['documents']=$result;
+                //         $data['docs'][$d_type_id]=$query->result();
+                //     }
+                // } else {
+                //     $query=$this->db->query("select d_type_id, d_type, d_m_status, '' as doc_doc_id, 
+                //                             '' as doc_documentname, '' as d_show_expiry_date, 
+                //                             '' as doc_description, '' as doc_ref_no, '' as doc_doi, 
+                //                             '' as doc_doe, '' as doc_document, '' as document_name 
+                //                             from document_type_master");
+                //     $result=$query->result();
+                //     $data['documents']=$result;
 
-                    for($i=0; $i<count($result); $i++){
-                        $d_type_id = $result[$i]->d_type_id;
+                //     for($i=0; $i<count($result); $i++){
+                //         $d_type_id = $result[$i]->d_type_id;
 
-                        if($pcolname==""){
-                            $query=$this->db->query("select * from (select A.d_id, B.d_documentname from 
-                                                (select * from document_types where d_type_id='$d_type_id') A 
-                                                left join 
-                                                (select * from document_master where d_t_type like '%purchase%') B 
-                                                on (A.d_id=B.d_id)) C where C.d_documentname is not null");
-                        } else {
-                            $query=$this->db->query("select * from (select A.d_id, B.d_documentname from 
-                                                (select * from document_types where d_type_id='$d_type_id') A 
-                                                left join 
-                                                (select * from document_master where d_t_type like '%purchase%' and $pcolname='Yes') B 
-                                                on (A.d_id=B.d_id)) C where C.d_documentname is not null");
-                        }
+                //         if($pcolname==""){
+                //             $query=$this->db->query("select * from (select A.d_id, B.d_documentname from 
+                //                                 (select * from document_types where d_type_id='$d_type_id') A 
+                //                                 left join 
+                //                                 (select * from document_master where d_t_type like '%purchase%') B 
+                //                                 on (A.d_id=B.d_id)) C where C.d_documentname is not null");
+                //         } else {
+                //             $query=$this->db->query("select * from (select A.d_id, B.d_documentname from 
+                //                                 (select * from document_types where d_type_id='$d_type_id') A 
+                //                                 left join 
+                //                                 (select * from document_master where d_t_type like '%purchase%' and $pcolname='Yes') B 
+                //                                 on (A.d_id=B.d_id)) C where C.d_documentname is not null");
+                //         }
                         
-                        $data['docs'][$d_type_id]=$query->result();
-                    }
-                }
+                //         $data['docs'][$d_type_id]=$query->result();
+                //     }
+                // }
                 
-                $query=$this->db->query("select * from document_type_master");
-                $result=$query->result();
-                $data['doc_types']=$result;
+                // $query=$this->db->query("select * from document_type_master");
+                // $result=$query->result();
+                // $data['doc_types']=$result;
+
+                $docs=$this->document_model->edit_view_doc($pcolname, $pid, 'Property_Purchase', 'purchase');
+                $data=array_merge($data, $docs);
 
                 $query=$this->db->query("SELECT * FROM contact_type_master where g_id = '$gid' order by id desc");
                 $result=$query->result();

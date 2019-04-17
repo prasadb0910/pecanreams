@@ -127,7 +127,8 @@ class PropertyController extends Controller
         $access = $user->get_access();
         if(isset($access['Properties'])) {
             if($access['Properties']['r_view']=='1') {
-                $group_details = Pn_group::orderBy('group_name','asc')->get();
+                $user_id = auth()->user()->gu_id;
+                $group_details = Pn_group::where('created_by',$user_id)->orderBy('group_name','asc')->get();
                 $property_no_type_list = Pn_property_no_type::orderBy('property_no_type','asc')->get();
                 $location_type_list = Pn_location_type::orderBy('location_type','asc')->get();
                 $certificate_no_type_list = Pn_certificate_no_type::orderBy('certificate_no_type','asc')->get();
@@ -183,7 +184,8 @@ class PropertyController extends Controller
         $access = $user->get_access();
         if(isset($access['Properties'])) {
             if($access['Properties']['r_edit']=='1' || $access['Properties']['r_delete']=='1') {
-                $group_details = Pn_group::orderBy('group_name','asc')->get();
+                $user_id = auth()->user()->gu_id;
+                $group_details = Pn_group::where('created_by',$user_id)->orderBy('group_name','asc')->get();
                 $property_no_type_list = Pn_property_no_type::orderBy('property_no_type','asc')->get();
                 $location_type_list = Pn_location_type::orderBy('location_type','asc')->get();
                 $certificate_no_type_list = Pn_certificate_no_type::orderBy('certificate_no_type','asc')->get();

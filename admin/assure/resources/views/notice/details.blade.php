@@ -70,6 +70,8 @@
         z-index: 99999;
     }
 </style>
+<link rel="stylesheet" href="{{asset('/plugins/crop/build/darkroom.css')}}">
+<link rel="stylesheet" href="{{asset('/plugins/crop/demo/css/page.css')}}">
 @endsection
 
 @section('main-content')
@@ -93,13 +95,15 @@
                 <div class="form-group">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="col-md-3 col-sm-3 col-xs-12">
-                        <button type="button" class="btn btn-success btn-sm pull-left" onclick="scanAndUploadDirectly();" style="width: 100px;">Scan</button>
+                        <button type="button" class="btn btn-success btn-sm pull-left" onclick="selectScanImage();" style="width: 75px;">Select</button>
+                        <button type="button" class="btn btn-success btn-sm pull-left" onclick="scanAndUploadDirectly();" style="width: 75px; margin-left: 10px;">Scan</button>
                     </div>
                     <div class="col-md-1 col-sm-1 col-xs-12">&nbsp;&nbsp;Or&nbsp;&nbsp;</div>
                     <label class="col-md-2 col-sm-2 col-xs-12 control-label">Select File</label>
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <input type="file" onchange="load_file()" name="notice_file_file" id="picker" class="form-control">
                         <input type="hidden" name="notice_file" id="notice_file" value="@if(isset($data)){{$data->notice_file}}@endif">
+                        <input type="hidden" name="temp_notice_file" id="temp_notice_file" value="">
                     </div>
                 </div>
                 </div>
@@ -164,7 +168,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12" style="margin: 0px; padding: 0px;">
                             <label class="col-md-4 col-sm-4 col-xs-12 control-label">Date of Notice</label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                <input type="text" class="form-control datepicker" name="date_of_notice" id="date_of_notice" value="@if(isset($data)){{Carbon\Carbon::parse($data->date_of_notice)->format('d/m/Y')}}@elseif(isset($data2['date_of_notice'])){{$data2['date_of_notice']}}@else{{date('d/m/Y')}}@endif" placeholder="Enter Date of Notice...">
+                                <input type="text" class="form-control " name="date_of_notice" id="date_of_notice" value="@if(isset($data)){{Carbon\Carbon::parse($data->date_of_notice)->format('d/m/Y')}}@elseif(isset($data2['date_of_notice'])){{$data2['date_of_notice']}}@else{{date('d/m/Y')}}@endif" data-date-end-date="0d" placeholder="Enter Date of Notice...">
                             </div>
                         </div>
                         </div>
@@ -172,7 +176,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12" style="margin: 0px; padding: 0px;">
                             <label class="col-md-4 col-sm-4 col-xs-12 control-label">Paper Name</label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                <select class="form-control" name="fk_newspaper_id">
+                                <select class="form-control" name="fk_newspaper_id" id="fk_newspaper_id">
                                     <option value="">Select Newspaper</option>
                                     @foreach($newspaper_list as $newspaper)
                                     <option value="{{$newspaper->id}}" @if(isset($data)) @if($newspaper->id==$data->fk_newspaper_id){{'selected'}} @endif @elseif(isset($data2['fk_newspaper_id'])) @if($newspaper->id==$data2['fk_newspaper_id']){{'selected'}} @endif @endif>{{$newspaper->paper_name}}</option>
@@ -185,7 +189,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12" style="margin: 0px; padding: 0px;">
                             <label class="col-md-4 col-sm-4 col-xs-12 control-label">Paper Page No.</label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                <input type="text" class="form-control" name="page_number" value="@if(isset($data)){{$data->page_number}}@endif" placeholder="Enter Page Number...">
+                                <input type="text" class="form-control" name="page_number" id="page_number" value="@if(isset($data)){{$data->page_number}}@endif" placeholder="Enter Page Number...">
                             </div>
                         </div>
                         </div>
@@ -634,6 +638,106 @@
                             </table>
                         </div>
                         </div>
+
+
+                        <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <table class="table table-bordered" id="tbl_othername">
+                                <thead>
+                                    <tr>
+                                        <th>Other Name</th>
+                                        <th style="text-align:center;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $i=0; if(isset($othername)) {
+                                    for($i=0; $i<count($othername); $i++) { ?>
+                                    <tr id="othername_<?php echo $i; ?>_row">
+                                        <td>
+                                            <input type="text" class="form-control othername" name="othername[]" id="othername_<?php echo $i; ?>" placeholder="Enter Other Name..." value="<?php if (isset($othername)) { echo $othername[$i]->othername; } ?>" />
+                                        </td>
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            <button type="button" id="othername_<?php echo $i; ?>_row_delete" class="delete_row" onClick="delete_row(this);"><span class="fa trash fa-trash-o"></span></button>
+                                        </td>
+                                    </tr>
+                                    <?php }} else { ?>
+                                    <tr id="othername_<?php echo $i; ?>_row">
+                                        <td>
+                                            <input type="text" class="form-control othername" name="othername[]" id="othername_<?php echo $i; ?>" placeholder="Enter Other Name..." value="" />
+                                        </td>
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            <button type="button" id="othername_<?php echo $i; ?>_row_delete" class="delete_row" onClick="delete_row(this);"><span class="fa trash fa-trash-o"></span></button>
+                                        </td>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2"><input type="button" class="btn btn-success" id="repeat_othername" value="+"></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        </div>
+
+                        <div id="myModal" class="modal fade" role="dialog" style="z-index: 100000;">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Select Scans</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table id="tbl_scan_details" class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td>Sr</td>
+                                                    <td>Date</td>
+                                                    <td>Newspaper</td>
+                                                    <td>Page Number</td>
+                                                    <td>Section</td>
+                                                    <td>Action</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="myModal2" class="modal fade" role="dialog" style="z-index: 100000;">
+                            <div class="modal-dialog">
+                                <div class="modal-content" style="width: 755px; height: 635px;">
+                                    <div class="modal-body">
+                                        <div id="content">
+                                            <div class="container" style="margin: 0px;">
+                                                <section class="copy">
+                                                    <div class="figure-wrapper">
+                                                        <figure class="image-container target" style="max-width: 110%; margin-top: 15px;">
+                                                            <img id="target_img" src="" alt="DomoKun">
+
+                                                            <figcaption class="image-meta">
+                                                                <a id="scan_img" target="_blank" href=""></a>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 </div>
@@ -643,8 +747,8 @@
                 <a href="{{url('index.php/notice')}}" class="btn btn-danger btn-sm pull-right">Cancel</a>
                 <button class="btn btn-success btn-sm pull-right" type="submit" style="margin-right:20px">Save</button>
             </div>
-            </div>
             @endif
+            </div>
         </form>
     </div>
 </div>
@@ -672,9 +776,16 @@
     'use strict';
     // const BASE_URL = '{!! url("index.php/").'/' !!}';
     const ASSET_PATH = '{!! url("/").'/' !!}';
+    
+
+    $( document ).ready(function() {
+        $("#date_of_notice").datepicker({ maxDate: 0,changeMonth: true,yearRange:'-100:+0',changeYear: true });
+    });
 </script>
 <script src="{{asset('/js/ocrad/ocrad.js')}}"></script>
-<!-- <script src="{{--asset('/js/scanner.js')--}}"></script> -->
-<script src="https://asprise.azureedge.net/scannerjs/scanner.js" type="text/javascript"></script>
+<script src="{{asset('/js/scannerjs/scanner.js')}}"></script>
+<!-- <script src="https://asprise.azureedge.net/scannerjs/scanner.js" type="text/javascript"></script> -->
 <script src="{{asset('/js/notice.js')}}"></script>
+<script src="{{asset('/plugins/crop/demo/vendor/fabric.js')}}"></script>
+<script src="{{asset('/plugins/crop/build/darkroom.js')}}"></script>
 @endsection

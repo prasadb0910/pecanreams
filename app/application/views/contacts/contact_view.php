@@ -94,7 +94,7 @@
 				 										<label class="col-md-12 control-label contact-view" style="text-align:left;" ><?php if (isset($editcontact)) { echo $editcontact[0]->c_type; } ?></label>
 													</div>
 												</div>
-												<div class="col-md-6 col-sm-6 col-xs-12">
+												<div class="col-md-6 col-sm-6 col-xs-12" style="<?php if (isset($editcontact)) { if($editcontact[0]->c_type!='Others') echo 'display: none;'; } else echo 'display: none;'; ?>">
 													<label class="col-md-3 col-sm-5 col-xs-12 col-devide-41 control-label"><strong>Concerned Person Name:</strong></label>
 													<div class="col-md-9 col-sm-7  col-xs-12 col-devide-59">
 				 										<label class="col-md-12 control-label contact-view" style="text-align:left;" ><?php if (isset($editcontact)) { echo $editcontact[0]->c_company; } ?></label>
@@ -102,7 +102,7 @@
 												</div>
 											</div>
 
-											<div class="form-group">
+											<div class="form-group" style="<?php if (isset($editcontact)) { if($editcontact[0]->c_type!='Others') echo 'display: none;'; } else echo 'display: none;'; ?>">
 												<div class="col-md-6 col-sm-6 col-xs-12">
 													<label class="col-md-3 col-sm-5 col-xs-12 control-label"><strong>Related Party Type:</strong></label>
 													<div class="col-md-9 col-sm-7 col-xs-12">

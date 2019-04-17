@@ -18,13 +18,13 @@ class DeveloperController extends Controller
         $data['max_updation_date'] = $result[0]->max_updation_date;
         
         $developer = DB::select("select distinct developer from 
-                                (select developer_1 as developer from project_details where status ='approved' 
-                                union all 
-                                select developer_2 as developer from project_details where status ='approved' 
-                                union all 
-                                select developer_3 as developer from project_details where status ='approved' 
-                                union all 
-                                select developer_4 as developer from project_details where status ='approved') A 
+                                (select distinct developer_1 as developer from project_details where status ='approved' 
+                                union 
+                                select distinct developer_2 as developer from project_details where status ='approved' 
+                                union 
+                                select distinct developer_3 as developer from project_details where status ='approved' 
+                                union 
+                                select distinct developer_4 as developer from project_details where status ='approved') A 
                                 group by developer order by developer");
         $data['developer'] = $developer;
 

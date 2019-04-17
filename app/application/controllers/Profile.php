@@ -16,6 +16,9 @@ class Profile extends CI_Controller
 
     public function index(){
         $cid=$this->session->userdata('session_id');
+        $gu_id=$this->session->userdata('gu_id');
+        $username=$this->session->userdata('username');
+        $gid=$this->session->userdata('groupid');
 
         $query=$this->db->query("SELECT * FROM contact_master WHERE c_id='$cid'");
         $result=$query->result();
@@ -29,6 +32,16 @@ class Profile extends CI_Controller
         $query=$this->db->query("SELECT A.nm_name, A.nm_relation, concat(ifnull(B.c_name,''), ' ', ifnull(B.c_last_name,''), ' - ', ifnull(B.c_emailid1,''), ' - ', ifnull(B.c_mobile1,''), ' - ', ifnull(B.c_company,'')) as c_name FROM contact_nominee_details A, contact_master B WHERE A.nm_cid='$cid' and A.nm_name = B.c_id");
         $result=$query->result();
         $data['editcontnom']=$result;
+
+        $data['group_name']='';
+        $query=$this->db->query("SELECT * FROM group_master WHERE g_id = '$gid'");
+        $result=$query->result();
+        $data['group_details']=$result;
+        if(count($result)>0){
+            if($username!=$result[0]->group_name){
+                $data['group_name']=$result[0]->group_name;
+            }
+        }
 
         $data['c_id'] = $cid;
 
@@ -46,6 +59,8 @@ class Profile extends CI_Controller
         $gid=$this->session->userdata('groupid');
 
         $now=date('Y-m-d H:i:s');
+        $group_name = $this->input->post('group_name');
+        $maker_checker = $this->input->post('maker_checker');
 
         if($this->input->post('c_dob')!='') {
             $c_dob=FormatDate($this->input->post('c_dob'));
@@ -53,6 +68,20 @@ class Profile extends CI_Controller
             $c_dob=NULL;
         }
 
+        $data = array();
+        if($group_name==''){
+            $group_name = $this->session->userdata('username');
+        }
+        $data = array(
+                    'group_name' => $group_name,
+                    'maker_checker' => $maker_checker,
+                    'modified_date' => $now,
+                    'modified_by' => $curusr
+                );
+        $this->db->where('g_id',$gid);
+        $this->db->update('group_master', $data);
+
+        $data = array();
         if ($this->input->post('c_last_name')!=""){
             $data = array(
                         'c_name' => $this->input->post('c_name'),
@@ -66,7 +95,8 @@ class Profile extends CI_Controller
                         'c_pan_card' => $this->input->post('c_pan_card'),
                         'c_aadhar_card' => $this->input->post('c_aadhar_card'),
                         'c_address' => $this->input->post('c_address'),
-                        'c_kyc_required' => $this->input->post('kyc'),
+                        // 'c_kyc_required' => $this->input->post('kyc'),
+                        'c_gst_no' => $this->input->post('c_gst_no'),
                         'c_modifiedby' => $curusr,
                         'c_modifieddate' => $now
                     );
@@ -143,7 +173,20 @@ class Profile extends CI_Controller
             }
         }
 
-        redirect(base_url().'index.php/profile');
+        $maker_checker_verified='';
+        if($maker_checker=='yes'){
+            $query=$this->db->query("SELECT * FROM group_master WHERE g_id = '$gid'");
+            $result=$query->result();
+            if(count($result)>0){
+                $maker_checker_verified=$result[0]->maker_checker_verified;
+            }
+        }
+
+        if($maker_checker=='yes' && $maker_checker_verified!='yes'){
+            redirect(base_url().'index.php/dashboard');
+        } else {
+            redirect(base_url().'index.php/dashboard/home');
+        }
     }
 }
 ?>

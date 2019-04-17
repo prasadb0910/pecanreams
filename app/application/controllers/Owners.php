@@ -487,7 +487,7 @@ class Owners extends CI_Controller
                                 order by case when owner_name = '" . $term . "' then 1 
                                 when owner_name like '%" . $term . "%' then 2 end;");
         $result=$query->result();
-        
+        $abc=array();
         foreach($result as $row) {
             $abc[] = array('value' => $row->ow_id , 'label' => $row->owner_name);
         }

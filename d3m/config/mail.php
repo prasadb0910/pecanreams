@@ -86,7 +86,7 @@ return [
 
     'username' => env('MAIL_USERNAME', 'info@pecanreams.com'),
 
-    'password' => env('MAIL_PASSWORD', 'Info@003#'),
+    'password' => env('MAIL_PASSWORD', 'ASSURE789'),
 
     /*
     |--------------------------------------------------------------------------

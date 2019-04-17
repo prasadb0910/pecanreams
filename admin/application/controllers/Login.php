@@ -20,6 +20,7 @@ class Login extends CI_Controller
     }
 
     public function index(){
+        // echo CI_VERSION;
         $this->load->view('login/main_page');
     }
 
@@ -429,17 +430,17 @@ class Login extends CI_Controller
         //------------------ SMS Sending Start --------------------------------------
         $otp = random_string('numeric', 6);
 
-        // $date = date("d M H:i");
-        // $this->load->library('PHPRequests');
-        // $sms = $date . "Dear%20".$name."%2C%20your%20login%20OTP%20is%20".$otp."%2E%20Please%20treat%20this%20as%20confidential%2E%20Sharing%20it%20with%20anyone%20gives%20them%20full%20access%20to%20your%20Pecan%20Reams%20account%2E%20Pecan%20Reams%20never%20calls%20to%20verify%20your%20OTP%2E";
-        // $sms = str_replace(' ', '%20', $sms);
-        // $sms = str_replace(':', '%3A', $sms);
-        // $surl = "http://smshorizon.co.in/api/sendsms.php?user=Ashish_Chandak&apikey=QizzeB4YLplingobMXX2&mobile=" . $phone . "&message=" . $sms . "&senderid=PECANR&type=txt";
-        // $ch = curl_init();
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($ch, CURLOPT_URL, $surl);
-        // curl_exec($ch);
-        // curl_close($ch);
+        $date = date("d M H:i");
+        $this->load->library('PHPRequests');
+        $sms = $date . "Dear%20".$name."%2C%20your%20login%20OTP%20is%20".$otp."%2E%20Please%20treat%20this%20as%20confidential%2E%20Sharing%20it%20with%20anyone%20gives%20them%20full%20access%20to%20your%20Pecan%20Reams%20account%2E%20Pecan%20Reams%20never%20calls%20to%20verify%20your%20OTP%2E";
+        $sms = str_replace(' ', '%20', $sms);
+        $sms = str_replace(':', '%3A', $sms);
+        $surl = "http://smshorizon.co.in/api/sendsms.php?user=Ashish_Chandak&apikey=QizzeB4YLplingobMXX2&mobile=" . $phone . "&message=" . $sms . "&senderid=PECANR&type=txt";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $surl);
+        curl_exec($ch);
+        curl_close($ch);
 
         $data = array(
             'mobile' => $phone,

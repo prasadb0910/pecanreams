@@ -15,9 +15,9 @@
     #example1_filter{
         float: right;
     }
-    .form-group{
+    /*.form-group{
         margin-bottom: 0px;
-    }
+    }*/
     .pagination{
         margin: 2px;
     }
@@ -31,12 +31,12 @@
         <div class="alert alert-success">{{Session::get('success_msg')}}</div>
         @endif
 
-        @if(!empty($notice))
         <form id="form_notice_list" action="{{url('index.php/notice/add_notice')}}" method="POST" class="form-horizontal">
 		<div class="box">
             <div class="box-header">
                 <h4 class="pull-left"><b>Notice List</b></h4>
-                <a href="{{url('index.php/notice/add')}}" class="btn btn-success btn-sm pull-right">Add New</a>
+                <a href="{{url('index.php/notice/scan')}}" class="btn btn-success btn-sm pull-right">Scan</a>
+                <a href="{{url('index.php/notice/add')}}" class="btn btn-success btn-sm pull-right" style="margin-right: 10px;">Add New</a>
             </div>
             <div class="box-body">
                 {{csrf_field()}}
@@ -69,10 +69,11 @@
                         <th>Language</th>
                         <th>E Paper</th>
                         <th>Frequency</th>
-                        <th>Area</th>
-                        <th>Notice Count</th>
+                        <th>Non Relevant Notice Count</th>
+                        <th>Relevant Notice Count</th>
                         <th>Notice Title</th>
                         <th>Address</th>
+                        <th>Added By</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
@@ -80,53 +81,10 @@
                     </tbody>
                 </table>
 
-                <!-- <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                        <th>Notice Title</th>
-                        <th>Date Of Notice</th>
-                        <th>Paper Name</th>
-                        <th>Days For Respond</th>
-                        <th>Issued By</th>
-                        <th>Reason For Notice</th>
-                        <th>Notice Type</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody>
-                    @foreach($notice as $data)
-                        <tr>
-                            <td class="table-text">
-                                <div>{{--$data->notice_title--}}</div>
-                            </td>
-                            <td class="table-text">
-                                <div>{{--$data->date_of_notice--}}</div>
-                            </td>
-                            <td class="table-text">
-                                <div>{{--$data->newspaper->paper_name--}}</div>
-                            </td>
-                            <td class="table-text">
-                                <div>{{--$data->days_for_respond--}}</div>
-                            </td>
-                            <td class="table-text">
-                                <div>{{--$data->issued_by--}}</div>
-                            </td>
-                            <td class="table-text">
-                                <div>{{--$data->reason_for_notice--}}</div>
-                            </td>
-                            <td class="table-text">
-                                <div>{{--$data->notice_type->notice_type--}}</div>
-                            </td>
-                            <td>
-                                <a href="{{--url('index.php/notice/details'.$data->id)--}}" class="label label-success">Details</a>
-                                <a href="{{--url('index.php/notice/edit'.$data->id)--}}" class="label label-warning">Edit</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table> -->
+               
             </div>
         </div>
         </form>
-        @endif
     </div>
 </div>
 
@@ -187,6 +145,52 @@
         </div>
     </div>
 </div>
+
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="form_non_relevant" action="{{url('index.php/notice/set_non_relevant_count')}}" method="POST" class="form-horizontal">
+            {{csrf_field()}}
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Notice Count</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <label class="col-md-4 col-sm-4 col-xs-12 control-label">Total Notice: </label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                        <input type="hidden" name="date_of_notice2" id="date_of_notice2" value="{{date('d/m/Y')}}">
+                        <input type="hidden" name="newspaper_id2" id="newspaper_id2" value="" />
+                        <input type="number" class="form-control" name="total_notice" id="total_notice" value="" placeholder="Enter Total Count..." readonly />
+                    </div>
+                </div>
+                </div>
+                <div class="form-group">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <label class="col-md-4 col-sm-4 col-xs-12 control-label">Total Relevant: </label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                        <input type="number" class="form-control" name="total_relevant" id="total_relevant" value="" placeholder="Enter Total Relevat Count..." readonly />
+                    </div>
+                </div>
+                </div>
+                <div class="form-group">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <label class="col-md-4 col-sm-4 col-xs-12 control-label">Total Non Relevant: </label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                        <input type="number" class="form-control" name="total_non_relevant" id="total_non_relevant" value="" placeholder="Enter Total Non Relevat Count..." />
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success btn-sm" type="submit" id="btn_yes2">Save</button>
+                <button class="btn btn-default btn-sm" type="button" id="btn_no2">Cancel</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')
@@ -214,6 +218,35 @@
     };
     $('#btn_no').click(function(){
         $('#myModal').modal('toggle');
+    });
+    var show_modal2 = function(elem){
+        var id = elem.id;
+        var newspaper_id = id.substring(id.lastIndexOf('_')+1);
+        $('#newspaper_id2').val(newspaper_id);
+        $('#date_of_notice2').val($('#date_of_notice').val());
+        $.ajax({
+            url:'{{url("index.php/notice/get_notice_count")}}',
+            type:'post',
+            data:$('#form_non_relevant').serialize(),
+            datatype:'html',
+            async:false,
+            success: function(request){
+                var data = JSON.parse(request);
+                $('#total_notice').val(data.total_notice_count);
+                $('#total_relevant').val(data.relevant_notice_count);
+                $('#total_non_relevant').val(data.non_relevant_notice_count);
+            },
+            error: function(response){
+                var r = jQuery.parseJSON(response.responseText);
+                console.log("Message: " + r.Message);
+                console.log("StackTrace: " + r.StackTrace);
+                console.log("ExceptionType: " + r.ExceptionType);
+            }
+        });
+        $('#myModal2').modal('toggle');
+    };
+    $('#btn_no2').click(function(){
+        $('#myModal2').modal('toggle');
     });
 </script>
 <script>
@@ -267,6 +300,7 @@
         $('#form_action').val('set_notice');
     }
     $('#date_of_notice').datepicker({
+         maxDate: 0,
         autoclose: true,
         onSelect: function(dateText) {
             get_data();

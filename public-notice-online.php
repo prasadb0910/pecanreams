@@ -9,41 +9,35 @@
 <script src="http://prodo.create.rocks/wp-content/themes/prodo/assets/js/html5shiv.min.js"></script>
 <script src="http://prodo.create.rocks/wp-content/themes/prodo/assets/js/respond.min.js"></script>
 <![endif]-->
-<title>Public Notice Alert – Online Public Notice India | Pecan Reams</title>
-<meta name="Description" content="Assure is India’s first online public notice alert system which notifies you regarding any public notice issued on your asset through alerts. Track your public & Legal Notice.">
+<title>Online Public Notice Alert System – Property Claim, Auction, Eviction | Pecan Reams</title>
+<meta name="Description" content="Assure is the best convenient public notice alert system which notifies you regarding any public notice issued on your real estate asset through timely email & sms. We are Covering 42 + Newspapers across India.">
 <link rel='dns-prefetch' href='https://maps.google.com' />
 <link rel='dns-prefetch' href='https://fonts.googleapis.com' />
 <link rel='dns-prefetch' href='https://s.w.org' />
  
 <style type="text/css">
-img.wp-smiley,
-img.emoji {
-display: inline !important;
-border: none !important;
-box-shadow: none !important;
-height: 1em !important;
-width: 1em !important;
-margin: 0 .07em !important;
-vertical-align: -0.1em !important;
-background: none !important;
-padding: 0 !important;
-}
-
-
-
-
+	img.wp-smiley,
+	img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+	}
 </style>
-
 <style>
-.bx-wrapper
-{
-	width:100%!important; 
-}
-.bx-window
-{
-	width:100%!important; 
-}
-
+	.bx-wrapper
+	{
+		width:100%!important; 
+	}
+	.bx-window
+	{
+		width:100%!important; 
+	}
 </style>
 
 
@@ -56,13 +50,13 @@ padding: 0 !important;
 <link rel='stylesheet' id='style-css'  href='assets/css/style.min.css?ver=2.1' type='text/css' media='all' />
 <link rel='stylesheet' id='wp-style-css'  href='style.css?ver=4.6.1' type='text/css' media='all' />
 <link rel='stylesheet' id='responsive-css'  href='assets/css/responsive.min.css?ver=4.6.1' type='text/css' media='all' />
-   <link rel='stylesheet'   href='assets/css/login-min.css' type='text/css' media='all' />
- <link rel='stylesheet'   href='assets/css/login.css' type='text/css' media='all' />
- <link rel='stylesheet'   href='css/style1.css' type='text/css' media='all' />
- 
-     <link rel="stylesheet" href="css/how-it-works.css">
-     <link rel="stylesheet" href="css/pricing.css">
-     <link rel="stylesheet" href="css/style.css">
+<link rel='stylesheet'   href='assets/css/login-min.css' type='text/css' media='all' />
+<link rel='stylesheet'   href='assets/css/login.css' type='text/css' media='all' />
+<link rel='stylesheet'   href='css/style1.css' type='text/css' media='all' />
+
+<link rel="stylesheet" href="css/how-it-works.css">
+<link rel="stylesheet" href="css/pricing.css">
+<link rel="stylesheet" href="css/style.css">
 
 <!--[if lt IE 9]>
 <link rel='stylesheet' id='oldie-css'  href='assets/css/oldie.min.css?ver=4.6.1' type='text/css' media='all' />
@@ -72,7 +66,7 @@ padding: 0 !important;
  
  
 
- <style>
+<style>
 <style type="text/css">
 
 .recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}
@@ -310,13 +304,15 @@ body#home-page #main .container #where-to-buy-callout h3 {
 </style>
   <link rel='stylesheet'   href='assets/css/custom.css' type='text/css' media='all' />
  <link rel="stylesheet" href="assets/css/flexslider.css" type="text/css" media="screen" />
+
+ <?php include('db.php') ?>
  <?php
 
-    $host="localhost";
-    $username="root";
-    $password="pecan@12345";
-    $dbname="prop_details";
-    $conn = mysqli_connect($host, $username, $password, $dbname);
+    // $host="localhost";
+    // $username="root";
+    // $password="pecan@12345";
+    // $dbname="prop_details";
+    // $conn = mysqli_connect($host, $username, $password, $dbname);
 	
 	function moneyFormatIndia($num) {
     $explrestunits = "" ;
@@ -341,11 +337,21 @@ body#home-page #main .container #where-to-buy-callout h3 {
 }
 	
 ?>
+
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109726639-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-109726639-1');
+</script> -->
 </head>
 <body class="single single-post postid-3434 single-format-image nav-sticky">
 				
 		<div class="navbar navbar-fixed-top floating positive two" role="navigation">
 			<div class="container">
+			
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
 					<span class="icon-bar"></span>
@@ -356,6 +362,15 @@ body#home-page #main .container #where-to-buy-callout h3 {
 				<img src="assets/images/main-logo.png" data-alt="assets/images/main-logo.png"  width="100%" alt="">
 				</a>
 			</div>
+			
+			<span class="contacts">
+						<a href="tel:+022 6143 1712 " class="p-d-10"><i class="fa fa-phone" aria-hidden="true"></i>
+							<small class="hidden-xs hidden-sm">022 6143 1712 </small> </a> &nbsp
+						<a href="mailto:info@pecanreams.com" class="p-d-10"><i class="fa fa-envelope" aria-hidden="true"></i>
+							<small class="hidden-xs hidden-sm">info@pecanreams.com</small></a>
+					
+					</span><br>
+			
 		 <div class="collapse navbar-collapse" id="navbar-collapse"> 
 			 	<ul id="menu-primary" class="nav navbar-nav navbar-right">
 				<li class="dropdown">
@@ -378,13 +393,13 @@ body#home-page #main .container #where-to-buy-callout h3 {
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#" >Solutions
 						<span class="caret"></span></a>
 						<ul class="dropdown-menu" >
-						  <li><a href="reams_features.php">REAMS</a></li>    <li class="divider"></li>
-						  <li><a href="idata_register.php">iDATA</a></li>
+						  <li><a href="property-management-service.html">REAMS</a></li>    <li class="divider"></li>
+						  <li><a href="online-real-estate-analytics-tool.php">iDATA</a></li>
 					   <li class="divider"></li>
-						  <li><a href="assure.php">Assure</a></li>
+						  <li><a href="public-notice-online.php">Assure</a></li>
 					
 						<li class="divider"></li>
-						  <li><a href="advisory.html">Advisory</a></li>
+						  <li><a href="real-estate-private-equity-advisor.html">Advisory</a></li>
 						</ul>
 						
 					</li>
@@ -403,14 +418,14 @@ body#home-page #main .container #where-to-buy-callout h3 {
 					
 					
 				<li  ><a class="jumper"  href="blog" target="_blank"> Blogs</a></li>
-					<li ><a class="jumper" href="index.php#contact-map">Contact Us</a></li>
+					<li ><a class="jumper" href="contact.php">Contact Us</a></li>
 					
 						<li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" >Login
         <span class="caret"></span></a>
         	<ul class="dropdown-menu">
           <li><a href="https://www.pecanreams.com/app/" target="_blank">REAMS</a></li><li class="divider"></li>
-          <li><a href="https://www.pecanreams.com/d3m/" target="_blank">iDATA</a></li>
+          <li><a href="https://www.pecanreams.com/d3m/" target="_blank">iDATA / Assure</a></li>
       
         </ul>
       </li>
@@ -438,6 +453,13 @@ body#home-page #main .container #where-to-buy-callout h3 {
 			
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="container">
+			<span style="margin-left: 800px;">
+						<a href="tel:+022 6143 1777 " class="p-d-10"><i class="fa fa-phone" aria-hidden="true"></i>
+							<small class="hidden-xs hidden-sm">+022 6143 1777 </small> </a> &nbsp
+						<a href="mailto:info@dentalhome.in" class="p-d-10"><i class="fa fa-envelope" aria-hidden="true"></i>
+							<small class="hidden-xs hidden-sm">info@pecanreams.com</small></a>
+					
+					</span>
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
 					<span class="icon-bar"></span>
@@ -471,13 +493,13 @@ body#home-page #main .container #where-to-buy-callout h3 {
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#" >Solutions
 						<span class="caret"></span></a>
 						<ul class="dropdown-menu" >
-						  <li><a href="reams_features.php">REAMS</a></li>    <li class="divider"></li>
-						  <li><a href="idata_register.php">iDATA</a></li>
+						  <li><a href="property-management-service.html">REAMS</a></li>    <li class="divider"></li>
+						  <li><a href="online-real-estate-analytics-tool.php">iDATA</a></li>
 					   <li class="divider"></li>
-						  <li><a href="assure.php">Assure</a></li>
+						  <li><a href="public-notice-online.php">Assure</a></li>
 					
 						<li class="divider"></li>
-						  <li><a href="advisory.html">Advisory</a></li>
+							   <li><a href="real-estate-private-equity-advisor.html">Advisory</a></li>
 						</ul>
 						
 					</li>
@@ -498,7 +520,7 @@ body#home-page #main .container #where-to-buy-callout h3 {
 					
 					<li  ><a class="jumper"  href="blog" target="_blank"> Blogs</a></li>
 		
-					<li ><a class="jumper" href="index.php#map">Contact Us</a></li>
+					<li ><a class="jumper" href="contact.php">Contact Us</a></li>
 					
 						<li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" >Login
@@ -528,7 +550,7 @@ body#home-page #main .container #where-to-buy-callout h3 {
 
 
 <div class="col-md-9 col-sm-6">
-<h2 style="text-align: center;margin-top: 100px;color:#282828;font-weight:400;">About Assure</h2>  
+ <h1 style="text-align: center;font-size:30px; margin-top: 100px;color:#282828;font-weight:400;">Assure – Public Notice Alert System</h1>  
 <ul style="list-style-type:none" class="about">
 
 
@@ -589,7 +611,7 @@ Covering an average of 150 notices on a daily basis.
 
 <div class="container">
  <div class=" col-sm-12 col-md-5 feature1" style="margin-top: 85px;text-align:center;">
-	<img src="assets/images/tab1.png" width="95%"/>
+	<img src="assets/images/tab1.png" width="95%" alt="Online Public Notice India"/>
 </div>
 <div class=" col-sm-12 col-md-7 feature1">
 <h2 style="text-align: center;color:#282828;font-weight:400;">Purpose of Public Notice? </h2>
@@ -1134,7 +1156,7 @@ Copyright 2016. All rights reserved.
 <ul class="list-unstyled clear-margins ">
 			<li><a  href="about.html"> About Us</a></li>
 
-			<li><a  href="index.php#map"> Contact Us</a></li> 
+			<li><a  href="contact.php"> Contact Us</a></li> 
 </ul>
 </div>
 
@@ -1154,10 +1176,10 @@ Copyright 2016. All rights reserved.
 </div>
  
 <ul class="list-unstyled clear-margins">
-			<li><a  href="reams_features.php"> REAMS</a></li>
-			<li><a  href="idata_register.php"> iDATA</a></li>
-			<li><a  href="assure.php"> Assure</a></li>
-			<li><a  href="advisory.html"> Advisory</a></li>
+			<li><a  href="property-management-service.html"> REAMS</a></li>
+			<li><a  href="online-real-estate-analytics-tool.php"> iDATA</a></li>
+			<li><a  href="public-notice-online.php"> Assure</a></li>
+						<li><a href="real-estate-private-equity-advisor.html">Advisory</a></li>
 			                         
 		
 </ul>

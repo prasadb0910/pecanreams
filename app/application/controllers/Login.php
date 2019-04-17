@@ -293,7 +293,7 @@ class Login extends CI_Controller
                                         <tbody>
                                             <tr>
                                                 <td align="center" valign="middle" height="44" style="font-family:"Open Sans",sans-serif;font-size:14px;font-weight:normal">
-                                                    <a  href="'.base_url().'index.php/login/reset'.$token.'"style="font-family:"Open Sans",sans-serif;color:#ffffff;display:inline-block;text-decoration:none;line-height:44px;width:200px;font-weight:normal;text-transform:uppercase" >Reset Password </a>
+                                                    <a  href="'.base_url().'index.php/login/reset/'.$token.'"style="font-family:"Open Sans",sans-serif;color:#ffffff;display:inline-block;text-decoration:none;line-height:44px;width:200px;font-weight:normal;text-transform:uppercase" >Reset Password </a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -622,6 +622,13 @@ class Login extends CI_Controller
         $id = $this->db->insert_id();
 
         redirect(base_url().'../d3m/public/index.php/login/set_idata_session/'.$token, 'refresh');
+    }
+
+    public function get_dashboard($token){
+        $redirect_url = $this->get_session($token);
+        
+        $redirect_url = base_url().'index.php/Dashboard/home';
+        redirect($redirect_url);
     }
 
     public function get_laravel_session($token){

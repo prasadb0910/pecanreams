@@ -1,11 +1,14 @@
 <head>
     <meta charset="UTF-8">
-    @if (session('module')=='public_notice')
+    <!-- @if (session('module')=='public_notice')
         <title> @yield('htmlheader_title', 'Public Notices') </title>
     @else
         <title> @yield('htmlheader_title', 'D3M') </title>
-    @endif
+    @endif -->
+    <title>Pecan Reams – iData Dashboard Log In  </title>
+    
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <meta name="Description" content="Get access to your iData real estate analytics tool dashboard.">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 

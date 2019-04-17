@@ -11,18 +11,17 @@
 
 	<div class="container">
 		Dear {{ $name }},
-		<p>
+		<p style="line-height: 2;">
 			We are in receipt of your payment of Rs. {{ $transaction_amount }}. 
 			@if(isset($total_outstanding))
 			Current Outstanding is Rs. {{ $total_outstanding }}.
 			@endif
 			<br><br>
 			In case of any queries write to us on info@pecanreams.com 
-			<br><br>
 		</p>
 		<br><br>
-		Regards,<br>
-		Team Pecan REAMS
+		Regards,<br><br>
+		Team Pecan Reams
 	</div>
 </body>
 </html>

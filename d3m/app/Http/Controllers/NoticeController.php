@@ -352,7 +352,7 @@ class NoticeController extends Controller
         }
     }
 
-    function FormatDate($date, $format = 'd/m/Y') {
+    public function FormatDate($date, $format = 'd/m/Y') {
         $d = DateTime::createFromFormat($format, $date);
         $returnDate = null;
         if ($d && $d->format($format) == $date) {

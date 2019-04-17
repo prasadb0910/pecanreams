@@ -45,7 +45,7 @@
                 <input type="text" class="form-control" name="doc_desc[]" placeholder="Description" value="<?php echo $documents[$i]->doc_description; ?>" />
             </div>
             <div class="col-md-6">
-                <input type="text" class="form-control" name="ref_no[]" id="ref_no_<?php echo $doc_no; ?>" placeholder="Reference No" id="ref_no_<?php echo $doc_no; ?>" value="<?php echo $documents[$i]->doc_ref_no; ?>"/>
+                <input type="text" class="form-control" name="ref_no[]" id="ref_no_<?php echo $doc_no; ?>" placeholder="Reference No" value="<?php echo $documents[$i]->doc_ref_no; ?>"/>
             </div>
         </div>
         <div class="col-md-3" >
@@ -113,7 +113,7 @@
                 <input type="text" class="form-control" name="doc_desc[]" placeholder="Description" value="<?php echo $documents[$i]->doc_description; ?>" />
             </div>
             <div class="col-md-6">
-                <input type="text" class="form-control" name="ref_no[]" id="ref_no_<?php echo $doc_no; ?>" placeholder="Reference No" id="ref_no_<?php echo $doc_no; ?>" value="<?php echo $documents[$i]->doc_ref_no; ?>"/>
+                <input type="text" class="form-control" name="ref_no[]" id="ref_no_<?php echo $doc_no; ?>" placeholder="Reference No" value="<?php echo $documents[$i]->doc_ref_no; ?>"/>
             </div>
         </div>
         <div class="col-md-3" >
@@ -163,7 +163,7 @@
                 <input type="text" class="form-control" name="doc_desc[]" placeholder="Description" value="<?php echo $documents[$i]->doc_description; ?>" />
             </div>
             <div class="col-md-6">
-                <input type="text" class="form-control" name="ref_no[]" id="ref_no_<?php echo $doc_no; ?>" placeholder="Reference No" id="ref_no_<?php echo $doc_no; ?>" value="<?php echo $documents[$i]->doc_ref_no; ?>"/>
+                <input type="text" class="form-control" name="ref_no[]" id="ref_no_<?php echo $doc_no; ?>" placeholder="Reference No" value="<?php echo $documents[$i]->doc_ref_no; ?>"/>
             </div>
         </div>
         <div class="col-md-3" >

@@ -32,7 +32,7 @@
    <br /> Bldg. No- 2B, Andheri Kurla Road, Andheri – East,Mumbai- 400059 
             <br /> 022 6143 1777
        <br><a href="mailto:cs@eatanytime.in">info@pecanreams.com</a><br>
-       GSTIN: 27AABCW7811R1ZN
+       GSTIN: 27AAICP6630L1Z0
      </p>
   </center>
 <table cellspacing="0" cellpadding="5" border="1" style="border-collapse: collapse; width:100%; margin:auto; font-family:Arcon-Regular, OpenSans-Regular, Arcon, Verdana, Geneva, sans-serif; font-size:10px; font-weight:400; border:1px solid #666;"    >
@@ -343,15 +343,15 @@
         </tr>
           <tr>
             <td><p style="margin:0;"><span style="  font-size:10px; font-weight:500;" >Branch  </span></p></td>
-            <td><span style=" font-size:10px; font-weight:500;" >: Kandivali(w)</span></td>
+            <td><span style=" font-size:10px; font-weight:500;" >: Santacruz(E)</span></td>
           </tr>
           <tr>
             <td><p style="margin:0;"><span style="  font-size:10px; font-weight:500;" >A/C No. </span></p></td>
-            <td><span style=" font-size:10px; font-weight:500;" >: 50200018195231</span></td>
+            <td><span style=" font-size:10px; font-weight:500;" >: 50200020352664</span></td>
           </tr>
           <tr>
-            <td><p style="margin:0;"><span style="  font-size:10px; font-weight:500;" > IFSC Code </span></p></td>
-            <td><span style=" font-size:10px; font-weight:500;" >: HDFC0000288</span></td>
+            <td><p style="margin:0;"><span style="  font-size:10px; font-weight:500;" > RTGS Code </span></p></td>
+            <td><span style=" font-size:10px; font-weight:500;" >: HDFC0001333</span></td>
           </tr>
       </table>
      
@@ -359,7 +359,17 @@
   
       
       </td>
-    <td width="35%" colspan="3" align="center" valign="top" style=" font-size:10px; font-weight:500;"> For Pecan Reams Private Limited <br/> <img src="" height="50"  alt="Sign Rohit" /> <br/>Authorised Signatory</td>
+      <td width="35%" colspan="3" align="center" valign="top" style=" font-size:10px; font-weight:500;"> 
+        For Pecan Reams Private Limited 
+        <br/> 
+        <!-- <img src="" height="50"  alt="Sign Rohit" />  -->
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        Authorised Signatory
+      </td>
   </tr>
   <tr>
     <td colspan="6" valign="top"><p style="line-height:11px; text-align:justify;   margin: 0; "> <span style="  font-size:10px; font-weight:500;" >Declaration:</span><br />

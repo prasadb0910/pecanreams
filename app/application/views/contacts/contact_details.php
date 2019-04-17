@@ -14,33 +14,28 @@
         <link rel="stylesheet" type="text/css" id="theme" href="<?php echo base_url(); ?>css/theme-blue.css"/>
         <link href="<?php echo base_url() . 'js/jquery-ui-1.11.2/jquery-ui.min.css'; ?>" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" type="text/css" id="theme" href="<?php echo base_url(); ?>css/user-details.css"/>
-        <!-- EOF CSS INCLUDE -->                                      
-		
-		 
-        
+        <!-- EOF CSS INCLUDE -->
     </head>
 
     <body>								
         <!-- START PAGE CONTAINER -->
         <div class="page-container page-navigation-top">            
             <!-- PAGE CONTENT -->
-                   <div class="page-content1 page-overflow wrapper wrapper__minify" style="height:auto!important;">
+            <div class="page-content1 page-overflow wrapper wrapper__minify" style="height:auto!important;">
                 
                 <?php $this->load->view('templates/menus');?>
-                   <div class="heading-h2"><a href="<?php echo base_url().'index.php/dashboard'; ?>" >  Dashboard  </a> &nbsp; &#10095; &nbsp; <a href="<?php echo base_url().'index.php/contacts'; ?>" > Contact List </a>  &nbsp; &#10095; &nbsp; Contact Details</div>
+
+                <div class="heading-h2"><a href="<?php echo base_url().'index.php/dashboard'; ?>" >  Dashboard  </a> &nbsp; &#10095; &nbsp; <a href="<?php echo base_url().'index.php/contacts'; ?>" > Contact List </a>  &nbsp; &#10095; &nbsp; Contact Details</div>
                 <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
                 
                     <div class="row main-wrapper">
 					<div class="main-container">           
-                         <div class="box-shadow">   
-                      
-						
-                        
+                        <div class="box-shadow">
                             <form id="form_contact" role="form" class="form-horizontal" method ="post" action="<?php if(isset($editcontact)) { echo base_url().'index.php/contacts/updateRecord/'.$c_id; } else { echo base_url().'index.php/contacts/saveRecord'; } ?>" enctype="multipart/form-data" autocomplete="off">
-                               <div class="box-shadow-inside">
+                                <div class="box-shadow-inside">
                                 <div class="col-md-12 custom-padding" style="padding:0;" >
-                                 <div class="panel panel-default">
+                                <div class="panel panel-default">
 
                                <!--  <div class="panel-heading">
                                     <h3 class="panel-title" style="text-align:center;float:initial;"><strong>Contact Master</strong></h3>

@@ -70,6 +70,7 @@ textarea { overflow: hidden; }
     width: 100%;
 }
 .panel-footer { padding:10px; }
+            .select{padding: 0px !important;}
         </style>		
     </head>
     <body>								
@@ -115,7 +116,7 @@ textarea { overflow: hidden; }
                                         </div>
 									</div>
 									<div class="form-group">
-										<div class="col-md-6">
+										<div class="col-md-6" style="<?php if(isset($group_details)) if($group_details[0]->maker_checker=='no') echo 'display: none;'; ?>">
 											<div class="">
 												<label class="col-md-3 control-label">Role</label>
 												<div class="col-md-9">

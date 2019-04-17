@@ -67,16 +67,34 @@ class Document_model Extends CI_Model{
         return $data;
     }
 
-    public function edit_view_doc($type='', $doc_ref_id='', $doc_ref_type=''){
+    public function edit_view_doc($type='', $doc_ref_id='', $doc_ref_type='', $d_t_type=''){
+        $cond1='';
+        $cond2='';
+
+        if($type!=''){
+            $cond2 = " where ".$type."='Yes'";
+        }
+
+
+        if($d_t_type!=''){
+            $cond1 = " where d_t_type like '%".$d_t_type."%'";
+
+            if($cond2==''){
+                $cond2 = " where d_t_type like '%".$d_t_type."%'";
+            } else {
+                $cond2 = $cond2 . " and d_t_type like '%".$d_t_type."%'";
+            }
+        }
+
         $query=$this->db->query("select C.*, D.d_documentname as doc_documentname, d_show_expiry_date from 
-								(select A.*, B.d_type_id, B.d_type, B.d_m_status from 
-								(select * from document_details where doc_ref_id='$doc_ref_id' and doc_ref_type='$doc_ref_type') A 
-								left join 
-								(select * from document_type_master) B 
-								on (A.doc_type_id=B.d_type_id)) C 
-								left join 
-								(select * from document_master) D 
-								on (C.doc_doc_id=D.d_id)");
+                                (select A.*, B.d_type_id, B.d_type, B.d_m_status from 
+                                (select * from document_details where doc_ref_id='$doc_ref_id' and doc_ref_type='$doc_ref_type') A 
+                                left join 
+                                (select * from document_type_master) B 
+                                on (A.doc_type_id=B.d_type_id)) C 
+                                left join 
+                                (select * from document_master".$cond1.") D 
+                                on (C.doc_doc_id=D.d_id)");
         $result=$query->result();
         $data['documents']=$result;
 
@@ -92,7 +110,7 @@ class Document_model Extends CI_Model{
                     $query=$this->db->query("select * from (select A.d_id, B.d_documentname from 
                                             (select * from document_types where d_type_id='$d_type_id') A 
                                             left join 
-                                            (select * from document_master where ".$type."='Yes') B 
+                                            (select * from document_master".$cond2.") B 
                                             on (A.d_id=B.d_id)) C where C.d_documentname is not null");
                     $data['docs'][$d_type_id]=$query->result();
                 } else {
@@ -114,7 +132,7 @@ class Document_model Extends CI_Model{
                 $query=$this->db->query("select * from (select A.d_id, B.d_documentname from 
                                         (select * from document_types where d_type_id='$d_type_id') A 
                                         left join 
-                                        (select * from document_master where ".$type."='Yes') B 
+                                        (select * from document_master".$cond2.") B 
                                         on (A.d_id=B.d_id)) C where C.d_documentname is not null");
 
                 $data['docs'][$d_type_id]=$query->result();

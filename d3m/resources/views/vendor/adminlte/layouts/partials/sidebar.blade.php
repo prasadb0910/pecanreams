@@ -42,10 +42,10 @@
                     <a href="#">
                         <i class="fa fa-dashboard"></i> <span>Assure</span>
                         <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
+                            <i class="fa fa-caret-down pull-right"></i>
                         </span>
                     </a>
-                    <ul class="treeview-menu">
+                    <!-- <ul class="treeview-menu"> -->
                         <li><a href="{{ url('index.php/dashboard') }}"><i class='fa fa-tachometer'></i> <span>Dashboard</span></a></li>        
 
                         @if (isset($access['UserGroups']))
@@ -107,7 +107,13 @@
                         <li><a href="{{ url('index.php/user_payment_detail/list1') }}"><i class='fa fa-credit-card '></i> <span>Payments</span></a></li>
                         @endif
                         @endif
-                    </ul>
+
+                        @if (isset($access['UserPayments']))
+                        @if ($access['UserPayments']['r_view']=='1' || $access['UserPayments']['r_insert']=='1' || $access['UserPayments']['r_edit']=='1' || $access['UserPayments']['r_delete']=='1' || $access['UserPayments']['r_approvals']=='1' || $access['UserPayments']['r_export']=='1')
+                        <li><a href="{{ url('index.php/user_payment_detail/plan') }}"><i class='fa fa-shopping-cart '></i> <span>Plan</span></a></li>
+                        @endif
+                        @endif
+                    <!-- </ul> -->
                 </li>
             @else
                 <li class= "reams1"><a href="{{ url('index.php/reams') }}"><i class='fa fa-tachometer'></i> <span>REAMS</span></a></li>
@@ -115,16 +121,16 @@
                     <a href="#">
                         <i class="fa fa-dashboard"></i> <span>iDATA</span>
                         <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
+                            <i class="fa fa-caret-down pull-right"></i>
                         </span>
                     </a>
-                    <ul class="treeview-menu">
+                    <!-- <ul class="treeview-menu"> -->
                         <li><a href="{{ url('index.php/dashboard') }}"><i class='fa fa-tachometer'></i> <span>Dashboard</span></a></li>
                         <li><a href="{{ url('index.php/developer') }}"><i class='fa fa-group'></i> <span>Developer Level</span></a></li>
                         <li><a href="{{ url('index.php/search') }}"><i class="fa fa-search"></i> <span>Search</span></a></li>
                         <li><a href="{{ url('index.php/compare') }}"><i class='fa fa-balance-scale'></i> <span>Compare</span></a></li>
                         <li><a href="{{ url('index.php/user_feedback') }}"><i class='fa fa-reply-all'></i> <span>User Feedback</span></a></li>
-                    </ul>
+                    <!-- </ul> -->
                 </li>
                 <li class= "assure1"><a href="{{ url('index.php/assure') }}"><i class='fa fa-tachometer'></i> <span>Assure</span></a></li>
                 <!-- <li><a href="{{ url('index.php/project') }}"><i class='fa fa-search'></i> <span>Project</span></a></li> -->

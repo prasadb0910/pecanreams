@@ -103,18 +103,22 @@
 
                 <li><a href="{{ url('index.php/newspapers') }}"><i class='fa fa-newspaper-o'></i> <span>Newspapers</span></a></li>
                 <li><a href="{{ url('index.php/notice_type') }}"><i class='fa fa-list'></i> <span>Notice Types</span></a></li>
+                <li><a href="{{ url('index.php/notice_count') }}"><i class='fa fa-list'></i> <span>Notice Count</span></a></li>
                 <li><a href="{{ url('index.php/notice') }}"><i class='fa fa-exclamation-triangle'></i> <span>Notices</span></a></li>
                 <li><a href="{{ url('index.php/property_notice') }}"><i class='fa fa-bullhorn'></i> <span>Property Notices</span></a></li>
                 <li><a href="{{ url('index.php/user') }}"><i class='fa fa-user-plus'></i> <span>Users</span></a></li>
                 <li><a href="{{ url('index.php/property') }}"><i class='fa fa-building-o'></i> <span>Properties</span></a></li>
                 <li><a href="{{ url('index.php/user_payment_detail') }}"><i class='fa fa-credit-card '></i> <span>Payments</span></a></li>
+                <li><a href="{{ url('index.php/notice/get_matching_log') }}"><i class='fa fa-credit-card '></i> <span>Notice Matching Log</span></a></li>
+                <li><a href="{{ url('index.php/log') }}"><i class='fa fa-credit-card '></i> <span>Logs</span></a></li>
                 
             @else
                 <li><a href="{{ url('index.php/developer') }}"><i class='fa fa-group'></i> <span>Developer Level</span></a></li>
                 <li><a href="{{ url('index.php/search') }}"><i class="fa fa-search"></i> <span>Search</span></a></li>
                 <li><a href="{{ url('index.php/compare') }}"><i class='fa fa-balance-scale'></i> <span>Compare</span></a></li>
                 <li><a href="{{ url('index.php/user_feedback') }}"><i class='fa fa-reply-all'></i> <span>User Feedback</span></a></li>
-                <!-- <li><a href="{{ url('index.php/project') }}"><i class='fa fa-search'></i> <span>Project</span></a></li> -->
+                <li><a href="{{ url('index.php/project') }}"><i class='fa fa-search'></i> <span>Project</span></a></li>
+                <li><a href="{{ url('index.php/idatalog') }}"><i class='fa fa-credit-card '></i> <span>Logs</span></a></li>
             @endif
 
             <!-- <li><a href="#"><i class='fa fa-link'></i> <span>{{-- trans('adminlte_lang::message.anotherlink') --}}</span></a></li> -->

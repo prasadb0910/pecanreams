@@ -114,7 +114,7 @@ class Payment extends CI_Controller
     }
 
     public function set_payment_details(){
-        $sql = "select max(payment_id) as payment_id from user_payment_details";
+        $sql = "select max(payment_id) as payment_id from user_payment_details where module = 'Reams'";
         $data = $this->db->query($sql)->result();
         $payment_id = 0;
         if(count($data)>0){
@@ -123,7 +123,7 @@ class Payment extends CI_Controller
             }
         }
 
-        $sql = "select * from payment_transactions where id > " . $payment_id . " order by id";
+        $sql = "select * from payment_transactions where id > " . $payment_id . " and module = 'Reams' order by id";
         $data = $this->db->query($sql)->result();
         if(count($data)>0){
             for($i=0; $i<count($data); $i++){

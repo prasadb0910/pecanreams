@@ -67,6 +67,23 @@ jQuery(function(){
 });
 
 jQuery(function(){
+    var counter = $('.othername').length;
+    $('#repeat_othername').click(function(event){
+        event.preventDefault();
+        var newRow = jQuery('<tr id="othername_'+counter+'_row">' + 
+                                '<td>' + 
+                                    '<input type="text" class="form-control othername" name="othername[]" id="othername_'+counter+'" placeholder="Enter Other Name..." value="" />' + 
+                                '</td>' + 
+                               '<td style="text-align: center; vertical-align: middle;">' + 
+                                    '<button type="button" id="othername_'+counter+'_row_delete" class="delete_row" onClick="delete_row(this);"><span class="fa trash fa-trash-o"></span></button>' + 
+                                '</td>' + 
+                            '</tr>');
+        $('#tbl_othername tbody').append(newRow);
+        counter++;
+    });
+});
+
+jQuery(function(){
     var counter = $('.property_no_detail').length;
     $('#repeat_property_no_detail').click(function(event){
         event.preventDefault();
@@ -173,7 +190,6 @@ var load_file = function () {
     // console.log(document.getElementById('picker').files[0]);
     reader.readAsDataURL(document.getElementById('picker').files[0]);
 }
-
 
 var delete_row = function(elem){
     var id = elem.id;
@@ -298,6 +314,71 @@ function displayServerResponse(successful, mesg, response) {
     }, 1000);
 }
 
+/** Scan and upload in one go */
+function scanAndUploadDirectly2() {
+    scanner.scan(displayServerResponse2,
+        {
+            "output_settings": [
+                {
+                    "type": "upload",
+                    "format": "jpg",
+                    "upload_target": {
+                        // "url": "http://ec2-52-77-255-84.ap-southeast-1.compute.amazonaws.com/public_notices/public/uploads/upload.php?action=dump",
+                        "url": ASSET_PATH + "uploads/upload2.php?action=dump",
+                        "post_fields": {
+                            "sample-field": "Test scan"
+                        },
+                        "cookies": document.cookie,
+                        "headers": [
+                            "Referer: " + window.location.href,
+                            "User-Agent: " + navigator.userAgent
+                        ]
+                    }
+                }
+            ]
+        }
+    );
+}
+
+function displayServerResponse2(successful, mesg, response) {
+    if(!successful) { // On error
+        // document.getElementById('server_response').innerHTML = 'Failed: ' + mesg;
+        document.getElementById('server_response').value = 'Failed: ' + mesg;
+        return;
+    }
+
+    if(successful && mesg != null && mesg.toLowerCase().indexOf('user cancel') >= 0) { // User cancelled.
+        // document.getElementById('server_response').innerHTML = 'User cancelled';
+        document.getElementById('server_response').value = 'User cancelled';
+        return;
+    }
+
+    // document.getElementById('server_response').innerHTML = scanner.getUploadResponse(response);
+
+    var scan_response = scanner.getUploadResponse(response);
+    document.getElementById('notice_file').value = scan_response;
+
+    var img = new Image();
+    img.className = 'cropimage';
+    img.src = ASSET_PATH + 'uploads/scans/' + scan_response;
+    document.getElementById('nose').innerHTML = '';
+    document.getElementById('nose').appendChild(img);
+
+    window.setTimeout(function(){
+        OCRAD(img, function(text){
+            document.getElementById('transcription').className = "done"
+            document.getElementById('transcription').innerText = text;
+            document.getElementById('details').value = text;
+        })
+
+        var result = '';
+        $('.cropimage').each(function(){
+            var image = $(this);
+            image.cropbox({width: 250, height: 500, showControls: 'auto'}).on('cropbox', function(event, result, image1){});
+        });
+    }, 1000);
+}
+
 function load_file2() {
     // document.getElementById('nose').innerHTML = '';
     // // if(document.getElementById('nose').hasChildNodes()){
@@ -333,8 +414,6 @@ function load_file2() {
             document.getElementById('transcription').innerText = text;
         })
     }, 1000);
-
-    
 }
 
 $(function(){
@@ -374,4 +453,120 @@ function myFunction() {
         document.getElementById("main").style.top = "180px";
         document.getElementById("main").style.height = "70%";
     }
+}
+
+var selectScanImage = function() {
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+        url:BASE_URL+'notice/get_scan',
+        type:'post',
+        data: {_token: CSRF_TOKEN, date_of_notice: $('#date_of_notice').val(), fk_newspaper_id: $('#fk_newspaper_id').val(), page_number: $('#page_number').val()},
+        datatype:'json',
+        success: function(response){
+            var data = JSON.parse(response);
+            var scan_details = data.rows;
+            $("#tbl_scan_details tbody").html(scan_details);
+            $('#myModal').modal('toggle');
+        },
+        error: function(response){
+            var r = jQuery.parseJSON(response.responseText);
+            console.log("Message: " + r.Message);
+            console.log("StackTrace: " + r.StackTrace);
+            console.log("ExceptionType: " + r.ExceptionType);
+        }
+    });
+}
+
+var cropScanImage = function(elem) {
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    var elem_id = elem.id;
+    var index = elem_id.substr(elem_id.lastIndexOf('_')+1);
+    var elem_val = $('#scan_image_'+index+'_file').val();
+
+    var str_path = ASSET_PATH+'uploads/scans/'+elem_val;
+
+    // console.log(str_path);
+
+    $('#content').html('<div class="container" style="margin: 0px;">' + 
+                            '<section class="copy">' + 
+                                '<div class="figure-wrapper">' + 
+                                    '<figure class="image-container target" style="max-width: 110%; margin-top: 15px;">' + 
+                                        '<img id="target_img" src="" alt="DomoKun">' + 
+                                        '<figcaption class="image-meta">' + 
+                                            '<a id="scan_img" target="_blank" href=""></a>' + 
+                                        '</figcaption>' + 
+                                    '</figure>' + 
+                                '</div>' + 
+                            '</section>' + 
+                        '</div>');
+    
+
+    $('#target_img').attr('src', str_path);
+    $('#scan_img').attr('href', str_path);
+
+    $('#myModal').modal('toggle');
+    $('#myModal2').modal('toggle');
+
+    var dkrm = new Darkroom('#target_img', {
+        // Size options
+        minWidth: 100,
+        minHeight: 100,
+        maxWidth: 850,
+        maxHeight: 500,
+        ratio: 4/3,
+        backgroundColor: '#000',
+
+        // Plugins options
+        plugins: {
+            //save: false,
+            save: {
+                callback: function() {
+                    this.darkroom.selfDestroy(); // Turn off the bar and cleanup
+                    var newImage = dkrm.canvas.toDataURL();
+
+                    // console.log('save crop');
+                    $.ajax({
+                        url:BASE_URL+'notice/set_scan',
+                        type:'post',
+                        data: {_token: CSRF_TOKEN, imagedata: newImage},
+                        datatype:'json',
+                        success: function(response){
+                            var data = JSON.parse(response);
+                            var imageName = data.imageName;
+                            document.getElementById('temp_notice_file').value = imageName;
+                            
+                            var img = new Image();
+                            img.className = 'cropimage';
+                            img.src = ASSET_PATH + 'uploads/scans/temp/' + imageName;
+                            document.getElementById('nose').innerHTML = '';
+                            document.getElementById('nose').appendChild(img);
+                            $('#myModal2').modal('toggle');
+                        },
+                        error: function(response){
+                            var r = jQuery.parseJSON(response.responseText);
+                            console.log("Message: " + r.Message);
+                            console.log("StackTrace: " + r.StackTrace);
+                            console.log("ExceptionType: " + r.ExceptionType);
+                        }
+                    });
+                }
+            },
+
+            crop: {
+                quickCropKey: 67, 
+                //key "c",
+                //minHeight: 50,
+                //minWidth: 50,
+                //ratio: 4/3
+            }
+        },
+
+        // Post initialize script
+        initialize: function() {
+            var cropPlugin = this.plugins['crop'];
+            // cropPlugin.selectZone(170, 25, 300, 300);
+            cropPlugin.requireFocus();
+        }
+    });
 }

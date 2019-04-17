@@ -32,20 +32,25 @@ if (!$conn) {
 // }
 
 
-// output: /myproject/index.php
-$currentPath = $_SERVER['PHP_SELF']; 
+// // output: /myproject/index.php
+// $currentPath = $_SERVER['PHP_SELF']; 
 
-// output: Array ( [dirname] => /myproject [basename] => index.php [extension] => php [filename] => index ) 
-$pathInfo = pathinfo($currentPath); 
+// // output: Array ( [dirname] => /myproject [basename] => index.php [extension] => php [filename] => index ) 
+// $pathInfo = pathinfo($currentPath); 
 
-// output: localhost
-$hostName = $_SERVER['HTTP_HOST']; 
+// // output: localhost
+// $hostName = $_SERVER['HTTP_HOST']; 
 
-// output: http://
-$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https://'?'https://':'http://';
+// // output: http://
+// $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https://'?'https://':'http://';
 
-// return: http://localhost/myproject/
-// $base_url = $protocol.$hostName.$pathInfo['dirname']."/";
-$base_url = $protocol.$hostName.$pathInfo['dirname'];
+// // return: http://localhost/myproject/
+// // $base_url = $protocol.$hostName.$pathInfo['dirname']."/";
+// $base_url = $protocol.$hostName.$pathInfo['dirname'];
+
+$base_url = 'http://localhost/pecanreams';
+// $local_base_url = 'http://localhost/pecanreams';
+// $staging_server_base_url = 'http://ec2-54-251-130-150.ap-southeast-1.compute.amazonaws.com';
+// $server_base_url = 'https://www.pecanreams.com';
 
 ?>

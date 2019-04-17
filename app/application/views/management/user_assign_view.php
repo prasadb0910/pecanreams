@@ -149,7 +149,7 @@ b, strong { font-weight:500;}
 										</div>
 									</div>
 									<div class="form-group">
-										<div class="col-md-5">
+										<div class="col-md-5" style="<?php if(isset($group_details)) if($group_details[0]->maker_checker=='no') echo 'display: none;'; ?>">
 											<div class="">
 												<label class="col-md-2 control-label"><strong>Role:</strong></label>
 												<div class="col-md-10">
@@ -201,7 +201,7 @@ b, strong { font-weight:500;}
                                         </div>
                                     </div>
                                    
-                                    <div class="form_group ">
+                                    <div class="form_group" style="display: none;">
 										<div class="col-md-12 " style="display:-webkit-box; padding:10px;">
                                             <div class="col-md-5">
                                                 &nbsp;

@@ -369,7 +369,7 @@
                             <div class="panel-footer">
                                 <div class="row">
                                     <input type="submit" class="btn btn-success pull-right" value="Save" />
-                                    <a class="btn btn-danger" id="reset" href="<?php echo base_url(); ?>index.php/dashboard/group" style="margin-right: 10px;">Cancel</a>
+                                    <a class="btn btn-danger" id="reset" href="<?php echo base_url(); ?>index.php/profile" style="margin-right: 10px;">Cancel</a>
                                 </div>
                             </div>
 						</div>

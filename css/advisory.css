@@ -522,13 +522,13 @@ margin: 30px auto;
 .member-info{
     padding: 25px 0;
 }
-.member-info h3 {
+.member-info h2 {
     font-size: 18px;
     text-transform: capitalize;
     font-weight: 500;
     margin: 0;
 }
-.member-info h3 span {
+.member-info h2 span {
     display: block;
     font-size: 14px;
     font-weight: 300;

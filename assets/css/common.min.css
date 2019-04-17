@@ -1,11 +1,11 @@
 body,
 html {
     width: 100%;
-    height: 100%
+    height: 100%;
 }
 body,
 tbody tr {
-    background: #fff
+    background: #fff;
 }
 pre,
 table {

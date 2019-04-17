@@ -177,13 +177,12 @@
   <div class="dropdown-selector">
     <div class="logout-section">
       <a class="fa-edit-btn " id="mbl-grp_change" href="javascript:void(0);"> <i class="fa fa-edit" aria-hidden="true"></i><span class="xn-text"> </span></a>
-  
     <a class="dropdown-toggle" id="toggleMenu1"  data-toggle="dropdown" href="#"><i class="fa fa-cog" aria-hidden="true"></i><span class="xn-text"> </span></a>
         <ul class="dropdown-menu menus "  id="menu">
           <li style="<?php if ($userdata['groupid']=='0') echo 'display: none;';?>"><a href="<?php echo base_url().'index.php/dashboard/home'; ?>">Dashboard</a></li>
           <li style="<?php if ($userdata['groupid']=='0') echo 'display: none;';?>"><a href="<?php echo base_url().'index.php/profile'; ?>">User Profile</a></li>
           <li <?php if ($User==0) echo 'style="display: none;"'; ?>><a href="<?php if ($userdata['groupid']!='0') echo base_url().'index.php/assign'; else echo base_url().'index.php/assign/adminuser'; ?>">User</a></li>
-          <li <?php if ($UserRoles==0) echo 'style="display: none;"'; ?>><a href="<?php echo base_url().'index.php/manage'; ?>">User Roles</a></li>
+          <li <?php if ($UserRoles==0 || $userdata['maker_checker']=='no') echo 'style="display: none;"'; ?>><a href="<?php echo base_url().'index.php/manage'; ?>">User Roles</a></li>
           <li><a href="#">Help</a></li>
           <li><a href="#">Support</a></li>
           <!-- <li>
@@ -218,7 +217,13 @@
         <option value="<?php echo $groups[$i]->gu_gid; ?>" <?php if($groups[$i]->gu_gid==$this->session->userdata('groupid')) echo 'selected'; ?>><?php echo $groups[$i]->group_name; ?></option>
         <?php }} ?>
       </select>
-      <span class="fa fa-edit edit-show" id="edit" style="display:none;"></span> 
+      
+      <?php if(isset($groups)) {
+        if(count($groups)>1) { 
+          echo '<span class="fa fa-edit edit-show" id="edit" style="display:none;"></span>';
+        } 
+      } ?>
+
       <span class="useremail-login" href="" style="">
         <span class="xn-text"><?php if (isset($userdata['username'])) {echo $userdata['username'];} ?></span>
       </span>
@@ -245,7 +250,6 @@
           <i class="menu--icon  fa fa-fw fa-tachometer"></i>
           <span class="menu--label">REAMS</span>
         </label>
-
    <?php if ($Groups==1) { ?>
    
     <li class="menu--item" <?php if ($Groups==0) echo 'style="display: none;"'; ?>>

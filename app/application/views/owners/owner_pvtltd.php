@@ -125,11 +125,11 @@
 											<div class="">
 												<label class="col-md-2 control-label">Branch Address</label>
 												<div class="col-md-4">
-													<input type="text" class="form-control"  name="branch_address" placeholder="Branch Address" value="<?php if(isset($pvt_details)) { echo $pvt_details[0]->ow_pvtltd_branch; } ?>"/>
+													<input type="text" class="form-control"  name="branch_address" placeholder="Branch Address" value="<?php if(isset($pvt_details)) { echo $pvt_details[0]->c_branch; } ?>"/>
 												</div>
 												<label class="col-md-2 control-label">Telephone No.</label>
 												<div class="col-md-4">
-													<input type="text" class="form-control"  name="telephone_number" placeholder="Telephone Number" value="<?php if(isset($pvt_details)) { echo $pvt_details[0]->ow_pvtltd_tel; } ?>"/>
+													<input type="text" class="form-control"  name="telephone_number" placeholder="Telephone Number" value="<?php if(isset($pvt_details)) { echo $pvt_details[0]->c_telephone; } ?>"/>
 												</div>
 											</div>
 										</div>
@@ -139,7 +139,7 @@
 											<div class="">
 	                                        	<label class="col-md-2 control-label">Mobile No. <span class="asterisk_sign">*</span></label>
 	                                            <div class="col-md-4" >
-	                                            	<input type="text" class="form-control"  name="mob_number" placeholder="Mobile Number" value="<?php if(isset($pvt_details)) { echo $pvt_details[0]->ow_pvtltd_mob; } ?>"/>
+	                                            	<input type="text" class="form-control"  name="mob_number" placeholder="Mobile Number" value="<?php if(isset($pvt_details)) { echo $pvt_details[0]->c_mobile; } ?>"/>
 	                                            </div>
 	                                            <div class="col-md-6"></div>
                                     		</div>

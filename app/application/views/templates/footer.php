@@ -54,7 +54,7 @@
 <!-- success -->
 <div class="message-box message-box-success animated fadeIn" id="message-box-success">
 	<form id="form_change_password" role="form" class="form-horizontal" method="post" action="">
-    <div class="mb-container" style="background: rgb(255, 255, 255); left: 350px; top: 25%; width: 50%;">
+    <div class="mb-container" style="background: rgb(255, 255, 255); /*left: 350px; top: 25%;*/ width: 50%;">
         <div class="mb-middle">
             <div class="mb-title" style="color: #4d4d4d;"><span class="fa fa-check"></span> Change password </div>
             <div class="mb-content">

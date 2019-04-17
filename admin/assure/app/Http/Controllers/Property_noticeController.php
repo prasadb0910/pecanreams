@@ -31,15 +31,15 @@ use App\User;
 use DB;
 use Session;
 use Mail;
+use App\Pn_notice_othername;
 
-class Property_noticeController extends Controller
-{
-    public function __construct()
-    {
+class Property_noticeController extends Controller {
+    public function __construct() {
         $this->middleware('auth');
     }
 
-    public function get_data($id='', $status=''){
+    public function get_data($id='', $status='',$search='',$start='',$length=''){
+
         $cond = "";
 
         if($id!=''){
@@ -52,7 +52,25 @@ class Property_noticeController extends Controller
                 $cond = $cond . " and A.status = '$status'";
             }
         }
-        $sql = "select A.id, A.fk_property_id, A.fk_notice_id, A.status, B.owner_1, B.owner_2, B.property_name, B.purchased_from, B.property_type, 
+
+        $search_value = '';
+
+       
+        if(isset($search) && $search!="") {
+        $search_value = "AND (C.notice_title like '%$search%' or B.property_name like '%$search%' or 
+                                B.address like '%$search%' or G.name like '%$search%')";
+        } else {
+            $search_value = '';
+        }
+
+
+        $limit = '';
+        if($start!=''&& $length!='')
+        {
+            $limit = "LIMIT ".$start.", ".$length;
+        }
+
+        /*$sql = "select A.id,G.name,A.created_at,A.updated_at,(Select count(pn_property_notice_id) from pn_notice_criterias Where pn_property_notice_id=A.id) as cricount, A.fk_property_id, A.fk_notice_id, A.status,B.owner_1, B.owner_2, B.property_name, B.purchased_from, B.property_type, 
                 B.description, B.building_name, B.society_name, B.address, B.apartment_no, B.floor, B.wing, B.district, B.city, B.pincode, 
                 B.village, B.taluka, B.post, B.division, B.state, B.country, B.google_map_address, B.sheet_no, B.room_no, B.block_no, 
                 B.ward_no, B.khata_no, B.sr_no, B.plot_no, B.scheme_no, B.cts_no, B.survey_no, B.gut_no, B.hissa_no, B.area, 
@@ -62,29 +80,151 @@ class Property_noticeController extends Controller
                 C.property_type, C.property_description, C.building_name, C.unit_no, C.floor, C.wing, C.address, C.landmark, 
                 C.village, C.city, C.pincode, C.state, C.country, C.google_map_address, C.cts_no, C.survey_number, C.area, C.parking, 
                 C.legal_owner_name, C.legal_owner_pan, C.legal_owner_address, C.company_name, C.company_registration_no, 
-                C.fk_notice_type_id, C.society_name, C.page_number, D.paper_name, E.notice_type, F.name, F.gu_email, F.gu_mobile 
+                C.fk_notice_type_id, C.society_name, C.page_number, D.paper_name, E.notice_type, F.gu_email, F.gu_mobile 
                 from pn_property_notices A 
                 left join pn_properties B on (A.fk_property_id=B.id) 
                 left join pn_notices C on (A.fk_notice_id=C.id) 
                 left join pn_newspapers D on (C.fk_newspaper_id=D.id) 
                 left join pn_notice_types E on (C.fk_notice_type_id=E.id) 
-                left join group_users F on (B.created_by = F.gu_id)" . $cond . " order by A.updated_at desc";
+                left join group_users F on (B.created_by = F.gu_id)
+                left join group_users G on (C.created_by = G.gu_id)" . $cond . "
+                ".$search_value."
+                order by A.updated_at desc ".$limit;*/
+
+        if($status=='pending'){
+            $sql = "Select A.fk_property_id, A.property_name, A.address, count(A.id) as notice_count from 
+                    (SELECT A.id, F.name as property_by, G.name as notice_by, A.created_at, A.updated_at, A.fk_property_id, 
+                        A.fk_notice_id, A.status, B.property_name, C.date_of_notice, B.address, D.paper_name, E.notice_type, 
+                        F.gu_email, C.notice_title, F.gu_mobile, C.notice_file, B.fk_group_id 
+                    FROM pn_property_notices A 
+                    LEFT JOIN pn_properties B 
+                        ON ( A.fk_property_id = B.id ) 
+                    LEFT JOIN pn_notices C 
+                        ON ( A.fk_notice_id = C.id ) 
+                    LEFT JOIN pn_newspapers D 
+                        ON ( C.fk_newspaper_id = D.id ) 
+                    LEFT JOIN pn_notice_types E 
+                        ON ( C.fk_notice_type_id = E.id )
+                    LEFT JOIN group_users F 
+                        ON ( B.created_by = F.gu_id ) 
+                    LEFT JOIN group_users G 
+                        ON ( C.created_by = G.gu_id ) 
+                    ". $cond . "
+                    ".$search_value.") A 
+                    GROUP BY A.fk_property_id, A.property_name, A.address Order By A.property_name ".$limit;
+        } else {
+            $sql = "Select A.id, A.property_by, A.notice_by, A.created_at, A.updated_at, A.fk_property_id, A.fk_notice_id, 
+                        A.status, A.property_name, A.date_of_notice, A.address, A.paper_name, A.notice_type, A.gu_email, 
+                        A.gu_mobile, A.notice_title, A.notice_file, A.fk_group_id, count(C.pn_property_notice_id) as cricount from 
+                    (SELECT A.id, F.name as property_by, G.name as notice_by, A.created_at, A.updated_at, A.fk_property_id, 
+                        A.fk_notice_id, A.status, B.property_name, C.date_of_notice, C.address, D.paper_name, E.notice_type, 
+                        F.gu_email, C.notice_title, F.gu_mobile, C.notice_file, B.fk_group_id 
+                    FROM pn_property_notices A 
+                    LEFT JOIN pn_properties B 
+                        ON ( A.fk_property_id = B.id ) 
+                    LEFT JOIN pn_notices C 
+                        ON ( A.fk_notice_id = C.id ) 
+                    LEFT JOIN pn_newspapers D 
+                        ON ( C.fk_newspaper_id = D.id ) 
+                    LEFT JOIN pn_notice_types E 
+                        ON ( C.fk_notice_type_id = E.id )
+                    LEFT JOIN group_users F 
+                        ON ( B.created_by = F.gu_id ) 
+                    LEFT JOIN group_users G 
+                        ON ( C.created_by = G.gu_id ) 
+                    ". $cond . "
+                    ".$search_value.") A 
+                    Left JOIN pn_notice_criterias C on (C.pn_property_notice_id = A.id) 
+                    GROUP BY A.id, A.property_by, A.notice_by, A.created_at, A.updated_at, A.fk_property_id, A.fk_notice_id, 
+                            A.status, A.property_name, A.date_of_notice, A.address, A.paper_name, A.notice_type, A.gu_email, 
+                            A.gu_mobile, A.notice_title, A.notice_file, A.fk_group_id 
+                    order by A.updated_at desc ".$limit;
+        }
         $data = DB::select($sql);
         return $data;
     }
     
-    public function index(){
+    public function get_data_getcount($id='', $status='',$search=''){
+        $cond = "";
+
+        if($id!=''){
+            $cond = " where A.id = '$id'";
+        }
+
+        if($status!=''){
+            if($cond==''){
+                $cond = " where A.status = '$status'";
+            } else {
+                $cond = $cond . " and A.status = '$status'";
+            }
+        }
+
+        $search_value = '';
+
+        if(isset($search) && $search!="") {
+        $search_value = "AND ( C.notice_title like '%$search%' or B.property_name like '%$search%' or B.address like '%$search%' or G.name like '%$search%')";
+        } else {
+            $search_value = '';
+        }
+
+        if($status=='pending'){
+            $sql = "select count(fk_property_id) as countdata from (Select A.fk_property_id, A.property_name, A.address, count(A.id) as notice_count from 
+                    (SELECT A.id, F.name as property_by, G.name as notice_by, A.created_at, A.updated_at, A.fk_property_id, 
+                        A.fk_notice_id, A.status, B.property_name, C.date_of_notice, B.address, D.paper_name, E.notice_type, 
+                        F.gu_email, C.notice_title, F.gu_mobile, C.notice_file, B.fk_group_id 
+                    FROM pn_property_notices A 
+                    LEFT JOIN pn_properties B 
+                        ON ( A.fk_property_id = B.id ) 
+                    LEFT JOIN pn_notices C 
+                        ON ( A.fk_notice_id = C.id ) 
+                    LEFT JOIN pn_newspapers D 
+                        ON ( C.fk_newspaper_id = D.id ) 
+                    LEFT JOIN pn_notice_types E 
+                        ON ( C.fk_notice_type_id = E.id )
+                    LEFT JOIN group_users F 
+                        ON ( B.created_by = F.gu_id ) 
+                    LEFT JOIN group_users G 
+                        ON ( C.created_by = G.gu_id ) 
+                    ". $cond . "
+                    ".$search_value.") A 
+                    GROUP BY A.fk_property_id, A.property_name, A.address Order By A.property_name) A";
+        } else {
+            $sql = "select count(id) as countdata from (Select A.id,G.name,A.created_at,A.updated_at, A.fk_property_id, A.fk_notice_id, A.status,B.owner_1, B.owner_2, B.property_name,
+                                    B.purchased_from, B.property_type, 
+                    B.description, B.building_name, B.society_name, B.address, B.apartment_no, B.floor, B.wing, B.district, B.city, B.pincode, 
+                    B.village, B.taluka, B.post, B.division, B.state, B.country, B.google_map_address, B.sheet_no, B.room_no, B.block_no, 
+                    B.ward_no, B.khata_no, B.sr_no, B.plot_no, B.scheme_no, B.cts_no, B.survey_no, B.gut_no, B.hissa_no, B.area, 
+                    B.no_of_parking, B.guarantors, B.company_name, B.company_reg_no, B.certificate_no, B.distinctive_no, B.folio_no, B.fk_group_id, 
+                    C.notice_title
+                    from pn_property_notices A 
+                    left join pn_properties B on (A.fk_property_id=B.id) 
+                    left join pn_notices C on (A.fk_notice_id=C.id) 
+                    left join pn_newspapers D on (C.fk_newspaper_id=D.id) 
+                    left join pn_notice_types E on (C.fk_notice_type_id=E.id) 
+                    left join group_users F on (B.created_by = F.gu_id) 
+                    left join group_users G on (C.created_by = G.gu_id) 
+                    " . $cond . "
+                    ".$search_value."
+                    order by A.updated_at desc ) A";
+        }
+
+        $data = DB::select($sql);
+        return $data;
+    }
+
+    public function index() {
         $user = new User();
         $access = $user->get_access();
         if(isset($access['PropertyNotices'])) {
             if($access['PropertyNotices']['r_view']=='1' || $access['PropertyNotices']['r_insert']=='1' || $access['PropertyNotices']['r_edit']=='1' || $access['PropertyNotices']['r_delete']=='1' || $access['PropertyNotices']['r_approvals']=='1' || $access['PropertyNotices']['r_export']=='1') {
                 // $this->match_notice();
                 // $this->match_property();
-                $all = $this->get_data();
-                $approved = $this->get_data('', 'approved');
-                $pending_for_approval = $this->get_data('', 'pending');
-                $pending_to_send = $this->get_data('', 'pending to send');
-                $rejected = $this->get_data('', 'rejected');
+                $all = [];//$this->get_data();
+                $approved = [];//$this->get_data('', 'approved');
+                $pending_for_approval = [];//$this->get_data('', 'pending');
+                $pending_to_send = [];//$this->get_data('', 'pending to send');
+                // $rejected = $this->get_data('', 'rejected');
+                $rejected = array();
                 return view('property_notice.index', ['access' => $access, 'all' => $all, 'approved' => $approved, 
                                                         'pending_for_approval' => $pending_for_approval, 'pending_to_send' => $pending_to_send, 
                                                         'rejected' => $rejected]);
@@ -96,10 +236,294 @@ class Property_noticeController extends Controller
         }
     }
 
-    public function match_notice(){
+    public function noticecriteria(Request $request) {
+        $id = $request->input('id');
+        $tbody = '';
+        $sql = "Select * from pn_notice_criterias Where pn_property_notice_id=".$id;
+        $dataget = DB::select($sql);
+
+        if(count($dataget)>0) {
+            for($i=0;$i<count($dataget);$i++) {
+                $tbody.='<tr>
+                            <td>'.$dataget[$i]->parameter.'</td>
+                            <td>'.$dataget[$i]->notice.'</td>
+                            <td>'.$dataget[$i]->property.'</td>
+                        </tr>';
+            }
+        } 
+
+        echo $tab = '<table id="matchingdata">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Notice</th>
+                            <th>Property</th>
+                        </tr>
+                        '.$tbody.'
+                    </table>';
+    }
+
+    public function matching_notice(Request $request) {
+        $id = $request->input('id');
+        // $id = 23;
+        $result_data = '';
+
+        $sql = "select A.id, F.name as property_by, G.name as notice_by, A.created_at, A.updated_at, A.fk_property_id, 
+                    A.fk_notice_id, A.status, B.property_name, C.date_of_notice, C.address, D.paper_name, E.notice_type, 
+                    F.gu_email, C.notice_title, F.gu_mobile, C.notice_file, B.fk_group_id, 
+                    H.parameter, H.property, H.notice, H.matching_criteria 
+                from pn_property_notices A 
+                left join pn_properties B 
+                    on ( A.fk_property_id = B.id ) 
+                left join pn_notices C 
+                    on ( A.fk_notice_id = C.id ) 
+                left join pn_newspapers D 
+                    on ( C.fk_newspaper_id = D.id ) 
+                left join pn_notice_types E 
+                    on ( C.fk_notice_type_id = E.id )
+                left join group_users F 
+                    on ( B.created_by = F.gu_id ) 
+                left join group_users G 
+                    on ( C.created_by = G.gu_id ) 
+                left join pn_notice_criterias H 
+                    on (H.pn_property_notice_id = A.id) 
+                where A.fk_property_id='$id' and A.status = 'pending' 
+                order by A.id, A.fk_property_id, A.fk_notice_id";
+        $dataget = DB::select($sql);
+
+        if(count($dataget)>0) {
+            $tbody = '';
+            $prv_notice_id = '';
+            $notice_id = '';
+            $prv_property_id = '';
+            $property_id = '';
+            $notice_count = 0;
+            $tab = '';
+
+            for($i=0; $i<count($dataget); $i++) {
+                $tbody.='<tr>
+                            <td style="word-break: break-all;">'.$dataget[$i]->parameter.'</td>
+                            <td style="word-break: break-all;">'.$dataget[$i]->notice.'</td>
+                            <td style="word-break: break-all;">'.$dataget[$i]->property.'</td>
+                            <td style="word-break: break-all;">'.$dataget[$i]->matching_criteria.'</td>
+                        </tr>';
+
+                $prv_notice_id = $dataget[$i]->fk_notice_id;
+                $prv_property_id = $dataget[$i]->fk_property_id;
+
+                $bl_notice_flag = false;
+                $bl_property_flag = false;
+
+                if($i==(count($dataget)-1)) {
+                    $bl_notice_flag = true;
+                    $bl_property_flag = true;
+                    $notice_count = $notice_count + 1;
+                } else {
+                    $notice_id = $dataget[$i+1]->fk_notice_id;
+                    $property_id = $dataget[$i+1]->fk_property_id;
+
+                    if($notice_id!=$prv_notice_id) {
+                        $bl_notice_flag = true;
+                        $notice_count = $notice_count + 1;
+                    }
+                    if($property_id!=$prv_property_id) {
+                        $bl_property_flag = true;
+                    }
+                }
+
+                if($bl_notice_flag==true) {
+                    $tab.= '        <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <label class="col-md-2 col-sm-2 col-xs-2 text-right">'.$notice_count.'</label>
+                                        <label class="col-md-2 col-sm-2 col-xs-2">Notice Id</label>
+                                        <label class="col-md-8 col-sm-8 col-xs-8">'.$dataget[$i]->fk_notice_id.'</label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <label class="col-md-2 col-sm-2 col-xs-2 text-right">&nbsp;</label>
+                                        <label class="col-md-2 col-sm-2 col-xs-2">Notice Name</label>
+                                        <label class="col-md-8 col-sm-8 col-xs-8">'.$dataget[$i]->notice_title.'</label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <label class="col-md-2 col-sm-2 col-xs-2 text-right">&nbsp;</label>                                        
+                                        <span class="col-md-2 col-sm-2 col-xs-2"><a href="'.url("index.php/property_notice/details/". $dataget[$i]->id).'" target="_blank">View Details</a></span>
+                                        <label class="col-md-8 col-sm-8 col-xs-8">&nbsp;</label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <label class="col-md-2 col-sm-2 col-xs-2 text-right">&nbsp;</label> 
+                                        <div class="col-md-8 col-sm-8 col-xs-8">
+                                            <table class="table table-bordered table-striped">
+                                                <tr>
+                                                    <th>Parameter</th>
+                                                    <th>Notice</th>
+                                                    <th>Property</th>
+                                                    <th>Matching Criteria</th>
+                                                </tr>
+                                                '.$tbody.'
+                                            </table>
+                                        </div>
+                                        <label class="col-md-2 col-sm-2 col-xs-2 text-right">&nbsp;</label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-md-2 col-sm-2 col-xs-2">&nbsp;</div>
+                                        <div class="col-md-8 col-sm-8 col-xs-8">
+                                            <a href="javascript:void(0)" class="btn_reject btn btn-default btn-sm pull-right" data-attrid="'.$dataget[$i]->id.'">Reject</a>
+                                            <a href="javascript:void(0)" class="btn_approve btn btn-default btn-sm pull-right" data-attrid="'.$dataget[$i]->id.'" style="margin-right: 10px;">Approve</a>
+                                        </div>
+                                        <div class="col-md-2 col-sm-2 col-xs-2">&nbsp;</div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">&nbsp;</div>';
+
+                    $tbody = '';
+                }
+                
+                if($bl_property_flag==true) {
+                    $result_data.= '<!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Matching Notices</h4>
+                                        </div>
+                                        <div class="modal-body" style="display: inline-block;">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <label class="col-md-2 col-sm-2 col-xs-2">Property Name</label>
+                                                    <label class="col-md-8 col-sm-8 col-xs-8">'.$dataget[$i]->property_name.'</label>
+                                                    <input type="hidden" id="property_id" name="property_id" value="'.$dataget[$i]->fk_property_id.'" />
+                                            </div>
+                                            <div class="col-md-2 col-sm-2 col-xs-2">&nbsp;</div>
+                                            ' . $tab . '
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>';
+
+                    $tab = '';
+                }
+            }
+        } 
+
+        echo $result_data;
+    }
+
+    public function notices_data(Request $request) {
+        $param = $request->input('param');
+        $start = $star_len = $request->input('start');
+        $length = $request->input('length'); 
+        /*$param = 'pending';
+        $start = '0';
+        $length = '10';*/
+        $search_value1 =  $request->input('search');
+        $search_value = $search_value1['value'];
+        $getdata = $this->get_data('', $param, $search_value, $start,$length);
+        $getdatacount = $this->get_data_getcount('', $param, $search_value);
+        //$start = 0;    
+        $notices_array = [];
+
+       if(!empty($getdata)) {
+            $tbody = '';
+
+            for($i=0; $i<count($getdata); $i++) { 
+                if($param=='pending') {
+                    $row = array(
+                                $start+1,
+                                '<div>'.$getdata[$i]->property_name.'</div>',
+                                ''.$getdata[$i]->address.'',
+                                ''.$getdata[$i]->notice_count.'',
+                                '<a href="javascript:void(0)" class="matching_notice" data-attrid="'.$getdata[$i]->fk_property_id.'">Read More.....</a>'
+                            );        
+                } else {
+                    $row = array(
+                                $start+1,
+                                '<div><a href="'.url("index.php/property_notice/details/". $getdata[$i]->id).'" >'. $getdata[$i]->fk_notice_id.'</a></div>',
+                                '<div>'.$getdata[$i]->notice_title.'</div>',
+                                '<div>'.$getdata[$i]->property_name.'</div>',
+                                ''.$getdata[$i]->address.'',
+                                ''.($getdata[$i]->cricount>0?'<a href="javascript:void(0)" class="mcriteria" data-attrid="'.$getdata[$i]->id.'">Read More.....</a>':'NA').'',
+                                ''.$getdata[$i]->notice_by.'',
+                                ''.$getdata[$i]->created_at.'',
+                            );
+
+                    //<button type="button" id="property_notice_'.$getdata[$i]->id.'" class="label label-danger" onClick="show_modal(this)">Reject</button>
+                    if($param=='pending to send') {
+                        $row[]='<div><input type="checkbox" name="id[]" value="'.$getdata[$i]->id.'" /></div>';     
+                    }
+                    if($param=='rejected') {
+                        $row[]=''.$getdata[$i]->status.'';     
+                    }
+                }
+
+                $notices_array[] = $row;
+                $start = $start+1;
+            }
+
+            $tbody = '';
+        }
+        //$notices_array1 = array_slice($notices_array,$star_len,$length);
+
+        $json_data = array(
+            "draw"            => $request->input('draw'),   
+            "recordsTotal"    => intval($getdatacount[0]->countdata),  
+            "recordsFiltered" => intval($getdatacount[0]->countdata),
+            "data"            => $notices_array
+        );
+
+        echo json_encode($json_data);
+    }
+
+    public function approve_record(Request $request) {
+        $user = new User();
+        $access = $user->get_access();
+        if(isset($access['PropertyNotices'])) {
+            if($access['PropertyNotices']['r_approvals']=='1') {
+                $id = $request->get('id');
+                $user_id = auth()->user()->gu_id;
+
+                $data2['approved_by'] = $user_id;
+                $data2['approved_at'] = date('Y-m-d H:i:s');
+                $data2['status'] = 'pending to send';
+                if(isset($id)) {
+                    Pn_property_notice::find($id)->update($data2);
+                }
+
+                $msg = 'Property Notice Approved!';
+            } else {
+                $msg = 'You donot have access to this page.';
+            }
+        } else {
+            $msg = 'You donot have access to this page.';
+        }
+
+        echo $msg;
+    }
+    
+    public function reject_record(Request $request) {
+        $user = new User();
+        $access = $user->get_access();
+        if(isset($access['PropertyNotices'])) {
+            if($access['PropertyNotices']['r_approvals']=='1') {
+                $id = $request->get('id');
+                $user_id = auth()->user()->gu_id;
+
+                $data2['approved_by'] = $user_id;
+                $data2['approved_at'] = date('Y-m-d H:i:s');
+                $data2['status'] = 'rejected';
+                if(isset($id)) {
+                    Pn_property_notice::find($id)->update($data2);
+                }
+
+                $msg = 'Property Notice Rejected!';
+            } else {
+                $msg = 'You donot have access to this page.';
+            }
+        } else {
+            $msg = 'You donot have access to this page.';
+        }
+
+        echo $msg;
+    }
+    
+    public function match_notice() {
         $property = Pn_property::orderBy('updated_at','desc')->get();
         
-        foreach($property as $data){
+        foreach($property as $data) {
             $cond = "";
 
             $cond2 = "";
@@ -796,6 +1220,7 @@ class Property_noticeController extends Controller
                 $property_no_detail1 = Pn_property_prop_no_detail::where('fk_property_id', $property_id)->get();
                 $location_detail1 = Pn_property_location_detail::where('fk_property_id', $property_id)->get();
                 $certificate_no_detail1 = Pn_property_certificate_no_detail::where('fk_property_id', $property_id)->get();
+                $othername = Pn_notice_othername::where('fk_notice_id', $notice_id)->get();
 
                 return view('property_notice.details', ['access' => $access, 'data' => $data, 'notice' => $notice, 'legal_owner_name' => $legal_owner_name, 
                                                         'purchased_from' => $purchased_from, 'company_name' => $company_name, 
@@ -807,6 +1232,7 @@ class Property_noticeController extends Controller
                                                         'legal_owner_name1' => $legal_owner_name1, 
                                                         'purchased_from1' => $purchased_from1, 'company_name1' => $company_name1, 
                                                         'guarantor1' => $guarantor1, 'property_no_detail1' => $property_no_detail1, 
+                                                        'othername' => $othername,
                                                         'location_detail1' => $location_detail1, 'certificate_no_detail1' => $certificate_no_detail1]);
             } else {
                 return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Property Notice', 'msg' => 'You donot have access to this page.']);
@@ -853,6 +1279,38 @@ class Property_noticeController extends Controller
         }
     }
 
+    public function reject(Request $request){
+        $user = new User();
+        $access = $user->get_access();
+        if(isset($access['PropertyNotices'])) {
+            if($access['PropertyNotices']['r_approvals']=='1') {
+                $id = $request->get('property_notice_id');
+                
+                $user_id = auth()->user()->gu_id;
+
+                for($i=0;$i<count($id);$i++)
+                {
+                   
+                    $data2['approved_by'] = $user_id;
+                    $data2['approved_at'] = date('Y-m-d H:i:s');
+                    $data2['status'] = 'rejected';
+                    if(isset($id[$i])){
+                        Pn_property_notice::find($id[$i])->update($data2);
+                       
+                    } 
+                }
+                $msg = 'Property Notice Rejected!';    
+                Session::flash('success_msg', $msg);
+
+                return redirect('index.php/property_notice');
+            } else {
+                return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Property Notice', 'msg' => 'You donot have access to this page.']);
+            }
+        } else {
+            return view('message', ['access' => $access, 'title'  => 'Access Denied', 'module' => 'Property Notice', 'msg' => 'You donot have access to this page.']);
+        }
+    }
+
     public function send_sms($name, $property_name, $link, $mobile){
         $sms = "Hi%20".$name."%2C%20we%20have%20identified%20public%20notice%20on%20your%20asset%3a%20".$property_name."%2E%20To%20view%20details%20please%20click%20on%20the%20link%2E%20".$link;
         $sms = str_replace(' ', '%20', $sms);
@@ -875,6 +1333,7 @@ class Property_noticeController extends Controller
             $message->to($data['email'], $data['name'])
                     ->subject('Notice Alert On Property - '.$data['property_name'])
                     ->from('info@pecanreams.com','Pecan Reams')
+                    ->bcc('pranav@pecanreams.com', 'Pranav')
                     ->attach(url('/') . '/uploads/notices/' . $data['notice_file']);
         });
     }
@@ -891,14 +1350,17 @@ class Property_noticeController extends Controller
                         $data2 = $this->get_data($id);
 
                         if(count($data2)>0){
-                            $name = $data2[0]->name;
+                            $name = $data2[0]->property_by;
                             $email = $data2[0]->gu_email;
                             $mobile = $data2[0]->gu_mobile;
                             $property_name = $data2[0]->property_name;
                             $date_of_notice = $data2[0]->date_of_notice;
                             $address = $data2[0]->address;
                             $paper_name = $data2[0]->paper_name;
-                            $link = url('index.php/user_notice');
+
+                            // $link = url('index.php/user_notice');
+                            $link = url('uploads/notices', $data2[0]->notice_file);
+
                             $notice_file = $data2[0]->notice_file;
 
                             // $email = 'prasad.bhisale@pecanreams.com';

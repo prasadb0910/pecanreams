@@ -23,9 +23,9 @@ class ProjectController extends Controller
     }
 
 	
-	 public function get_details($id){
-       // $id = Crypt::decryptString($id);
-     $sql = "select distinct location from location_master";
+	public function get_details($id){
+        // $id = Crypt::decryptString($id);
+        $sql = "select distinct location from location_master";
         $location = DB::select($sql);
 
         $sql = "select distinct sub_location from location_master";

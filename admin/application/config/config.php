@@ -24,9 +24,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 //$config['base_url'] = 'http://ec2-52-220-101-64.ap-southeast-1.compute.amazonaws.com/test/';
-// $config['base_url'] = 'https://www.pecanreams.com/app/';
+// $config['base_url'] = 'https://www.pecanreams.com/admin/';
 $config['base_url'] = 'http://localhost/pecanreams/admin/';
-// $config['base_url'] = 'http://ec2-54-251-128-158.ap-southeast-1.compute.amazonaws.com/admin/';
+// $config['base_url'] = 'http://ec2-54-251-130-150.ap-southeast-1.compute.amazonaws.com/admin/';
 /*
 |--------------------------------------------------------------------------
 | Index File

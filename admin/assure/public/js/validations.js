@@ -93,7 +93,7 @@ $("#form_newspaper").validate({
 $("#form_notice").validate({
     rules: {
         notice_file_file: {
-            required: function(){if($('#notice_file').val()=='') return true;}
+            required: function(){if($('#notice_file').val()=='' && $('#temp_notice_file').val()=='') return true;}
         },
         notice_title: {
             required: true
@@ -114,6 +114,34 @@ $("#form_notice").validate({
             required: true
         },
         fk_notice_type_id: {
+            required: true
+        }
+    },
+
+    ignore: false,
+
+    errorPlacement: function (error, element) {
+        var placement = $(element).data('error');
+        if (placement) {
+            $(placement).append(error);
+        } else {
+            error.insertAfter(element);
+        }
+    }
+});
+
+
+
+// ----------------- Notice Form Validation -------------------------------------
+$("#form_scan").validate({
+    rules: {
+        notice_file_file: {
+            required: function(){if($('#notice_file').val()=='') return true;}
+        },
+        date_of_notice: {
+            required: true
+        },
+        fk_newspaper_id: {
             required: true
         }
     },
@@ -312,5 +340,50 @@ $('#btn_change_password').on('click', function (e) {
         } else {
             return false;
         }
+    }
+});
+
+
+$("#form_non_relevant").validate({
+    rules: {
+        total_notice: {
+            required: true
+        },
+        total_relevant: {
+            required: true
+        },
+        total_non_relevant: {
+            required: true,
+            checkNonRelevantCount: true
+        }
+    },
+
+    ignore: false,
+
+    errorPlacement: function (error, element) {
+        var placement = $(element).data('error');
+        if (placement) {
+            $(placement).append(error);
+        } else {
+            error.insertAfter(element);
+        }
+    }
+});
+
+$.validator.addMethod("checkNonRelevantCount", function (value, element) {
+    var result = 1;
+
+    if (parseInt($('#total_notice').val())<parseInt($('#total_non_relevant').val())) {
+        return false;
+    } else {
+        return true;
+    }
+}, 'Non Relevant Notice count can not be greater than Total Notice Count.');
+
+$('#form_non_relevant').submit(function() {
+    if (!$("#form_non_relevant").valid()) {
+        return false;
+    } else {
+        return true;
     }
 });

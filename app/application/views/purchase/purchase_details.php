@@ -1124,7 +1124,8 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>js/load_autocomplete.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>js/validations.js"></script>
         <script type="text/javascript" src="<?php echo base_url(); ?>js/document.js"></script>
- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNy33uOQrIGSIdqfn_4MzP0AKOy2DR1o4&libraries=places&callback=initAutocomplete" async defer></script>
+        
+ 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNy33uOQrIGSIdqfn_4MzP0AKOy2DR1o4&libraries=places&callback=initAutocomplete" async defer></script>
 
         
 		<script>

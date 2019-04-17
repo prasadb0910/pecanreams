@@ -214,7 +214,7 @@
             $config['smtp_host'] = 'ssl://smtp.googlemail.com'; //smtp host name
             $config['smtp_port'] = '465'; //smtp port number
             $config['smtp_user'] = $from_email;
-            $config['smtp_pass'] = 'Info@003#'; //$from_email password
+            $config['smtp_pass'] = 'ASSURE789'; //$from_email password
             $config['mailtype'] = 'html';
             $config['charset'] = 'iso-8859-1';
             $config['wordwrap'] = TRUE;
@@ -228,7 +228,7 @@
             $CI->email->subject($subject);
             $CI->email->message($message);
             $CI->email->set_mailtype("html");
-            // return $CI->email->send();
+            return $CI->email->send();
 
         } catch (Exception $ex) {
             
