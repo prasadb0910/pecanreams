@@ -13042,12 +13042,18 @@ button.close {
 
 @font-face {
   font-family: 'FontAwesome';
-  src: url(/admin/assure/public/fonts/fontawesome-webfont.eot?674f50d287a8c48dc19ba404d20fe713);
+  src: url(/pecanreams/admin/assure/public/fonts/fontawesome-webfont.eot?674f50d287a8c48dc19ba404d20fe713);
+  src: url(/pecanreams/admin/assure/public/fonts/fontawesome-webfont.eot?674f50d287a8c48dc19ba404d20fe713) format("embedded-opentype"), 
+        url(/pecanreams/admin/assure/public/fonts/fontawesome-webfont.woff2?af7ae505a9eed503f8b8e6982036873e) format("woff2"), 
+        url(/pecanreams/admin/assure/public/fonts/fontawesome-webfont.woff?fee66e712a8a08eef5805a46892932ad) format("woff"), 
+        url(/pecanreams/admin/assure/public/fonts/fontawesome-webfont.ttf?b06871f281fee6b241d60582ae9369b9) format("truetype"), 
+        url(/pecanreams/admin/assure/public/fonts/fontawesome-webfont.svg?912ec66d7572ff821749319396470bde) format("svg");
+  /*src: url(/admin/assure/public/fonts/fontawesome-webfont.eot?674f50d287a8c48dc19ba404d20fe713);
   src: url(/admin/assure/public/fonts/fontawesome-webfont.eot?674f50d287a8c48dc19ba404d20fe713) format("embedded-opentype"), 
         url(/admin/assure/public/fonts/fontawesome-webfont.woff2?af7ae505a9eed503f8b8e6982036873e) format("woff2"), 
         url(/admin/assure/public/fonts/fontawesome-webfont.woff?fee66e712a8a08eef5805a46892932ad) format("woff"), 
         url(/admin/assure/public/fonts/fontawesome-webfont.ttf?b06871f281fee6b241d60582ae9369b9) format("truetype"), 
-        url(/admin/assure/public/fonts/fontawesome-webfont.svg?912ec66d7572ff821749319396470bde) format("svg");
+        url(/admin/assure/public/fonts/fontawesome-webfont.svg?912ec66d7572ff821749319396470bde) format("svg");*/
   font-weight: normal;
   font-style: normal;
 }

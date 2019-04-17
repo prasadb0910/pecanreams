@@ -4,27 +4,27 @@
     <style>
         input[type="checkbox"], input[type="submit"] {display: block;}
         #matchingdata {
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-#matchingdata td, #matchingdata th {
-    border: 1px solid #ddd;
-    padding: 8px;
-}
+        #matchingdata td, #matchingdata th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
 
-#matchingdata tr:nth-child(even){background-color: #f2f2f2;}
+        #matchingdata tr:nth-child(even){background-color: #f2f2f2;}
 
-#matchingdata tr:hover {background-color: #ddd;}
+        #matchingdata tr:hover {background-color: #ddd;}
 
-#matchingdata th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #4CAF50;
-    color: white;
-}
+        #matchingdata th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
     </style>
 @endsection
 

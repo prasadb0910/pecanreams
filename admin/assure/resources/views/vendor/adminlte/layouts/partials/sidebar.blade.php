@@ -108,6 +108,7 @@
                 <li><a href="{{ url('index.php/property_notice') }}"><i class='fa fa-bullhorn'></i> <span>Property Notices</span></a></li>
                 <li><a href="{{ url('index.php/user') }}"><i class='fa fa-user-plus'></i> <span>Users</span></a></li>
                 <li><a href="{{ url('index.php/property') }}"><i class='fa fa-building-o'></i> <span>Properties</span></a></li>
+                <li><a href="{{ url('index.php/upload_property') }}"><i class='fa fa-building-o'></i> <span>Upload Properties</span></a></li>
                 <li><a href="{{ url('index.php/user_payment_detail') }}"><i class='fa fa-credit-card '></i> <span>Payments</span></a></li>
                 <li><a href="{{ url('index.php/notice/get_matching_log') }}"><i class='fa fa-credit-card '></i> <span>Notice Matching Log</span></a></li>
                 <li><a href="{{ url('index.php/log') }}"><i class='fa fa-credit-card '></i> <span>Logs</span></a></li>

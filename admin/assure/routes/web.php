@@ -191,12 +191,9 @@ Route::get('/reams', 'HomeController@reams')->name('home.reams');
 
 Route::post('/logout','LoginController@performLogout')->name('logout');
 
-
-
 // Route::get('/test', function () {
 //     return view('test/test');
 // });
-
 
 Route::get('/test', 'TestController@index')->name('notice.index');
 Route::get('/test/details/{id}', 'TestController@details')->name('notice.details');
@@ -219,3 +216,20 @@ Route::get('/test/send_email', 'TestController@send_email')->name('notice.send_e
 Route::get('/notice_count', 'Notice_countController@index')->name('notice_count.index');
 Route::post('/notice_count/get_data', 'Notice_countController@get_data')->name('notice_count.get_data');
 Route::post('/notice_count/save', 'Notice_countController@save')->name('notice_count.save');
+
+Route::get('/upload_property', 'Upload_propertyController@index')->name('upload_property.index');
+Route::post('/upload_property/get_data', 'Upload_propertyController@get_data')->name('upload_property.get_data');
+Route::post('/upload_property/upload_file', 'Upload_propertyController@upload_file')->name('upload_property.upload_file');
+Route::get('/upload_property/details/{id}', 'Upload_propertyController@details')->name('upload_property.details');
+Route::get('/upload_property/add', 'Upload_propertyController@add')->name('upload_property.add');
+Route::get('/upload_property/edit/{id}', 'Upload_propertyController@edit')->name('upload_property.edit');
+Route::post('/upload_property/save', 'Upload_propertyController@save')->name('upload_property.save');
+Route::post('/upload_property/add_notice', 'Upload_propertyController@add_notice')->name('upload_property.add_notice');
+Route::post('/upload_property/map_notice', 'Upload_propertyController@map_notice')->name('upload_property.map_notice');
+Route::get('/upload_property/match_property', 'Upload_propertyController@match_property')->name('upload_property.match_property');
+Route::get('/upload_property/map/{id}', 'Upload_propertyController@map')->name('upload_property.map');
+Route::post('/upload_property/delete', 'Upload_propertyController@delete')->name('upload_property.delete');
+Route::get('/upload_property/scan', 'Upload_propertyController@scan')->name('upload_property.scan');
+Route::post('/upload_property/save_scan', 'Upload_propertyController@save_scan')->name('upload_property.save_scan');
+Route::get('/upload_property/get_matching_log', 'Upload_propertyController@get_matching_log')->name('upload_property.get_matching_log');
+Route::post('/upload_property/get_log', 'Upload_propertyController@get_log')->name('upload_property.get_log');
