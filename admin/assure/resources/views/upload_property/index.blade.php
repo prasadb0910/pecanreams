@@ -35,22 +35,34 @@
 		<div class="box">
             <div class="box-header">
                 <h4 class="pull-left"><b>File List</b></h4>
-                <a href="{{url('index.php/notice/scan')}}" class="btn btn-success btn-sm pull-right">Scan</a>
-                <a href="{{url('index.php/notice/add')}}" class="btn btn-success btn-sm pull-right" style="margin-right: 10px;">Add New</a>
             </div>
             <div class="box-body">
                 {{csrf_field()}}
                 <div class="form-group">
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <label class="col-md-4 col-sm-4 col-xs-12 control-label">Select File</label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <label class="col-md-2 col-sm-2 col-xs-12 control-label">From Date</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control" name="from_date" id="from_date" value="{{date('d/m/Y')}}" />
+                            </div>
+                            <label class="col-md-2 col-sm-2 col-xs-12 control-label">To Date</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control" name="to_date" id="to_date" value="{{date('d/m/Y')}}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <label class="col-md-2 col-sm-2 col-xs-12 control-label">Select File</label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 <input type="file" class="form-control" name="property_file" id="property_file" />
                             </div>
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <!-- <button class="btn btn-success btn-sm pull-left" type="button" onclick="upload_file();">Upload</button> -->
-                            <button class="btn btn-success btn-sm pull-left" type="submit">Upload</button>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <!-- <button class="btn btn-success btn-sm pull-left" type="button" onclick="upload_file();">Upload</button> -->
+                                <button class="btn btn-success btn-sm pull-left" type="submit">Upload</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -115,18 +127,18 @@
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="form_delete_notice" action="{{url('index.php/notice/delete')}}" method="POST" class="form-horizontal">
+            <form id="form_delete_file" action="{{url('index.php/upload_property/delete')}}" method="POST" class="form-horizontal">
             {{csrf_field()}}
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Delete Notice</h4>
+                <h4 class="modal-title">Delete File</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <label class="col-md-4 col-sm-4 col-xs-12">&nbsp;</label>
-                    <label class="col-md-8 col-sm-8 col-xs-12">Do you want to delete Notice?</label>
-                    <input type="hidden" id="notice_id" name="notice_id" value="" />
+                    <label class="col-md-8 col-sm-8 col-xs-12">Do you want to delete File?</label>
+                    <input type="hidden" id="file_id" name="file_id" value="" />
                 </div>
                 </div>
                 <div class="form-group">
@@ -162,10 +174,13 @@
     // };
 </script>
 <script>
+    $('#from_date').datepicker({ maxDate: 0, autoclose: true });
+    $('#to_date').datepicker({ maxDate: 0, autoclose: true });
+
     var show_modal = function(elem){
         var id = elem.id;
-        var notice_id = id.substring(id.lastIndexOf('_')+1);
-        $('#notice_id').val(notice_id);
+        var file_id = id.substring(id.lastIndexOf('_')+1);
+        $('#file_id').val(file_id);
         // $('#notice_date').val($('#date_of_notice').val());
         $('#myModal').modal('toggle');
     };
@@ -241,7 +256,7 @@
             type:'post',
             data:$('#form_upload_property').serialize(),
             datatype:'html',
-            async:false,
+            // async:false,
             success: function(request){
                 console.log(request);
 

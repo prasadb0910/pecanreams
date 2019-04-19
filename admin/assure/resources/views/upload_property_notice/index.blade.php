@@ -38,20 +38,21 @@
         <div class="box">
             <div class="box-header">
                 <h4 class="pull-left"><b>Property Notice List</b></h4>
-               <!--  <a href="{{url('index.php/property_notice/add')}}" class="btn btn-success btn-sm pull-right">Add New</a> -->
+                <input type="hidden" name="file_id" id="file_id" value="<?php if(isset($file_id)) echo $file_id; ?>" />
+                <!--  <a href="{{--url('index.php/property_notice/add')--}}" class="btn btn-success btn-sm pull-right">Add New</a> -->
             </div>
 
             <div class = "tabinator">
                 <!-- <input type = "radio" id = "tab1" name = "tabs" checked>
                 <label for = "tab1">All ({{--count($all)--}})</label> -->
                 <input type = "radio" id = "tab2" name = "tabs">
-                <label for = "tab2"  class="tabs" id="approved" data-attr="approved">Approved ({{count($approved)}})</label>
+                <label for = "tab2"  class="tabs" data-attr="approved">Approved ({{count($approved)}})</label>
                 <input type = "radio" id = "tab3" name = "tabs" checked>
-                <label for = "tab3" class="tabs" id="pending" data-attr="pending">Pending For Approval ({{count($pending_for_approval)}})</label>
+                <label for = "tab3" class="tabs" id='pending'  data-attr="pending">Pending For Approval ({{count($pending_for_approval)}})</label>
                 <input type = "radio" id = "tab4" name = "tabs">
-                <label for = "tab4" class="tabs" id="pending_to_send" data-attr="pending to send">Pending To Send ({{count($pending_to_send)}})</label>
+                <label for = "tab4" class="tabs" data-attr="pending to send">Pending To Send ({{count($pending_to_send)}})</label>
                 <input type = "radio" id = "tab5" name = "tabs">
-                <label for = "tab5" class="tabs" id="rejected" data-attr="rejected">Rejected ({{count($rejected)}})</label>
+                <label for = "tab5" class="tabs" data-attr="rejected">Rejected ({{count($rejected)}})</label>
 
                 <!-- <div id = "content1">
                     <div class="box-body">
@@ -116,8 +117,7 @@
                                 <th>Sr No</th>
                                 <th>Notice Id</th>
                                 <th>Notice Title</th>
-                                
-                                <th>Property Name</th>
+                                <th>Owner Name</th>
                                 <th>Property Address</th>
                                 <th>Matching Criteria</th>
                                 <th>Uploaded By</th>
@@ -286,20 +286,13 @@
         $('#myModal').modal('toggle');
     });
 
-    $(document).ready(function(){
-        data_get($('#approved').attr('data-attr'), $('#approved'));
-        data_get($('#pending').attr('data-attr'), $('#pending'));
-        // data_get($('#pending_to_send').attr('data-attr'), $('#pending_to_send'));
-        data_get($('#rejected').attr('data-attr'), $('#rejected'));
-    });
-
     $('body').on('click', '.mcriteria', function() {
         var id = $(this).attr('data-attrid');
         // console.log(id);
         var csrfToken = $('meta[name="csrf-token"]').attr("content");
         $.ajax({
             method:"POST",
-            url:BASE_URL +'noticecriteria',
+            url:BASE_URL +'file_noticecriteria',
             data:{id: id,_token:csrfToken},
             dataType:"html",
             success:function(data){
@@ -325,7 +318,7 @@
         var csrfToken = $('meta[name="csrf-token"]').attr("content");
         $.ajax({
             method:"POST",
-            url:BASE_URL +'matching_notice',
+            url:BASE_URL +'file_matching_notice',
             data:{id: id, _token:csrfToken},
             dataType:"html",
             success:function(data){
@@ -341,7 +334,7 @@
         var csrfToken = $('meta[name="csrf-token"]').attr("content");
         $.ajax({
             method:"POST",
-            url:BASE_URL +'approve_record',
+            url:BASE_URL +'file_approve_record',
             data:{id: id, _token:csrfToken},
             dataType:"html",
             success:function(data){
@@ -360,7 +353,7 @@
         var csrfToken = $('meta[name="csrf-token"]').attr("content");
         $.ajax({
             method:"POST",
-            url:BASE_URL +'reject_record',
+            url:BASE_URL +'file_reject_record',
             data:{id: id, _token:csrfToken},
             dataType:"html",
             success:function(data){
@@ -380,7 +373,7 @@
             "bProcessing": true,
             "serverSide": true,
             "ajax":{
-                        url : BASE_URL + "notices_data", // json datasource
+                        url : BASE_URL + "file_notices_data", // json datasource
                         type: "post",  // type of method  ,GET/POST/DELETE
                         data: function(data) 
                         {       data.param = 'pending';
@@ -401,6 +394,7 @@
 
     function data_get(param,val){
         var csrfToken = $('meta[name="csrf-token"]').attr("content");
+        var file_id = $('#file_id').val();
         var table = '';
         var text='';
         var serverSide = '';
@@ -424,11 +418,12 @@
             "searchDelay": 3000,
             "serverSide": true,
             "ajax":{
-                        url : BASE_URL + "notices_data", // json datasource
+                        url : BASE_URL + "file_notices_data", // json datasource
                         type: "post",  // type of method  ,GET/POST/DELETE
                         data: function(data) {       
                             data.param = param;
                             data._token = csrfToken;
+                            data.file_id = file_id;
                         },
                         "dataSrc": function ( json ) {
                             val.html(text+"(" +json.recordsTotal+")" );
