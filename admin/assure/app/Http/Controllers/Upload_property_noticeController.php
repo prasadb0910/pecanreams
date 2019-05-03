@@ -32,8 +32,7 @@ class Upload_property_noticeController extends Controller {
         $this->middleware('auth');
     }
 
-    public function index() {
-        $id='1';
+    public function index($id='') {
         $user = new User();
         $access = $user->get_access();
         if(isset($access['PropertyNotices'])) {
@@ -764,8 +763,8 @@ class Upload_property_noticeController extends Controller {
         $result = DB::select($sql);
 
         // $template_path=url('/')."/templates/PN_Report.xlsx";
-        // $template_path=public_path()."/templates/PN_Report.xlsx";
-        $template_path=public_path()."\\templates\\PN_Report.xlsx";
+        $template_path=public_path()."/templates/PN_Report.xlsx";
+        // $template_path=public_path()."\\templates\\PN_Report.xlsx";
 
         // $excel = new \PHPExcel();
         $excel = \PHPExcel_IOFactory::load($template_path);
@@ -837,14 +836,11 @@ class Upload_property_noticeController extends Controller {
         $filename='PN_Report_'.$id.'_'.date('dmyHis').'.xlsx';
 
         if($action=="save") {
-            // $path  = '/home/eatangcp/public_html/test/assets/uploads/mt_stock_reports/';
-            // $upload_path = '/home/eatangcp/public_html/test/assets/uploads/mt_stock_reports';
+            $path  = "/var/www/html/admin/assure/public/reports/";
+            $upload_path  = "/var/www/html/admin/assure/public/reports";
 
-            // $path  = '/home/eatangcp/public_html/eat_erp/assets/uploads/mt_stock_reports/';
-            // $upload_path = '/home/eatangcp/public_html/eat_erp/assets/uploads/mt_stock_reports';
-
-            $path  = 'C:/wamp64/www/pecanreams/admin/assure/public/templates/';
-            $upload_path = 'C:/wamp64/www/pecanreams/admin/assure/public/templates';
+            // $path  = 'C:/wamp64/www/pecanreams/admin/assure/public/reports/';
+            // $upload_path = 'C:/wamp64/www/pecanreams/admin/assure/public/reports';
             if(!is_dir($upload_path)) {
                 mkdir($upload_path, 0777, TRUE);
             }

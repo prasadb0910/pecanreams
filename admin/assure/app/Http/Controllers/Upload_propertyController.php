@@ -65,7 +65,7 @@ class Upload_propertyController extends Controller
                                     <div>'.$data->file_name.'</div>
                                 </td>
                                 <td class="table-text">
-                                    <div><a href="'.$data->file_path.'"><i class="fa export fa-download"></i></a></div>
+                                    <div><a href="'.url('index.php/upload_property/download_file/'.$data->id).'" target="_new"><i class="fa export fa-download"></i></a></div>
                                 </td>
                                 <td class="table-text">
                                     <div>'.(($data->status=='approved')?'uploaded':'uploading').'</div>
@@ -99,6 +99,16 @@ class Upload_propertyController extends Controller
         echo json_encode($result);
     }
 
+    public function download_file($file_id=''){
+        $property_file = Pn_property_file::where('id',$file_id)->get();
+
+        if(count($property_file)>0){
+            $file_path = base_path().'/public/uploads/property_file/'.$property_file[0]->file_name;
+
+            return response()->download($file_path);
+        }
+    }
+
     function FormatDate($date, $format = 'd/m/Y') {
         $d = DateTime::createFromFormat($format, $date);
         $returnDate = null;
@@ -126,17 +136,27 @@ class Upload_propertyController extends Controller
 
                 if(isset($property_file)){
                     $imageName = $property_file->getClientOriginalName();
-                    $imagePath = base_path() . '\public\uploads\property_file\\';
-                    // $imagePath = base_path() . '/public/uploads/property_file/';
+                    $filename = pathinfo($imageName, PATHINFO_FILENAME);
+                    $extension = pathinfo($imageName, PATHINFO_EXTENSION);
+                    $filename = $filename.'_'.date('Ymdhis').'.'.$extension;
 
+                    // $imagePath = base_path() . '\public\uploads\property_file\\';
+                    $imagePath = base_path() . '/public/uploads/property_file/';
+
+                    // echo $imageName;
+                    // echo '<br/>';
                     // echo $imagePath;
                     // echo '<br/>';
+                    // echo $filename;
+                    // echo '<br/>';
+                    // echo $extension;
+                    // echo '<br/>';
 
-                    $property_file->move($imagePath, $imageName);
+                    $property_file->move($imagePath, $filename);
 
                     $data['from_date'] = $from_date;
                     $data['to_date'] = $to_date;
-                    $data['file_name'] = $imageName;
+                    $data['file_name'] = $filename;
                     $data['file_path'] = $imagePath;
                     $data['status'] = 'pending';
                     $data['created_by'] = $user_id;
@@ -145,7 +165,7 @@ class Upload_propertyController extends Controller
                     
                     if($request->hasFile('property_file')){
                         // $path = $request->file('property_file')->getRealPath();
-                        $path = $imagePath.$imageName;
+                        $path = $imagePath.$filename;
 
                         // echo $path;
                         // echo '<br/>';
@@ -188,19 +208,8 @@ class Upload_propertyController extends Controller
                     }
                 }
 
-                // echo 1;
-
-                // $this->match_property($id);
-                // $this->match_notice($id);
-
                 $this->match_property_notice($id);
 
-                $data = array();
-                $data['status'] = 'approved';
-                if(isset($id)){
-                    Pn_property_file::find($id)->update($data);
-                }
-                
                 Session::flash('success_msg', 'File uploaded successfully!');
                 return redirect('index.php/upload_property');
             } else {
@@ -325,7 +334,7 @@ class Upload_propertyController extends Controller
         return $bl_criteria;
     }
 
-    public function match_property_notice($file_id){
+    public function match_property_notice($file_id=''){
         $property_file = Pn_property_file::where('id',$file_id)->get();
         $from_date = '';
         $to_date = '';
@@ -334,9 +343,10 @@ class Upload_propertyController extends Controller
             $to_date = $property_file[0]->to_date;
         }
         $property = Pn_file_property::where("fk_file_id",$file_id)->get();
-        $notice = Pn_notice::where("status=approved and date_of_notice>='$from_date' and date_of_notice<='$to_date'")->orderBy("updated_at","desc")->get();
-        // echo count($notice);
-        // echo '<br/>';
+
+        $sql = "select * from pn_notices where status='approved' and date_of_notice>='$from_date' and 
+                date_of_notice<='$to_date' order by updated_at desc";
+        $notice = DB::select($sql);
         
         foreach($notice as $data){
             $cond = "";
@@ -978,6 +988,12 @@ class Upload_propertyController extends Controller
 
                 Next_Record:
             }
+        }
+
+        $data = array();
+        $data['status'] = 'approved';
+        if(isset($file_id)){
+            Pn_property_file::find($file_id)->update($data);
         }
     }
 

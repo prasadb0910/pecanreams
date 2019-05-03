@@ -221,6 +221,7 @@ Route::get('/upload_property', 'Upload_propertyController@index')->name('upload_
 Route::post('/upload_property/get_data', 'Upload_propertyController@get_data')->name('upload_property.get_data');
 Route::post('/upload_property/upload_file', 'Upload_propertyController@upload_file')->name('upload_property.upload_file');
 Route::post('/upload_property/delete', 'Upload_propertyController@delete')->name('upload_property.delete');
+Route::get('/upload_property/download_file/{id}', 'Upload_propertyController@download_file')->name('upload_property.download_file');
 
 Route::get('/upload_property_notice/match_notice', 'Upload_property_noticeController@match_notice')->name('upload_property_notice.match_notice');
 Route::get('/upload_property_notice/match_property', 'Upload_property_noticeController@match_property')->name('upload_property_notice.match_property');
