@@ -61,7 +61,7 @@
                 @endif
                 @if (isset($access['PropertyNotices']))
                 @if ($access['PropertyNotices']['r_view']=='1' || $access['PropertyNotices']['r_insert']=='1' || $access['PropertyNotices']['r_edit']=='1' || $access['PropertyNotices']['r_delete']=='1' || $access['PropertyNotices']['r_approvals']=='1' || $access['PropertyNotices']['r_export']=='1')
-                <li><a href="{{-- url('index.php/property_notice') --}}"><i class='fa fa-bullhorn'></i> <span>Property Notices</span></a></li>
+                <li><a href="{{-- url('index.php/prop_notice') --}}"><i class='fa fa-bullhorn'></i> <span>Property Notices</span></a></li>
                 @endif
                 @endif -->
 
@@ -105,7 +105,7 @@
                 <li><a href="{{ url('index.php/notice_type') }}"><i class='fa fa-list'></i> <span>Notice Types</span></a></li>
                 <li><a href="{{ url('index.php/notice_count') }}"><i class='fa fa-list'></i> <span>Notice Count</span></a></li>
                 <li><a href="{{ url('index.php/notice') }}"><i class='fa fa-exclamation-triangle'></i> <span>Notices</span></a></li>
-                <li><a href="{{ url('index.php/property_notice') }}"><i class='fa fa-bullhorn'></i> <span>Property Notices</span></a></li>
+                <li><a href="{{ url('index.php/prop_notice') }}"><i class='fa fa-bullhorn'></i> <span>Property Notices</span></a></li>
                 <li><a href="{{ url('index.php/user') }}"><i class='fa fa-user-plus'></i> <span>Users</span></a></li>
                 <li><a href="{{ url('index.php/property') }}"><i class='fa fa-building-o'></i> <span>Properties</span></a></li>
                 <li><a href="{{ url('index.php/upload_property') }}"><i class='fa fa-building-o'></i> <span>Upload Properties</span></a></li>

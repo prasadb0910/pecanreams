@@ -812,6 +812,10 @@ class Upload_property_noticeController extends Controller {
                 $objWorksheet->setCellValue($col_name[$col+7].strval($row), $result[$i]->notice_type);
                 $objWorksheet->setCellValue($col_name[$col+8].strval($row), $result[$i]->remark);
                 $objWorksheet->setCellValue($col_name[$col+9].strval($row), $result[$i]->notice_file);
+
+                $url = str_replace('http://', '', $result[$i]->notice_file);
+                $objWorksheet->getCell($col_name[$col+9].strval($row))->getHyperlink()->setUrl('http://www.'.$url); 
+                $objWorksheet->getStyle($col_name[$col+9].strval($row))->applyFromArray(array('font'=>array('color'=>['rgb'=>'0000FF'], 'underline'=>'single')));
             } else {
                 $objWorksheet->setCellValue($col_name[$col+3].strval($row), 'NA');
                 $objWorksheet->setCellValue($col_name[$col+4].strval($row), 'NA');

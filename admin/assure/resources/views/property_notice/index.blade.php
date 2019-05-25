@@ -38,7 +38,7 @@
         <div class="box">
             <div class="box-header">
                 <h4 class="pull-left"><b>Property Notice List</b></h4>
-               <!--  <a href="{{url('index.php/property_notice/add')}}" class="btn btn-success btn-sm pull-right">Add New</a> -->
+               <!--  <a href="{{url('index.php/prop_notice/add')}}" class="btn btn-success btn-sm pull-right">Add New</a> -->
             </div>
 
             <div class = "tabinator">
@@ -76,7 +76,7 @@
                                         <div>{{--$i++--}}</div>
                                     </td>
                                     <td class="table-text">
-                                        <div><a href="{{--url('index.php/property_notice/details/'.$data->id)--}}">{{--$data->fk_notice_id--}}</a></div>
+                                        <div><a href="{{--url('index.php/prop_notice/details/'.$data->id)--}}">{{--$data->fk_notice_id--}}</a></div>
                                     </td>
                                     <td class="table-text">
                                         <div>{{--$data->notice_title--}}</div>
@@ -133,7 +133,7 @@
 
                 <div id = "content3">
                     <div class="box-body">
-                        <form id="form_reject_notice" action="{{url('index.php/property_notice/reject')}}" method="POST" class="form-horizontal">
+                        <form id="form_reject_notice" action="{{url('index.php/prop_notice/reject')}}" method="POST" class="form-horizontal">
                         {{csrf_field()}}
                         <table id="example3" class="table table-bordered table-striped">
                             <thead>
@@ -154,7 +154,7 @@
 
                 <div id = "content4">
                     <div class="box-body">
-                        <form id="form_send_property_notice" action="{{url('index.php/property_notice/send')}}" method="POST" class="form-horizontal" enctype="multipart/form-data">
+                        <form id="form_send_property_notice" action="{{url('index.php/prop_notice/send')}}" method="POST" class="form-horizontal" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <table id="example4" class="table table-bordered table-striped">
                             <thead>
@@ -237,7 +237,7 @@
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="form_reject_notice1" action="{{url('index.php/property_notice/reject')}}" method="POST" class="form-horizontal">
+            <form id="form_reject_notice1" action="{{url('index.php/prop_notice/reject')}}" method="POST" class="form-horizontal">
             {{csrf_field()}}
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>

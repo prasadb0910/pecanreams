@@ -17,11 +17,11 @@
             @endforeach()
             </div>
         @endif
-        <form id="form_property_notice" action="{{url('index.php/property_notice/save')}}" method="POST" class="form-horizontal" enctype="multipart/form-data">
+        <form id="form_property_notice" action="{{url('index.php/prop_notice/save')}}" method="POST" class="form-horizontal" enctype="multipart/form-data">
             <div class="box">
             <div class="box-header">
                 <h4 class="pull-left"><b>Property Notice Details</b></h4>
-                <a href="{{url('index.php/property_notice')}}" class="btn btn-primary btn-sm pull-right">Back</a>
+                <a href="{{url('index.php/prop_notice')}}" class="btn btn-primary btn-sm pull-right">Back</a>
             </div>
             <div class="box-body">
                 {{csrf_field()}}
@@ -968,7 +968,7 @@
             </div>
             @if(!Route::is('notice.details'))
             <div class="box-footer">
-                <a href="{{url('index.php/property_notice')}}" class="btn btn-danger btn-sm pull-right">Cancel</a>
+                <a href="{{url('index.php/prop_notice')}}" class="btn btn-danger btn-sm pull-right">Cancel</a>
                 <!-- <button class="btn btn-success btn-sm pull-right" type="submit" style="margin-right:20px">Save</button> -->
                 <input type="submit" class="btn btn-success btn-sm pull-left" name="approve" value="Approve" style="margin-right:10px" />
                 <input type="submit" class="btn btn-warning btn-sm pull-left" name="reject" value="Reject  " />

@@ -42,11 +42,11 @@ Route::group(['middleware' => 'auth'], function () {
 
 // Route::get('/getOtp', 'UserController@home')->name('login.home');
 
-Route::post('/notices_data', 'Property_noticeController@notices_data')->name('notices_data');
-Route::post('/noticecriteria', 'Property_noticeController@noticecriteria')->name('noticecriteria');
-Route::post('/matching_notice', 'Property_noticeController@matching_notice')->name('matching_notice');
-Route::post('/approve_record', 'Property_noticeController@approve_record')->name('approve_record');
-Route::post('/reject_record', 'Property_noticeController@reject_record')->name('reject_record');
+Route::post('/notices_data', 'Prop_noticeController@notices_data')->name('notices_data');
+Route::post('/noticecriteria', 'Prop_noticeController@noticecriteria')->name('noticecriteria');
+Route::post('/matching_notice', 'Prop_noticeController@matching_notice')->name('matching_notice');
+Route::post('/approve_record', 'Prop_noticeController@approve_record')->name('approve_record');
+Route::post('/reject_record', 'Prop_noticeController@reject_record')->name('reject_record');
 
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
 Route::get('/log/{id}', 'LogController@get_list')->name('log.get_list');
@@ -239,3 +239,13 @@ Route::post('/file_noticecriteria', 'Upload_property_noticeController@noticecrit
 Route::post('/file_matching_notice', 'Upload_property_noticeController@matching_notice')->name('file_matching_notice');
 Route::post('/file_approve_record', 'Upload_property_noticeController@approve_record')->name('file_approve_record');
 Route::post('/file_reject_record', 'Upload_property_noticeController@reject_record')->name('file_reject_record');
+
+
+Route::get('/prop_notice/match_notice', 'Prop_noticeController@match_notice')->name('property_notice.match_notice');
+
+Route::get('/prop_notice/match_property', 'Prop_noticeController@match_property')->name('property_notice.match_property');
+Route::get('/prop_notice', 'Prop_noticeController@index')->name('property_notice.index');
+Route::get('/prop_notice/details/{id}', 'Prop_noticeController@details')->name('property_notice.details');
+Route::post('/prop_notice/save', 'Prop_noticeController@save')->name('property_notice.save');
+Route::post('/prop_notice/send', 'Prop_noticeController@send')->name('property_notice.send');
+Route::post('/prop_notice/reject', 'Prop_noticeController@reject')->name('property_notice.reject');

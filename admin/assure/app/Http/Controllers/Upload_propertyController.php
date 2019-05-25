@@ -206,9 +206,9 @@ class Upload_propertyController extends Controller
                             }
                         }
                     }
-                }
 
-                $this->match_property_notice($id);
+                    $this->match_property_notice($id);
+                }
 
                 Session::flash('success_msg', 'File uploaded successfully!');
                 return redirect('index.php/upload_property');

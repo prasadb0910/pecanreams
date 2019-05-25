@@ -75,7 +75,7 @@
                     <thead>
                         <th>Sr No</th>
                         <th>Date Of Upload</th>
-                        <th>File Name</th>
+                        <th width="100">File Name</th>
                         <th>Download File</th>
                         <th>Status</th>
                         <th>Total Count</th>
