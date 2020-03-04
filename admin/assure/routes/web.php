@@ -114,6 +114,10 @@ Route::post('/notice/delete', 'NoticeController@delete')->name('notice.delete');
 Route::get('/notice/scan', 'NoticeController@scan')->name('notice.scan');
 Route::post('/notice/save_scan', 'NoticeController@save_scan')->name('notice.save_scan');
 
+Route::get('/search_notice', 'Search_noticeController@index')->name('search_notice.index');
+Route::post('/search_notice/get_data', 'Search_noticeController@get_data')->name('search_notice.get_data');
+// Route::get('/search_notice/get_data', 'Search_noticeController@get_data')->name('search_notice.get_data');
+
 Route::get('/notice/test_ocr', 'NoticeController@test_ocr')->name('notice.test_ocr');
 Route::get('/notice/test_session', 'NoticeController@test_session')->name('notice.test_session');
 

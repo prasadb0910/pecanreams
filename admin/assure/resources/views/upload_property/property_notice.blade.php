@@ -316,6 +316,7 @@
 
     var get_matching_notices = function(id) {
         // console.log(id);
+        $('#matching_notice_body').html('');
         var csrfToken = $('meta[name="csrf-token"]').attr("content");
         $.ajax({
             method:"POST",

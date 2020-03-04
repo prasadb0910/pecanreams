@@ -245,12 +245,12 @@
        </a>
     </li>
 
-    <li class="menu--item">
-        <a  class="menu--link" href="<?php echo base_url().'index.php/login/idata'; ?>">  
+    <!-- <li class="menu--item">
+        <a  class="menu--link" href="<?php //echo base_url().'index.php/login/idata'; ?>">  
          <i class="menu--icon  fa fa-fw fa-tachometer"></i>
         <span class="menu--label">iDATA</span>
        </a>
-    </li>
+    </li> -->
    
     <li class="menu--item">
         <a  class="menu--link" href="<?php echo base_url().'index.php/login/assure'; ?>">  

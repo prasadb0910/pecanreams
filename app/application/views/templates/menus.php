@@ -424,12 +424,12 @@
       </li>
       </li>
     
-           <li class="menu--item" style="background:#0d3553!important;border-bottom:1px solid #245478">
-        <a  class="menu--link" href="<?php echo base_url().'index.php/login/idata'; ?>">  
+           <!-- <li class="menu--item" style="background:#0d3553!important;border-bottom:1px solid #245478">
+        <a  class="menu--link" href="<?php //echo base_url().'index.php/login/idata'; ?>">  
          <i class="menu--icon  fa fa-fw fa-tachometer"></i>
         <span class="menu--label">iDATA</span>
        </a>
-    </li>
+    </li> -->
    
    
    <li class="menu--item" style="background:#0d3553!important">

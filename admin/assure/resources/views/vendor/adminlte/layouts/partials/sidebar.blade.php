@@ -105,6 +105,7 @@
                 <li><a href="{{ url('index.php/notice_type') }}"><i class='fa fa-list'></i> <span>Notice Types</span></a></li>
                 <li><a href="{{ url('index.php/notice_count') }}"><i class='fa fa-list'></i> <span>Notice Count</span></a></li>
                 <li><a href="{{ url('index.php/notice') }}"><i class='fa fa-exclamation-triangle'></i> <span>Notices</span></a></li>
+                <li><a href="{{ url('index.php/search_notice') }}"><i class='fa fa-search'></i> <span>Search Notices</span></a></li>
                 <li><a href="{{ url('index.php/prop_notice') }}"><i class='fa fa-bullhorn'></i> <span>Property Notices</span></a></li>
                 <li><a href="{{ url('index.php/user') }}"><i class='fa fa-user-plus'></i> <span>Users</span></a></li>
                 <li><a href="{{ url('index.php/property') }}"><i class='fa fa-building-o'></i> <span>Properties</span></a></li>
@@ -153,7 +154,7 @@
     </section>
 
    
-    <span style="position:fixed; bottom:10px; left:20px;color:#fff;">Powered by 
+    <span style="position:fixed; bottom:10px; left:15px; color:#fff; background-color: #222d32;">Powered by 
         <a href="https://www.pecanreams.com/" target="_blank"><img src="{{asset('/img/main-logo.png')}}" alt="PECAN REAMS" /></a>
     </span>
     <!-- /.sidebar -->

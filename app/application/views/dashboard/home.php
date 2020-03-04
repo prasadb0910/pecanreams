@@ -199,7 +199,7 @@
                     <div class="row  main-wrapper">
                 <div class="row" style="margin-top:80px;">
                     
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="widget widget-info widget-padding-sm" style="background:#fff!important;" >
                             <a href="<?php echo base_url().'index.php/dashboard'; ?>">
                                 <div class="img" style="text-align:center;margin-bottom:15px;margin-top:25px;"> <img src="<?php echo base_url(); ?>img/main-logo.png"></div>
@@ -209,17 +209,17 @@
                             </div>                            
                         </div>    
                     </div>
-                    <div class="col-md-4">
+                    <!-- <div class="col-md-4">
                         <div class="widget widget-info widget-padding-sm" style="background:#fff!important;" >
-                            <a href="<?php echo base_url().'index.php/login/idata'; ?>">
+                            <a href="<?php //echo base_url().'index.php/login/idata'; ?>">
                                 <div class="img" style="text-align:center;margin-bottom:21px;margin-top:21px;"> <b style="font-family:'seguibl' !important;font-size:34px;text-align:center; color: rgb(40, 55, 122)!important;">iDATA</b></div>
                             </a>
                             <div class="widget-buttons widget-c3">
-                                <a href="<?php echo base_url().'index.php/login/idata'; ?>">Get Started <span class="fa fa-arrow-circle-right"></span></a>
+                                <a href="<?php //echo base_url().'index.php/login/idata'; ?>">Get Started <span class="fa fa-arrow-circle-right"></span></a>
                             </div>                            
                         </div>
-                    </div>
-                    <div class="col-md-4">
+                    </div> -->
+                    <div class="col-md-6">
                         <div class="widget widget-info widget-padding-sm" style="background:#fff!important;" >
                             <a href="<?php echo base_url().'index.php/login/assure'; ?>">
                                 <div class="img" style="text-align:center;margin-bottom:25px;margin-top:25px;" > <img src="<?php echo base_url(); ?>img/assure.png"></div>

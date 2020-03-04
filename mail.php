@@ -25,7 +25,8 @@ try {
 
     //Recipients
     $mail->setFrom('info@pecanreams.com', 'Pecan');
-    $mail->addAddress('prasad.bhisale@pecanreams.com', 'Prasad');     // Add a recipient
+    // $mail->addAddress('prasad.bhisale@pecanreams.com', 'Prasad');     // Add a recipient
+    $mail->addAddress('prasad.bhisale@otbconsulting.co.in', 'Prasad');     // Add a recipient
     // $mail->addAddress('ellen@example.com');               // Name is optional
     $mail->addReplyTo('info@pecanreams.com', 'Information');
     // $mail->addCC('cc@example.com');

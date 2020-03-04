@@ -37,7 +37,7 @@
 
             @if (session('module')=='public_notice')
                 <li class= "reams1"><a href="{{ url('index.php/reams') }}"><i class='fa fa-tachometer'></i> <span>REAMS</span></a></li>
-                <li class= "idata1"><a href="{{ url('index.php/idata') }}"><i class='fa fa-tachometer'></i> <span>iDATA</span></a></li>
+                <!-- <li class= "idata1"><a href="{{-- url('index.php/idata') --}}"><i class='fa fa-tachometer'></i> <span>iDATA</span></a></li> -->
                 <li class="active treeview">
                     <a href="#">
                         <i class="fa fa-dashboard"></i> <span>Assure</span>
